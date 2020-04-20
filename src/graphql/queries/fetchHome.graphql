@@ -1,0 +1,5 @@
+query FetchHome {
+    homePage {
+        test
+    }
+}

@@ -1,0 +1,12 @@
+# npm
+node_modules
+npm-debug.log
+
+# next.js
+.next
+
+# graphql-let
+__generated__
+
+# secrets
+.env
