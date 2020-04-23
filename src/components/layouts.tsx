@@ -44,6 +44,7 @@ export const breakpoints = {
 export const GlobalStyles = createGlobalStyle`
     body {
       margin: 0;
+      background-color: ${props => props.theme.colors.background};
       overflow-y: overlay;
       overflow-x: hidden;
     }

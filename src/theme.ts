@@ -2,7 +2,8 @@ import { DefaultTheme } from 'styled-components';
 
 export const theme: DefaultTheme = {
   colors: {
-    text: 'black',
+    background: 'black',
+    text: 'white',
   },
   zIndex: {
     highest: 999,
