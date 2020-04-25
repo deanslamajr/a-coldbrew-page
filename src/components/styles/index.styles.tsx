@@ -12,6 +12,7 @@ export const ChoreButton = styled.button`
   text-decoration: none;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
+  background-color: ${props => props.theme.colors.text};
   color: ${props => props.theme.colors.background};
   text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
   text-align: center;
