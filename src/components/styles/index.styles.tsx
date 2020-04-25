@@ -31,5 +31,23 @@ export const FlexContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-}
+`;
+
+export const FloatingMenu = styled.div`
+  position: fixed;
+  bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: -10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 `;
