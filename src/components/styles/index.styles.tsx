@@ -1,7 +1,5 @@
 import styled, { DefaultTheme } from 'styled-components';
 
-import { breakpoints } from '../layouts';
-
 import { DueStatusEnum } from '../../pages/index';
 
 interface ChoreButtonProps {

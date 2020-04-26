@@ -12,6 +12,7 @@ import {
   FloatingMenu,
   ModalOverlay,
 } from '../../components/styles/index.styles';
+import { NavButton, NavButtonPositions } from '../../components/NavButton';
 
 import { withApollo } from '../../graphql/with-apollo';
 // import { useFetchHomeQuery } from '../../graphql/queries/fetchHome.graphql';
@@ -39,7 +40,7 @@ const mockedChores: ChoreInterface[] = [
   // Due today
   {
     id: shortid.generate(),
-    name: 'Mop those floors',
+    name: 'Mop those flos',
     due: new Date(),
   },
   {
@@ -56,7 +57,7 @@ interface ChoreInterface {
 }
 
 interface ChoreProps {
-  dueDate?: Date;
+  dueDate: Date;
   name: string;
   clickHandler: () => void;
 }
@@ -76,16 +77,10 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
   dueDate,
   name,
 }) => {
-  const getDueStatus = (dueDate?: Date): DueStatusEnum | null => {
-    // remove this case after proper navbar has been implemented
-    // and Chore components are no longer abused for navbar purposes!
-    if (!dueDate) {
-      return null;
-    }
+  const todayMoment = moment();
+  const dueDateMoment = moment(dueDate);
 
-    const todayMoment = moment();
-    const dueDateMoment = moment(dueDate);
-
+  const getDueStatus = (): DueStatusEnum => {
     if (todayMoment.isSame(dueDateMoment, 'day')) {
       return DueStatusEnum.DueToday;
     } else if (todayMoment.isAfter(dueDateMoment, 'day')) {
@@ -94,9 +89,15 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
       return DueStatusEnum.NotYetDue;
     }
   };
+
+  const computeOverdueText = (): string => {
+    const days = todayMoment.diff(dueDateMoment, 'days')
+    return days ? `(${days} day${days > 1 ? 's' : ''})` : '(today)';
+  };
+
   return (
-    <ChoreButton dueStatus={getDueStatus(dueDate)} onClick={clickHandler}>
-      {name}
+    <ChoreButton dueStatus={getDueStatus()} onClick={clickHandler}>
+      {name} {computeOverdueText()}
     </ChoreButton>
   );
 };
@@ -172,13 +173,15 @@ const Home: NextPage = () => {
           ))}
       </FlexContainer>
       <FloatingMenu>
-        <Chore
+        <NavButton
+          position={NavButtonPositions.BottomRight}
           clickHandler={() => toggleChoreModal(true)}
-          name="Add New Chore"
+          buttonText="Add New Chore"
         />
-        <Chore
+        <NavButton
+          position={NavButtonPositions.BottomLeft}
           clickHandler={() => showShowUpcomingChores()}
-          name="Show Upcoming Chores"
+          buttonText="Upcoming"
         />
       </FloatingMenu>
       {showDatePicker && (
