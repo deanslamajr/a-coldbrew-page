@@ -1,8 +1,35 @@
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 import { breakpoints } from '../layouts';
 
-export const ChoreButton = styled.button`
+import { DueStatusEnum } from '../../pages/index';
+
+interface ChoreButtonProps {
+  dueStatus: DueStatusEnum | null;
+}
+
+interface GetChoreButtonBackgroundColorInterface {
+  dueDateStatus: DueStatusEnum | null;
+  colors: DefaultTheme['colors'];
+}
+
+const getChoreButtonBackgroundColor = ({
+  dueDateStatus,
+  colors,
+}: GetChoreButtonBackgroundColorInterface): string => {
+  switch (dueDateStatus) {
+    case DueStatusEnum.NotYetDue:
+      return colors.notYetDue;
+    case DueStatusEnum.DueToday:
+      return colors.dueToday;
+    case DueStatusEnum.OverDue:
+      return colors.overDue;
+    default:
+      return colors.text;
+  }
+};
+
+export const ChoreButton = styled.button<ChoreButtonProps>`
   display: inline-block;
   padding: 0.3em 1.2em;
   margin: 1rem;
@@ -12,7 +39,11 @@ export const ChoreButton = styled.button`
   text-decoration: none;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  background-color: ${props => props.theme.colors.text};
+  background-color: ${props =>
+    getChoreButtonBackgroundColor({
+      dueDateStatus: props.dueStatus,
+      colors: props.theme.colors,
+    })};
   color: ${props => props.theme.colors.background};
   text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
   text-align: center;

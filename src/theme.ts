@@ -4,6 +4,9 @@ export const theme: DefaultTheme = {
   colors: {
     background: 'black',
     text: 'white',
+    notYetDue: 'green',
+    dueToday: 'yellow',
+    overDue: 'red',
   },
   zIndex: {
     highest: 999,
