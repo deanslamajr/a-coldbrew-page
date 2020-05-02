@@ -17,13 +17,13 @@ const getChoreButtonBackgroundColor = ({
 }: GetChoreButtonBackgroundColorInterface): string => {
   switch (dueDateStatus) {
     case DueStatusEnum.NotYetDue:
-      return colors.notYetDue;
+      return colors.green;
     case DueStatusEnum.DueToday:
-      return colors.dueToday;
+      return colors.yellow;
     case DueStatusEnum.OverDue:
-      return colors.overDue;
+      return colors.red;
     default:
-      return colors.text;
+      return colors.white;
   }
 };
 
@@ -42,7 +42,7 @@ export const ChoreButton = styled.button<ChoreButtonProps>`
       dueDateStatus: props.dueStatus,
       colors: props.theme.colors,
     })};
-  color: ${props => props.theme.colors.background};
+  color: ${props => props.theme.colors.black};
   text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
   text-align: center;
   transition: all 0.2s;
@@ -50,7 +50,7 @@ export const ChoreButton = styled.button<ChoreButtonProps>`
   outline: none;
 
   &:hover {
-    border-color: ${props => props.theme.colors.text};
+    border-color: ${props => props.theme.colors.white};
     opacity: 0.75;
   }
 `;
@@ -74,10 +74,23 @@ export const FloatingMenu = styled.div`
 
 export const ModalOverlay = styled.div`
   position: fixed;
-  top: -10rem;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
+  background-color: ${props => props.theme.colors.clearWhite};
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
+export const Modal = styled.div`
+  background-color: ${props => props.theme.colors.white};
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 800px;
+  height: inherit;
 `;

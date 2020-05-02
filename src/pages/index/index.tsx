@@ -10,6 +10,7 @@ import {
   ChoreButton,
   FlexContainer,
   FloatingMenu,
+  Modal,
   ModalOverlay,
 } from '../../components/styles/index.styles';
 import { NavButton, NavButtonPositions } from '../../components/NavButton';
@@ -112,23 +113,25 @@ const DatePickerModal: React.FunctionComponent<DatePickerModalProps> = ({
 
   return (
     <ModalOverlay>
-      {/* Add a fullscreen trasparent mask to block interactions with the main view */}
+      <Modal>
+        {/* Add a fullscreen trasparent mask to block interactions with the main view */}
 
-      <DateSingleInput
-        onDateChange={handleDateChange}
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        onFocusChange={() => {}}
-        onClose={onHideDatePicker}
-        date={choreDate}
-        showDatepicker={true}
-        showCalendarIcon={false}
-      />
-      {/* Also need a dropdown input that can select a recurring  */}
-      {/* None, daily, weekly, monthly, yearly */}
-      {/* every setting but 'None' should create an additional input defaulted to 1 */}
-      {/* but can set higher numbers e.g. every 1 day OR 2 days OR 3 days etc.*/}
+        <DateSingleInput
+          onDateChange={handleDateChange}
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          onFocusChange={() => {}}
+          onClose={onHideDatePicker}
+          date={choreDate}
+          showDatepicker={true}
+          showCalendarIcon={false}
+        />
+        {/* Also need a dropdown input that can select a recurring  */}
+        {/* None, daily, weekly, monthly, yearly */}
+        {/* every setting but 'None' should create an additional input defaulted to 1 */}
+        {/* but can set higher numbers e.g. every 1 day OR 2 days OR 3 days etc.*/}
 
-      {/* CREATE BUTTON */}
+        {/* CREATE BUTTON */}
+      </Modal>
     </ModalOverlay>
   );
 };

@@ -18,9 +18,9 @@ interface NavButtonProps {
 }
 
 const Button = styled.div`
-  border: 1px solid ${props => props.theme.colors.background};
-  background-color: ${props => props.theme.colors.text};
-  color: ${props => props.theme.colors.background};
+  border: 1px solid ${props => props.theme.colors.black};
+  background-color: ${props => props.theme.colors.white};
+  color: ${props => props.theme.colors.black};
   cursor: pointer;
   z-index: ${props => props.theme.zIndex.highest};
   border-radius: 5rem;
@@ -36,8 +36,8 @@ const Button = styled.div`
   margin: 0.5rem;
 
   &:hover {
-    background-color: ${props => props.theme.colors.background};
-    color: ${props => props.theme.colors.text};
+    background-color: ${props => props.theme.colors.black};
+    color: ${props => props.theme.colors.white};
   }
 
   ${breakpoints.phoneMax`

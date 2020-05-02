@@ -44,13 +44,13 @@ export const breakpoints = {
 export const GlobalStyles = createGlobalStyle`
     body {
       margin: 0;
-      background-color: ${props => props.theme.colors.background};
+      background-color: ${props => props.theme.colors.black};
       overflow-y: overlay;
       overflow-x: hidden;
     }
 
     a {
-      color: ${props => props.theme.colors.text};
+      color: ${props => props.theme.colors.white};
     }
 
     /* visited link */

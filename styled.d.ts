@@ -5,11 +5,12 @@ import 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
-      background: string;
-      text: string;
-      notYetDue: string;
-      dueToday: string;
-      overDue: string;
+      clearWhite: string;
+      black: string;
+      white: string;
+      green: string;
+      yellow: string;
+      red: string;
     };
     zIndex: {
       highest: number;

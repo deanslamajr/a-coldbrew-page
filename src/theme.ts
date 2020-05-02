@@ -2,11 +2,12 @@ import { DefaultTheme } from 'styled-components';
 
 export const theme: DefaultTheme = {
   colors: {
-    background: 'black',
-    text: 'white',
-    notYetDue: 'green',
-    dueToday: 'yellow',
-    overDue: 'red',
+    clearWhite: 'rgba(250, 235, 215, 0.5)',
+    black: 'black',
+    white: 'rgba(250, 235, 215, 1 )',
+    green: 'green',
+    yellow: 'yellow',
+    red: 'red',
   },
   zIndex: {
     highest: 999,
