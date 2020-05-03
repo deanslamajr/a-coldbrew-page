@@ -30,6 +30,34 @@ const FormFieldContainer = styled.div`
   flex-direction: column;
   margin: 2rem;
   align-items: center;
+
+  & input,
+  & textarea {
+    min-height: 46px;
+    border: inherit;
+  }
+`;
+
+const DatePickerStylesOverride = styled.div`
+  width: 100%;
+
+  /* override @datepicker-react/styled input styles */
+  & label {
+    border: inherit;
+  }
+  /* override @datepicker-react/styled input styles */
+  & input {
+    padding: 0;
+    font-weight: inherit;
+  }
+
+  /* override @datepicker-react/styled datapicker styles */
+  & > div > div {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
@@ -50,20 +78,22 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
               <Field name="dueDate">
                 {props => {
                   return (
-                    <DateSingleInput
-                      onDateChange={data => {
-                        if (data.date) {
-                          props.input.onChange(data.date);
+                    <DatePickerStylesOverride>
+                      <DateSingleInput
+                        onDateChange={data => {
+                          if (data.date) {
+                            props.input.onChange(data.date);
+                          }
+                        }}
+                        onFocusChange={focusedInput =>
+                          toggleShowDueDatePicker(focusedInput)
                         }
-                      }}
-                      onFocusChange={focusedInput =>
-                        toggleShowDueDatePicker(focusedInput)
-                      }
-                      onClose={() => toggleShowDueDatePicker(false)}
-                      date={props.input.value}
-                      showDatepicker={showDueDatePicker}
-                      showCalendarIcon={false}
-                    />
+                        onClose={() => toggleShowDueDatePicker(false)}
+                        date={props.input.value}
+                        showDatepicker={showDueDatePicker}
+                        showCalendarIcon={false}
+                      />
+                    </DatePickerStylesOverride>
                   );
                 }}
               </Field>
