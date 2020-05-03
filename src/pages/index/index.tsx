@@ -14,12 +14,38 @@ import {
   ModalOverlay,
 } from '../../components/styles/index.styles';
 import { NavButton, NavButtonPositions } from '../../components/NavButton';
-import { ChoreForm } from '../../components/ChoreForm';
+import {
+  ChoreForm,
+  ChoreFormValuesInterface,
+} from '../../components/ChoreForm';
 
 import { theme } from '../../theme';
 
 import { withApollo } from '../../graphql/with-apollo';
 // import { useFetchHomeQuery } from '../../graphql/queries/fetchHome.graphql';
+
+interface ChoreInterface {
+  id: string;
+  name: string;
+  due: Date;
+}
+
+interface ChoreProps {
+  dueDate: Date;
+  name: string;
+  clickHandler: () => void;
+}
+
+interface CreateChoreModalProps {
+  handleHideCreateChoreModal: () => void;
+  handleSubmit: (values: ChoreFormValuesInterface) => void;
+}
+
+export enum DueStatusEnum {
+  OverDue = 'OVER_DUE',
+  DueToday = 'DUE_TODAY',
+  NotYetDue = 'NOT_YET_DUE',
+}
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -54,28 +80,6 @@ const mockedChores: ChoreInterface[] = [
   },
 ];
 
-interface ChoreInterface {
-  id: string;
-  name: string;
-  due: Date;
-}
-
-interface ChoreProps {
-  dueDate: Date;
-  name: string;
-  clickHandler: () => void;
-}
-
-interface CreateChoreModalProps {
-  handleHideCreateChoreModal: () => void;
-}
-
-export enum DueStatusEnum {
-  OverDue = 'OVER_DUE',
-  DueToday = 'DUE_TODAY',
-  NotYetDue = 'NOT_YET_DUE',
-}
-
 const Chore: React.FunctionComponent<ChoreProps> = ({
   clickHandler,
   dueDate,
@@ -108,21 +112,24 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
 
 const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
   handleHideCreateChoreModal,
+  handleSubmit,
 }) => {
   return (
     <ModalOverlay>
       <Modal>
-        <ChoreForm handleHideCreateChoreModal={handleHideCreateChoreModal} />
+        <ChoreForm
+          handleHideCreateChoreModal={handleHideCreateChoreModal}
+          handleSubmit={handleSubmit}
+        />
       </Modal>
     </ModalOverlay>
   );
 };
 
 const Home: NextPage = () => {
+  //const { data, loading, error } = useFetchHomeQuery();
   const [chores, setChores] = useState(mockedChores);
   const [showCreateChoreModal, setShowCreateChoreModal] = useState(false);
-
-  //const { data, loading, error } = useFetchHomeQuery();
 
   const markTaskCompleted = (id: string): void => {
     const choresClone = [...chores];
@@ -139,6 +146,18 @@ const Home: NextPage = () => {
 
   const showShowUpcomingChores = (): void => {
     console.log('show upcoming chores clicked!');
+  };
+
+  const handleSubmit = (values: ChoreFormValuesInterface) => {
+    const newChore: ChoreInterface = {
+      id: shortid.generate(),
+      name: values.summary,
+      due: values.dueDate,
+      // description: values.description
+    };
+
+    setChores([...chores, newChore]);
+    setShowCreateChoreModal(false);
   };
 
   return (
@@ -182,6 +201,7 @@ const Home: NextPage = () => {
       {showCreateChoreModal && (
         <CreateChoreModal
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
+          handleSubmit={handleSubmit}
         />
       )}
     </>
