@@ -79,12 +79,11 @@ export const ModalOverlay = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: ${props => props.theme.colors.clearWhite};
+  background-color: ${props => props.theme.colors.clearBlack};
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  
   ${limitMobileTouchActions()}
 `;
 
@@ -93,6 +92,6 @@ export const Modal = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-
+  ${limitMobileTouchActions()}
   ${shadow()}
 `;
