@@ -53,6 +53,8 @@ const DatePickerStylesOverride = styled.div`
 
   /* override @datepicker-react/styled datapicker styles */
   & > div > div {
+    /* Center horizontally and vertically */
+    /* @see https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div#answer-32694476 */
     position: fixed;
     left: 50%;
     top: 50%;
