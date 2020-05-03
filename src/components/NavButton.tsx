@@ -1,6 +1,6 @@
 import styled, { DefaultTheme, StyledComponent } from 'styled-components';
 
-import { breakpoints } from './layouts';
+import { breakpoints, shadowEnlargenOnHover } from './layouts';
 
 export enum NavButtonPositions {
   TopLeft = 'TOP_LEFT',
@@ -23,7 +23,7 @@ const Button = styled.div`
   color: ${props => props.theme.colors.black};
   cursor: pointer;
   z-index: ${props => props.theme.zIndex.highest};
-  border-radius: 5rem;
+  border-radius: 50%;
   width: 60px;
   height: 60px;
   font-size: 0.9rem;
@@ -35,10 +35,7 @@ const Button = styled.div`
   justify-content: center;
   margin: 0.5rem;
 
-  &:hover {
-    background-color: ${props => props.theme.colors.black};
-    color: ${props => props.theme.colors.white};
-  }
+  ${shadowEnlargenOnHover()}
 
   ${breakpoints.phoneMax`
     margin: 3px;

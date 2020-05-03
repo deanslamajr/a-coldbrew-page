@@ -86,6 +86,7 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
                           if (data.date) {
                             props.input.onChange(data.date);
                           }
+                          toggleShowDueDatePicker(false);
                         }}
                         onFocusChange={focusedInput =>
                           toggleShowDueDatePicker(focusedInput)
@@ -94,6 +95,7 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
                         date={props.input.value}
                         showDatepicker={showDueDatePicker}
                         showCalendarIcon={false}
+                        showResetDate={false}
                       />
                     </DatePickerStylesOverride>
                   );
@@ -123,26 +125,30 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
             {/* every setting but 'None' should create an additional input defaulted to 1 */}
             {/* but can set higher numbers e.g. every 1 day OR 2 days OR 3 days etc.*/}
 
-            <NavButton
-              position={NavButtonPositions.BottomLeft}
-              clickHandler={() => handleHideCreateChoreModal()}
-              icon={
-                <RiCloseLine
-                  color={theme.colors.red}
-                  size={theme.sizes.navbarButtonIconSize}
-                />
-              }
-            />
-            <NavButton
-              position={NavButtonPositions.BottomRight}
-              clickHandler={() => form.submit()}
-              icon={
-                <RiCheckLine
-                  color={theme.colors.green}
-                  size={theme.sizes.navbarButtonIconSize}
-                />
-              }
-            />
+            {!showDueDatePicker && (
+              <NavButton
+                position={NavButtonPositions.BottomLeft}
+                clickHandler={() => handleHideCreateChoreModal()}
+                icon={
+                  <RiCloseLine
+                    color={theme.colors.red}
+                    size={theme.sizes.navbarButtonIconSize}
+                  />
+                }
+              />
+            )}
+            {!showDueDatePicker && (
+              <NavButton
+                position={NavButtonPositions.BottomRight}
+                clickHandler={() => form.submit()}
+                icon={
+                  <RiCheckLine
+                    color={theme.colors.green}
+                    size={theme.sizes.navbarButtonIconSize}
+                  />
+                }
+              />
+            )}
           </div>
         </form>
       )}

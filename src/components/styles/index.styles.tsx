@@ -2,6 +2,8 @@ import styled, { DefaultTheme } from 'styled-components';
 
 import { DueStatusEnum } from '../../pages/index';
 
+import { shadow, shadowEnlargenOnHover } from '../layouts';
+
 interface ChoreButtonProps {
   dueStatus: DueStatusEnum | null;
 }
@@ -36,7 +38,8 @@ export const ChoreButton = styled.button<ChoreButtonProps>`
   box-sizing: border-box;
   text-decoration: none;
   font-family: 'Roboto', sans-serif;
-  font-weight: 300;
+  font-weight: 200;
+  font-size: 1.15rem;
   background-color: ${props =>
     getChoreButtonBackgroundColor({
       dueDateStatus: props.dueStatus,
@@ -49,10 +52,7 @@ export const ChoreButton = styled.button<ChoreButtonProps>`
   cursor: pointer;
   outline: none;
 
-  &:hover {
-    border-color: ${props => props.theme.colors.white};
-    opacity: 0.75;
-  }
+  ${shadowEnlargenOnHover()}
 `;
 
 export const FlexContainer = styled.div`
@@ -84,6 +84,7 @@ export const ModalOverlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  touch-action: none;
 `;
 
 export const Modal = styled.div`
@@ -91,4 +92,6 @@ export const Modal = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+
+  ${shadow()}
 `;

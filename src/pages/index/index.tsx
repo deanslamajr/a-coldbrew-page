@@ -176,7 +176,7 @@ const Home: NextPage = () => {
             />
           ))}
       </FlexContainer>
-      <FloatingMenu>
+      {!showCreateChoreModal && (
         <NavButton
           position={NavButtonPositions.BottomRight}
           clickHandler={() => toggleChoreModal(true)}
@@ -187,7 +187,8 @@ const Home: NextPage = () => {
             />
           }
         />
-        <NavButton
+      )}
+      {/* <NavButton
           position={NavButtonPositions.BottomLeft}
           clickHandler={() => showShowUpcomingChores()}
           icon={
@@ -196,8 +197,7 @@ const Home: NextPage = () => {
               size={theme.sizes.navbarButtonIconSize}
             />
           }
-        />
-      </FloatingMenu>
+        /> */}
       {showCreateChoreModal && (
         <CreateChoreModal
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
