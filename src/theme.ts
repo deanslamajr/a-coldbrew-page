@@ -8,6 +8,10 @@ export const theme: DefaultTheme = {
     green: 'green',
     yellow: 'yellow',
     red: 'red',
+    blue: 'blue',
+  },
+  sizes: {
+    navbarButtonIconSize: '2rem',
   },
   zIndex: {
     highest: 999,

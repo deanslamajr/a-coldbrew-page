@@ -14,11 +14,11 @@ export enum NavButtonPositions {
 interface NavButtonProps {
   position: NavButtonPositions;
   clickHandler: () => void;
-  buttonText: string;
+  buttonText?: string;
+  icon?: JSX.Element;
 }
 
 const Button = styled.div`
-  border: 1px solid ${props => props.theme.colors.black};
   background-color: ${props => props.theme.colors.white};
   color: ${props => props.theme.colors.black};
   cursor: pointer;
@@ -45,6 +45,11 @@ const Button = styled.div`
   `}
 `;
 
+const TopRightButton = styled(Button)`
+  top: 0;
+  right: 0;
+`;
+
 const BottomLeftButton = styled(Button)`
   bottom: 0;
   left: 0;
@@ -67,9 +72,9 @@ const getButtonByPosition = (
     // case TOP_CENTER:
     //   button = TopCenterButton
     //   break
-    // case TOP_RIGHT:
-    //   button = TopRightButton
-    //   break
+    case NavButtonPositions.TopRight:
+      button = TopRightButton;
+      break;
     case NavButtonPositions.BottomLeft:
       button = BottomLeftButton;
       break;
@@ -90,10 +95,13 @@ export const NavButton: React.FC<NavButtonProps> = ({
   position,
   clickHandler,
   buttonText,
+  icon,
 }) => {
   const PositionedButton = getButtonByPosition(position);
 
   return (
-    <PositionedButton onClick={clickHandler}>{buttonText}</PositionedButton>
+    <PositionedButton onClick={clickHandler}>
+      {buttonText || icon}
+    </PositionedButton>
   );
 };

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import getConfig from 'next/config';
-import { DateSingleInput, OnDateChangeProps } from '@datepicker-react/styled';
 import moment from 'moment';
 import shortid from 'shortid';
+import { RiAddLine, RiCalendarLine } from 'react-icons/ri';
 
 import {
   ChoreButton,
@@ -14,6 +14,9 @@ import {
   ModalOverlay,
 } from '../../components/styles/index.styles';
 import { NavButton, NavButtonPositions } from '../../components/NavButton';
+import { ChoreForm } from '../../components/ChoreForm';
+
+import { theme } from '../../theme';
 
 import { withApollo } from '../../graphql/with-apollo';
 // import { useFetchHomeQuery } from '../../graphql/queries/fetchHome.graphql';
@@ -63,8 +66,8 @@ interface ChoreProps {
   clickHandler: () => void;
 }
 
-interface DatePickerModalProps {
-  onHideDatePicker: () => void;
+interface CreateChoreModalProps {
+  handleHideCreateChoreModal: () => void;
 }
 
 export enum DueStatusEnum {
@@ -92,7 +95,7 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
   };
 
   const computeOverdueText = (): string => {
-    const days = todayMoment.diff(dueDateMoment, 'days')
+    const days = todayMoment.diff(dueDateMoment, 'days');
     return days ? `(${days} day${days > 1 ? 's' : ''})` : '(today)';
   };
 
@@ -103,34 +106,13 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
   );
 };
 
-const DatePickerModal: React.FunctionComponent<DatePickerModalProps> = ({
-  onHideDatePicker,
+const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
+  handleHideCreateChoreModal,
 }) => {
-  const [choreDate, setChoreDate] = useState(new Date());
-  const handleDateChange = (data: OnDateChangeProps) => {
-    setChoreDate(data.date || new Date());
-  };
-
   return (
     <ModalOverlay>
       <Modal>
-        {/* Add a fullscreen trasparent mask to block interactions with the main view */}
-
-        <DateSingleInput
-          onDateChange={handleDateChange}
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          onFocusChange={() => {}}
-          onClose={onHideDatePicker}
-          date={choreDate}
-          showDatepicker={true}
-          showCalendarIcon={false}
-        />
-        {/* Also need a dropdown input that can select a recurring  */}
-        {/* None, daily, weekly, monthly, yearly */}
-        {/* every setting but 'None' should create an additional input defaulted to 1 */}
-        {/* but can set higher numbers e.g. every 1 day OR 2 days OR 3 days etc.*/}
-
-        {/* CREATE BUTTON */}
+        <ChoreForm handleHideCreateChoreModal={handleHideCreateChoreModal} />
       </Modal>
     </ModalOverlay>
   );
@@ -138,7 +120,7 @@ const DatePickerModal: React.FunctionComponent<DatePickerModalProps> = ({
 
 const Home: NextPage = () => {
   const [chores, setChores] = useState(mockedChores);
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showCreateChoreModal, setShowCreateChoreModal] = useState(false);
 
   //const { data, loading, error } = useFetchHomeQuery();
 
@@ -151,8 +133,8 @@ const Home: NextPage = () => {
     setChores(choresClone);
   };
 
-  const toggleChoreModal = (show = !showDatePicker): void => {
-    setShowDatePicker(show);
+  const toggleChoreModal = (show = !showCreateChoreModal): void => {
+    setShowCreateChoreModal(show);
   };
 
   const showShowUpcomingChores = (): void => {
@@ -179,16 +161,28 @@ const Home: NextPage = () => {
         <NavButton
           position={NavButtonPositions.BottomRight}
           clickHandler={() => toggleChoreModal(true)}
-          buttonText="Add New Chore"
+          icon={
+            <RiAddLine
+              color={theme.colors.green}
+              size={theme.sizes.navbarButtonIconSize}
+            />
+          }
         />
         <NavButton
           position={NavButtonPositions.BottomLeft}
           clickHandler={() => showShowUpcomingChores()}
-          buttonText="Upcoming"
+          icon={
+            <RiCalendarLine
+              color={theme.colors.blue}
+              size={theme.sizes.navbarButtonIconSize}
+            />
+          }
         />
       </FloatingMenu>
-      {showDatePicker && (
-        <DatePickerModal onHideDatePicker={() => toggleChoreModal(false)} />
+      {showCreateChoreModal && (
+        <CreateChoreModal
+          handleHideCreateChoreModal={() => toggleChoreModal(false)}
+        />
       )}
     </>
   );

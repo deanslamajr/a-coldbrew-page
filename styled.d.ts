@@ -11,7 +11,11 @@ declare module 'styled-components' {
       green: string;
       yellow: string;
       red: string;
+      blue: string;
     };
+    sizes: {
+      navbarButtonIconSize: string;
+    },
     zIndex: {
       highest: number;
       middle: number;
