@@ -8,6 +8,12 @@ import {
   ThemedStyledProps,
 } from 'styled-components';
 
+export const limitMobileTouchActions = () => {
+  return css`
+    touch-action: pan-x pan-y;
+  `;
+};
+
 export const shadow = () => {
   return css`
     box-shadow: 0 6px 10px 0 #666;
@@ -71,7 +77,8 @@ export const GlobalStyles = createGlobalStyle`
       background-color: ${props => props.theme.colors.white};
       overflow-y: overlay;
       overflow-x: hidden;
-      touch-action: none;
+      
+      ${limitMobileTouchActions()}
     }
 
     a {
