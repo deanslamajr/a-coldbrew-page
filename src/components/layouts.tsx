@@ -72,13 +72,15 @@ export const breakpoints = {
 };
 
 export const GlobalStyles = createGlobalStyle`
+    * {
+      ${limitMobileTouchActions()}
+    }
+
     body {
       margin: 0;
       background-color: ${props => props.theme.colors.white};
       overflow-y: overlay;
       overflow-x: hidden;
-      
-      ${limitMobileTouchActions()}
     }
 
     a {

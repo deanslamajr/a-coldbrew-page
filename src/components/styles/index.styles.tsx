@@ -2,7 +2,7 @@ import styled, { DefaultTheme } from 'styled-components';
 
 import { DueStatusEnum } from '../../pages/index';
 
-import { limitMobileTouchActions, shadow, shadowEnlargenOnHover } from '../layouts';
+import { shadow, shadowEnlargenOnHover } from '../layouts';
 
 interface ChoreButtonProps {
   dueStatus: DueStatusEnum | null;
@@ -84,7 +84,6 @@ export const ModalOverlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  ${limitMobileTouchActions()}
 `;
 
 export const Modal = styled.div`
@@ -92,6 +91,5 @@ export const Modal = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  ${limitMobileTouchActions()}
   ${shadow()}
 `;
