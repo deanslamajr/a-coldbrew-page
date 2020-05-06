@@ -169,7 +169,7 @@ const Home: NextPage = () => {
           }
         />
       )}
-      {showMainNavButtons() && (
+      {/* {showMainNavButtons() && (
         <NavButton
           position={NavButtonPositions.BottomLeft}
           clickHandler={() => toggleFiltersModal(true)}
@@ -180,7 +180,7 @@ const Home: NextPage = () => {
             />
           }
         />
-      )}
+      )} */}
       {showCreateChoreModal && (
         <CreateChoreModal
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
