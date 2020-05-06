@@ -15,6 +15,7 @@ import {
   CreateChoreModal,
   ChoreFormValuesInterface,
 } from '../../components/CreateChoreModal';
+import { FadeInFadeOut } from '../../components/FadeInFadeOut';
 
 import { theme } from '../../theme';
 
@@ -174,11 +175,12 @@ const Home: NextPage = () => {
             />
           }
         /> */}
-      {showCreateChoreModal && (
+      <FadeInFadeOut show={showCreateChoreModal}>
         <CreateChoreModal
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
           handleSubmit={handleSubmit}
         />
+      </FadeInFadeOut>
       )}
     </>
   );
