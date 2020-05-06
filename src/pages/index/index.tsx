@@ -9,15 +9,12 @@ import { RiAddLine, RiCalendarLine } from 'react-icons/ri';
 import {
   ChoreButton,
   FlexContainer,
-  FloatingMenu,
-  Modal,
-  ModalOverlay,
 } from '../../components/styles/index.styles';
 import { NavButton, NavButtonPositions } from '../../components/NavButton';
 import {
-  ChoreForm,
+  CreateChoreModal,
   ChoreFormValuesInterface,
-} from '../../components/ChoreForm';
+} from '../../components/CreateChoreModal';
 
 import { theme } from '../../theme';
 
@@ -34,11 +31,6 @@ interface ChoreProps {
   dueDate: Date;
   name: string;
   clickHandler: () => void;
-}
-
-interface CreateChoreModalProps {
-  handleHideCreateChoreModal: () => void;
-  handleSubmit: (values: ChoreFormValuesInterface) => void;
 }
 
 export enum DueStatusEnum {
@@ -107,22 +99,6 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
     <ChoreButton dueStatus={getDueStatus()} onClick={clickHandler}>
       {name} {computeOverdueText()}
     </ChoreButton>
-  );
-};
-
-const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
-  handleHideCreateChoreModal,
-  handleSubmit,
-}) => {
-  return (
-    <ModalOverlay>
-      <Modal>
-        <ChoreForm
-          handleHideCreateChoreModal={handleHideCreateChoreModal}
-          handleSubmit={handleSubmit}
-        />
-      </Modal>
-    </ModalOverlay>
   );
 };
 

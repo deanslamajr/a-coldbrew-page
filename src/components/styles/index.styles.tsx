@@ -2,7 +2,7 @@ import styled, { DefaultTheme } from 'styled-components';
 
 import { DueStatusEnum } from '../../pages/index';
 
-import { shadow, shadowEnlargenOnHover } from '../layouts';
+import { shadowEnlargenOnHover } from '../layouts';
 
 interface ChoreButtonProps {
   dueStatus: DueStatusEnum | null;
@@ -61,35 +61,4 @@ export const FlexContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-`;
-
-export const FloatingMenu = styled.div`
-  position: fixed;
-  bottom: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`;
-
-export const ModalOverlay = styled.div`
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background-color: ${props => props.theme.colors.clearBlack};
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`;
-
-export const Modal = styled.div`
-  background-color: ${props => props.theme.colors.white};
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  ${shadow()}
 `;

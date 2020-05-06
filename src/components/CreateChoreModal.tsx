@@ -5,6 +5,7 @@ import { RiCheckLine, RiCloseLine } from 'react-icons/ri';
 import styled from 'styled-components';
 
 import { NavButton, NavButtonPositions } from './NavButton';
+import { Modal } from './Modal';
 
 import { theme } from '../theme';
 
@@ -15,6 +16,11 @@ export interface ChoreFormValuesInterface {
 }
 
 interface ChoreFormPropsInterface {
+  handleHideCreateChoreModal: () => void;
+  handleSubmit: (values: ChoreFormValuesInterface) => void;
+}
+
+interface CreateChoreModalProps {
   handleHideCreateChoreModal: () => void;
   handleSubmit: (values: ChoreFormValuesInterface) => void;
 }
@@ -153,5 +159,19 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
         </form>
       )}
     />
+  );
+};
+
+export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
+  handleHideCreateChoreModal,
+  handleSubmit,
+}) => {
+  return (
+    <Modal>
+      <ChoreForm
+        handleHideCreateChoreModal={handleHideCreateChoreModal}
+        handleSubmit={handleSubmit}
+      />
+    </Modal>
   );
 };
