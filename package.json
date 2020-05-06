@@ -11,7 +11,7 @@
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
     "image:build": "sudo docker build -t deanslamajr/snap-dragon:\"$(git describe)\" .",
     "image:promote": "sudo docker push deanslamajr/snap-dragon:\"$(git describe)\"",
-    "image:delete": "sudo docker image rm deanslamajr/snap-dragon:\"$(git describe)\"",
+    "image:delete": "sudo docker image rm deanslamajr/snap-dragon:\"$(git describe)\" && sudo docker image prune --filter label=stage=builder",
     "publish": "npm run image:build && npm run image:promote && npm run image:delete",
     "publish:test": "npm version prerelease --preid=g\"$(git rev-parse --short=5 HEAD)\" && npm run publish",
     "publish:patch": "npm version patch && npm run publish",

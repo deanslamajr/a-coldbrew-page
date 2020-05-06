@@ -1,5 +1,8 @@
 FROM node:12.16.0
 
+# label helps clean up intermediate container after build
+LABEL stage=builder
+
 WORKDIR /opt/app
 
 # Install app dependencies
