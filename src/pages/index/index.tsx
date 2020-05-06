@@ -4,7 +4,7 @@ import Head from 'next/head';
 import getConfig from 'next/config';
 import moment from 'moment';
 import shortid from 'shortid';
-import { RiAddLine, RiCalendarLine } from 'react-icons/ri';
+import { RiAddLine, RiFilter3Line } from 'react-icons/ri';
 
 import {
   ChoreButton,
@@ -15,6 +15,7 @@ import {
   CreateChoreModal,
   ChoreFormValuesInterface,
 } from '../../components/CreateChoreModal';
+import { FiltersModal } from '../../components/FiltersModal';
 
 import { theme } from '../../theme';
 
@@ -105,6 +106,7 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
 const Home: NextPage = () => {
   //const { data, loading, error } = useFetchHomeQuery();
   const [chores, setChores] = useState(mockedChores);
+  const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [showCreateChoreModal, setShowCreateChoreModal] = useState(false);
 
   const markTaskCompleted = (id: string): void => {
@@ -116,12 +118,12 @@ const Home: NextPage = () => {
     setChores(choresClone);
   };
 
-  const toggleChoreModal = (show = !showCreateChoreModal): void => {
-    setShowCreateChoreModal(show);
+  const toggleFiltersModal = (show = !showFiltersModal): void => {
+    setShowFiltersModal(show);
   };
 
-  const showShowUpcomingChores = (): void => {
-    console.log('show upcoming chores clicked!');
+  const toggleChoreModal = (show = !showCreateChoreModal): void => {
+    setShowCreateChoreModal(show);
   };
 
   const handleSubmit = (values: ChoreFormValuesInterface) => {
@@ -135,6 +137,9 @@ const Home: NextPage = () => {
     setChores([...chores, newChore]);
     setShowCreateChoreModal(false);
   };
+
+  const showMainNavButtons = (): boolean =>
+    !showCreateChoreModal && !showFiltersModal;
 
   return (
     <>
@@ -152,7 +157,7 @@ const Home: NextPage = () => {
             />
           ))}
       </FlexContainer>
-      {!showCreateChoreModal && (
+      {showMainNavButtons() && (
         <NavButton
           position={NavButtonPositions.BottomRight}
           clickHandler={() => toggleChoreModal(true)}
@@ -164,21 +169,26 @@ const Home: NextPage = () => {
           }
         />
       )}
-      {/* <NavButton
+      {showMainNavButtons() && (
+        <NavButton
           position={NavButtonPositions.BottomLeft}
-          clickHandler={() => showShowUpcomingChores()}
+          clickHandler={() => toggleFiltersModal(true)}
           icon={
-            <RiCalendarLine
+            <RiFilter3Line
               color={theme.colors.blue}
               size={theme.sizes.navbarButtonIconSize}
             />
           }
-        /> */}
+        />
+      )}
       {showCreateChoreModal && (
         <CreateChoreModal
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
           handleSubmit={handleSubmit}
         />
+      )}
+      {showFiltersModal && (
+        <FiltersModal closeFiltersModal={() => toggleFiltersModal(false)} />
       )}
     </>
   );
