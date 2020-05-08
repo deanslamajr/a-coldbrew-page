@@ -21,6 +21,12 @@ export const ModalBase = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  max-width: 75vw;
+  min-width: 25vw;
+  max-height: 75vh;
+  padding: 0.5rem;
+  min-height: 50vh;
+  overflow: overlay;
   ${shadow()}
 `;
 

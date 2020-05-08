@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Form, Field } from 'react-final-form';
 import { DateSingleInput } from '@datepicker-react/styled';
-import { RiCheckLine, RiCloseLine } from 'react-icons/ri';
+import { RiCheckLine } from 'react-icons/ri';
+import { IoMdArrowBack } from 'react-icons/io';
 import styled from 'styled-components';
 
 import { NavButton, NavButtonPositions } from './NavButton';
@@ -136,7 +137,7 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
                 position={NavButtonPositions.BottomLeft}
                 clickHandler={() => handleHideCreateChoreModal()}
                 icon={
-                  <RiCloseLine
+                  <IoMdArrowBack
                     color={theme.colors.red}
                     size={theme.sizes.navbarButtonIconSize}
                   />

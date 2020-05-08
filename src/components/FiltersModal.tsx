@@ -1,4 +1,4 @@
-import { RiCloseLine } from 'react-icons/ri';
+import { IoMdArrowBack } from 'react-icons/io';
 
 import { Modal } from './Modal';
 import { NavButton, NavButtonPositions } from './NavButton';
@@ -19,7 +19,7 @@ export const FiltersModal: React.FC<FiltersModalPropsInterface> = ({
         position={NavButtonPositions.BottomLeft}
         clickHandler={() => closeFiltersModal()}
         icon={
-          <RiCloseLine
+          <IoMdArrowBack
             color={theme.colors.red}
             size={theme.sizes.navbarButtonIconSize}
           />
