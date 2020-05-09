@@ -57,7 +57,8 @@ export const ChoreButton = styled.button<ChoreButtonProps>`
 
 export const FlexContainer = styled.div`
   display: flex;
-  margin: 5rem;
+  width: 100%;
+  margin-top: 5rem;
   justify-content: center;
   flex-direction: column;
   align-items: center;

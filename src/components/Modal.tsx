@@ -20,6 +20,8 @@ const ScrollPreventionStyles = createGlobalStyle`
   #__next {
     height: 100vh;
     overflow-y: hidden;
+    position: fixed;
+    width: 100%;
   }
 `;
 
