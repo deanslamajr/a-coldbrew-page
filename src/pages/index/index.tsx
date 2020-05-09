@@ -9,6 +9,7 @@ import { IoMdSearch } from 'react-icons/io';
 
 import {
   ChoreButton,
+  ChoreButtonDueDate,
   FlexContainer,
 } from '../../components/styles/index.styles';
 import { NavButton, NavButtonPositions } from '../../components/NavButton';
@@ -90,7 +91,7 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
   const getDueStatus = (): DueStatusEnum => {
     if (todayMoment.isSame(dueDateMoment, 'day')) {
       return DueStatusEnum.DueToday;
-    } else if (todayMoment.isAfter(dueDateMoment, 'day')) {
+    } else if (todayMoment.isAfter(dueDateMoment, 'minute')) {
       return DueStatusEnum.OverDue;
     } else {
       return DueStatusEnum.NotYetDue;
@@ -104,7 +105,9 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
 
   return (
     <ChoreButton dueStatus={getDueStatus()} onClick={clickHandler}>
-      {name} {computeOverdueText()}
+      {name}
+      <br />
+      <ChoreButtonDueDate>{computeOverdueText()}</ChoreButtonDueDate>
     </ChoreButton>
   );
 };

@@ -55,6 +55,11 @@ export const ChoreButton = styled.button<ChoreButtonProps>`
   ${shadowEnlargenOnHover()}
 `;
 
+export const ChoreButtonDueDate = styled.div`
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.clearBlack};
+`;
+
 export const FlexContainer = styled.div`
   display: flex;
   width: 100%;
