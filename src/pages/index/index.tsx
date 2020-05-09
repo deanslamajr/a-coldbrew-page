@@ -33,6 +33,11 @@ interface ChoreProps {
   clickHandler: () => void;
 }
 
+interface StatusInterface {
+  dueDifferenceCopy: string;
+  status: DueStatusEnum;
+}
+
 export enum DueStatusEnum {
   OverDue = 'OVER_DUE',
   DueToday = 'DUE_TODAY',
@@ -41,10 +46,16 @@ export enum DueStatusEnum {
 
 const { publicRuntimeConfig } = getConfig();
 
-const getDateForYesterday = (): Date => {
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  return yesterday;
+const getDateForDaysAgo = (daysOverDue: number): Date => {
+  const now = new Date();
+  now.setDate(now.getDate() - daysOverDue);
+  return now;
+};
+
+const getDateForHoursAgo = (hoursOverDue: number): Date => {
+  const now = new Date();
+  now.setHours(now.getHours() - hoursOverDue);
+  return now;
 };
 
 const mockedChores: ChoreInterface[] = [
@@ -54,14 +65,14 @@ const mockedChores: ChoreInterface[] = [
     name: 'Sweep them floors',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    due: getDateForYesterday(),
+    due: getDateForDaysAgo(1),
   },
   {
     id: shortid.generate(),
     name: 'Wash the doge',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    due: getDateForYesterday(),
+    due: getDateForDaysAgo(7),
   },
   // Due today
   {
@@ -69,14 +80,29 @@ const mockedChores: ChoreInterface[] = [
     name: 'Mop those flos',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    due: new Date(),
+    due: getDateForHoursAgo(1),
   },
   {
     id: shortid.generate(),
     name: 'Teach that pup "high 5" trick',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    due: new Date(),
+    due: getDateForHoursAgo(10),
+  },
+  // Not yet due
+  {
+    id: shortid.generate(),
+    name: 'Listen to new NoDoubt record',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    due: getDateForDaysAgo(-5),
+  },
+  {
+    id: shortid.generate(),
+    name: 'Touch up the pots',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    due: getDateForHoursAgo(-10),
   },
 ];
 
@@ -88,26 +114,81 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
   const todayMoment = moment();
   const dueDateMoment = moment(dueDate);
 
-  const getDueStatus = (): DueStatusEnum => {
-    if (todayMoment.isSame(dueDateMoment, 'day')) {
-      return DueStatusEnum.DueToday;
-    } else if (todayMoment.isAfter(dueDateMoment, 'minute')) {
-      return DueStatusEnum.OverDue;
+  const computeStatus = (): StatusInterface => {
+    // chore not yet due
+    if (todayMoment.isBefore(dueDateMoment)) {
+      const daysUntilDue = dueDateMoment.diff(todayMoment, 'days');
+      const hoursUntilDue = dueDateMoment.diff(todayMoment, 'hours');
+      const minutesUntilDue = dueDateMoment.diff(todayMoment, 'minutes');
+
+      const dueInCopy = 'Due in';
+
+      if (daysUntilDue >= 1 && hoursUntilDue >= 24) {
+        const daysCopy = daysUntilDue > 1 ? 'days' : 'day';
+        return {
+          status: DueStatusEnum.NotYetDue,
+          dueDifferenceCopy: `(${dueInCopy} ${daysUntilDue} ${daysCopy})`,
+        };
+      }
+
+      if (hoursUntilDue > 1 && minutesUntilDue >= 60) {
+        const hoursCopy = hoursUntilDue > 1 ? 'hours' : 'hour';
+        return {
+          status: DueStatusEnum.NotYetDue,
+          dueDifferenceCopy: `(${dueInCopy} ${hoursUntilDue} ${hoursCopy})`,
+        };
+      }
+
+      const dueDifferenceCopy =
+        minutesUntilDue > 1
+          ? `(${dueInCopy} ${minutesUntilDue} minutes)`
+          : `(${dueInCopy} seconds...)`;
+
+      return {
+        status: DueStatusEnum.NotYetDue,
+        dueDifferenceCopy,
+      };
     } else {
-      return DueStatusEnum.NotYetDue;
+      const overdueCopy = 'overdue';
+      const daysOverdue = todayMoment.diff(dueDateMoment, 'days');
+      const hoursOverdue = todayMoment.diff(dueDateMoment, 'hours');
+      const minutesOverdue = todayMoment.diff(dueDateMoment, 'minutes');
+
+      if (daysOverdue >= 1 && hoursOverdue >= 24) {
+        const daysCopy = daysOverdue > 1 ? 'days' : 'day';
+        return {
+          status: DueStatusEnum.OverDue,
+          dueDifferenceCopy: `(${daysOverdue} ${daysCopy} ${overdueCopy})`,
+        };
+      }
+
+      if (hoursOverdue > 1 && minutesOverdue >= 60) {
+        const hoursCopy = hoursOverdue > 1 ? 'hours' : 'hour';
+        return {
+          status: DueStatusEnum.DueToday,
+          dueDifferenceCopy: `(${hoursOverdue} ${hoursCopy} ${overdueCopy})`,
+        };
+      }
+
+      const dueDifferenceCopy =
+        minutesOverdue > 1
+          ? `(${minutesOverdue} minutes ${overdueCopy})`
+          : `(${overdueCopy})`;
+
+      return {
+        status: DueStatusEnum.DueToday,
+        dueDifferenceCopy,
+      };
     }
   };
 
-  const computeOverdueText = (): string => {
-    const days = todayMoment.diff(dueDateMoment, 'days');
-    return days ? `(${days} day${days > 1 ? 's' : ''})` : '(today)';
-  };
+  const { status, dueDifferenceCopy } = computeStatus();
 
   return (
-    <ChoreButton dueStatus={getDueStatus()} onClick={clickHandler}>
+    <ChoreButton dueStatus={status} onClick={clickHandler}>
       {name}
       <br />
-      <ChoreButtonDueDate>{computeOverdueText()}</ChoreButtonDueDate>
+      <ChoreButtonDueDate>{dueDifferenceCopy}</ChoreButtonDueDate>
     </ChoreButton>
   );
 };

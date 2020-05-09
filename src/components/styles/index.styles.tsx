@@ -56,7 +56,7 @@ export const ChoreButton = styled.button<ChoreButtonProps>`
 `;
 
 export const ChoreButtonDueDate = styled.div`
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: ${({ theme }) => theme.colors.clearBlack};
 `;
 
