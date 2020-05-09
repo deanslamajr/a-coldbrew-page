@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import { shadow } from './layouts';
 
@@ -14,6 +14,13 @@ export const ModalOverlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+`;
+
+const ScrollPreventionStyles = createGlobalStyle`
+  #__next {
+    height: 100vh;
+    overflow-y: hidden;
+  }
 `;
 
 export const ModalBase = styled.div`
@@ -33,6 +40,7 @@ export const ModalBase = styled.div`
 export const Modal: React.FC = ({ children }) => {
   return (
     <ModalOverlay>
+      <ScrollPreventionStyles />
       <ModalBase>{children}</ModalBase>
     </ModalOverlay>
   );
