@@ -45,6 +45,13 @@ const FormFieldContainer = styled.div`
   }
 `;
 
+const getBoxShadow = (color: string): string =>
+  `1px 0 0 0 ${color},
+  0 1px 0 0 ${color},
+  1px 1px 0 0 ${color},
+  1px 0 0 0 ${color} inset,
+  0 1px 0 0 ${color} inset`;
+
 const DatePickerStylesOverride = styled.div`
   width: 100%;
 
@@ -58,14 +65,28 @@ const DatePickerStylesOverride = styled.div`
     font-weight: inherit;
   }
 
-  /* override @datepicker-react/styled datapicker styles */
+  /* Center horizontally and vertically */
+  /* @see https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div#answer-32694476 */
   & > div > div {
-    /* Center horizontally and vertically */
-    /* @see https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div#answer-32694476 */
     position: fixed;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1.15);
+    /* background-color: ${({ theme }) => theme.colors.white}; */
+  }
+
+  & > div > div > div {
+    background-color: ${({ theme }) => theme.colors.white};
+  }
+
+  /* day buttons */
+  & button[data-testid='Day'], & button[data-testid='DatepickerNavButton'] {
+    background-color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.black};
+    box-shadow: ${({ theme }) => getBoxShadow(theme.colors.clearBlack)};
+  }
+  & button:hover {
+    background-color: ${({ theme }) => theme.colors.clearBlack};
   }
 `;
 

@@ -36,10 +36,6 @@ const Button = styled.div`
   margin: 0.5rem;
 
   ${shadowEnlargenOnHover()}
-
-  ${breakpoints.phoneMax`
-    margin: 3px;
-  `}
 `;
 
 const TopRightButton = styled(Button)`
