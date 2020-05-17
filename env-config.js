@@ -7,6 +7,7 @@ const fromProcessEnv = name => {
 
 const clientEnvironment = {
   APP_TITLE: fromProcessEnv('APP_TITLE'),
+  LOCALSTORAGE_KEY: fromProcessEnv('LOCALSTORAGE_KEY'),
 };
 
 const serverSecrets = {

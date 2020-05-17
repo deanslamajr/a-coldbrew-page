@@ -4,3 +4,7 @@ export interface ChoreInterface {
   description: string;
   due: Date;
 }
+
+export interface ClientCacheInterface {
+  chores: ChoreInterface[];
+}

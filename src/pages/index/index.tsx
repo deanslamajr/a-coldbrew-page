@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import getConfig from 'next/config';
@@ -19,6 +19,12 @@ import {
 } from '../../components/CreateChoreModal';
 import { FiltersModal } from '../../components/FiltersModal';
 import { ChoreDetailsModal } from '../../components/ChoreDetailsModal';
+import { Spinner } from '../../components/Spinner';
+
+import {
+  getChores as getChoresFromClientCache,
+  setChores as updateChoresOnClientCache,
+} from '../../helpers/clientCache';
 
 import { theme } from '../../theme';
 
@@ -45,66 +51,6 @@ export enum DueStatusEnum {
 }
 
 const { publicRuntimeConfig } = getConfig();
-
-const getDateForDaysAgo = (daysOverDue: number): Date => {
-  const now = new Date();
-  now.setDate(now.getDate() - daysOverDue);
-  return now;
-};
-
-const getDateForHoursAgo = (hoursOverDue: number): Date => {
-  const now = new Date();
-  now.setHours(now.getHours() - hoursOverDue);
-  return now;
-};
-
-const mockedChores: ChoreInterface[] = [
-  // Over due
-  {
-    id: shortid.generate(),
-    name: 'Sweep them floors',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    due: getDateForDaysAgo(1),
-  },
-  {
-    id: shortid.generate(),
-    name: 'Wash the doge',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    due: getDateForDaysAgo(7),
-  },
-  // Due today
-  {
-    id: shortid.generate(),
-    name: 'Mop those flos',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    due: getDateForHoursAgo(1),
-  },
-  {
-    id: shortid.generate(),
-    name: 'Teach that pup "high 5" trick',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    due: getDateForHoursAgo(10),
-  },
-  // Not yet due
-  {
-    id: shortid.generate(),
-    name: 'Listen to new NoDoubt record',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    due: getDateForDaysAgo(-5),
-  },
-  {
-    id: shortid.generate(),
-    name: 'Touch up the pots',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    due: getDateForHoursAgo(-10),
-  },
-];
 
 const Chore: React.FunctionComponent<ChoreProps> = ({
   clickHandler,
@@ -195,20 +141,27 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
 
 const Home: NextPage = () => {
   //const { data, loading, error } = useFetchHomeQuery();
-  const [chores, setChores] = useState(mockedChores);
+  const [chores, setChores] = useState<ChoreInterface[] | null>(null);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [showCreateChoreModal, setShowCreateChoreModal] = useState(false);
   const [selectedChore, setSelectedChore] = useState<ChoreInterface | null>(
     null
   );
 
+  // Rehydrate / Initialize Chores
+  useEffect(() => {
+    const hydratedChores = getChoresFromClientCache();
+    setChores(hydratedChores);
+  }, []);
+
   const markTaskCompleted = (id: string): void => {
-    const choresClone = [...chores];
-    const index = choresClone.findIndex(chore => chore.id === id);
+    const newChoresPayload = [...(chores as ChoreInterface[])];
+    const index = newChoresPayload.findIndex(chore => chore.id === id);
     if (index > -1) {
-      choresClone.splice(index, 1);
+      newChoresPayload.splice(index, 1);
     }
-    setChores(choresClone);
+    setChores(newChoresPayload);
+    updateChoresOnClientCache(newChoresPayload);
   };
 
   const toggleFiltersModal = (show = !showFiltersModal): void => {
@@ -233,7 +186,10 @@ const Home: NextPage = () => {
       due: values.dueDate,
     };
 
-    setChores([...chores, newChore]);
+    const newChoresPayload = [...(chores as ChoreInterface[]), newChore];
+
+    setChores(newChoresPayload);
+    updateChoresOnClientCache(newChoresPayload);
     setShowCreateChoreModal(false);
   };
 
@@ -253,7 +209,7 @@ const Home: NextPage = () => {
         <title>{publicRuntimeConfig.APP_TITLE}</title>
       </Head>
       <FlexContainer>
-        {chores &&
+        {chores ? (
           chores.map((chore: ChoreInterface) => (
             <Chore
               key={chore.id}
@@ -261,7 +217,10 @@ const Home: NextPage = () => {
               dueDate={chore.due}
               name={chore.name}
             />
-          ))}
+          ))
+        ) : (
+          <Spinner />
+        )}
       </FlexContainer>
       {showMainNavButtons() && (
         <NavButton
