@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
-import { shadow } from './layouts';
+import { breakpoints, shadow } from './layouts';
 
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -37,6 +37,13 @@ export const ModalBase = styled.div`
   min-height: 50vh;
   overflow: overlay;
   ${shadow()}
+
+  ${breakpoints.phoneMax`
+    width: 90vw;
+    height: 90vh;
+    max-width: none;
+    max-height: none;
+  `}
 `;
 
 export const Modal: React.FC = ({ children }) => {
