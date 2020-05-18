@@ -1,8 +1,10 @@
 import { IoMdArrowBack } from 'react-icons/io';
 import { GiCheckeredFlag } from 'react-icons/gi';
+import styled from 'styled-components';
 
 import { Modal } from './Modal';
 import { NavButton, NavButtonPositions } from './NavButton';
+import { breakpoints } from './layouts';
 
 import { theme } from '../theme';
 
@@ -14,6 +16,29 @@ interface ChoreDetailsModalPropsInterface {
   handleCompleteChore: () => void;
 }
 
+const ChoreSummaryContainer = styled.div`
+  margin: 1rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.black};
+
+  ${breakpoints.phoneMax`
+    font-size: 1.25rem;
+  `}
+`;
+
+const ChoreDescriptionContainer = styled.div`
+  margin: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  color: ${({ theme }) => theme.colors.black};
+
+  ${breakpoints.phoneMax`
+    font-size: 1rem;
+  `}
+`;
+
 export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
   chore,
   handleHide,
@@ -21,7 +46,12 @@ export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
 }) => {
   return (
     <Modal>
-      {chore && JSON.stringify(chore)}
+      <div>
+        <ChoreSummaryContainer>{chore.name}</ChoreSummaryContainer>
+        <ChoreDescriptionContainer>
+          {chore.description}
+        </ChoreDescriptionContainer>
+      </div>
       <NavButton
         position={NavButtonPositions.BottomLeft}
         clickHandler={() => handleHide()}

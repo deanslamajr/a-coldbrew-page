@@ -2,7 +2,7 @@ import styled, { DefaultTheme } from 'styled-components';
 
 import { DueStatusEnum } from '../../pages/index';
 
-import { shadowEnlargenOnHover } from '../layouts';
+import { breakpoints, shadowEnlargenOnHover } from '../layouts';
 
 interface ChoreButtonProps {
   dueStatus: DueStatusEnum | null;
@@ -67,4 +67,8 @@ export const FlexContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+
+  ${breakpoints.phoneMax`
+    margin-top: 1rem;
+  `}
 `;
