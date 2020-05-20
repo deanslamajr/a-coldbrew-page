@@ -39,10 +39,10 @@ export const ModalBase = styled.div`
   ${shadow()}
 
   ${breakpoints.phoneMax`
-    width: 90vw;
-    height: 90vh;
+    width: 100vw;
     max-width: none;
     max-height: none;
+    min-height: unset;
   `}
 `;
 
