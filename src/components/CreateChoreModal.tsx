@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import { NavButton, NavButtonPositions } from './NavButton';
 import { Modal } from './Modal';
+import { breakpoints } from './layouts';
 
 import { theme } from '../theme';
 
@@ -38,6 +39,11 @@ const FormFieldContainer = styled.div`
   margin: 2rem;
   align-items: center;
 
+  ${breakpoints.phoneMax`
+    margin: 1rem;
+    width: 85vw;
+  `}
+
   & input,
   & textarea {
     border: inherit;
@@ -50,6 +56,10 @@ const FormFieldContainer = styled.div`
     padding: 0.5rem !important;
     font-family: ${({ theme }) => theme.font};
     box-shadow: ${({ theme }) => getBoxShadow(theme.colors.clearBlack)};
+
+    ${breakpoints.phoneMax`
+      width: 100%;
+    `}
   }
 
   & input {
@@ -92,7 +102,6 @@ const DatePickerStylesOverride = styled.div`
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) scale(1.15);
-    /* background-color: ${({ theme }) => theme.colors.white}; */
   }
 
   & > div > div > div {
