@@ -37,7 +37,7 @@ export const ChoreButton = styled.button<ChoreButtonProps>`
   border-radius: 2em;
   box-sizing: border-box;
   text-decoration: none;
-  font-family: 'Roboto', sans-serif;
+  font-family: ${({ theme }) => theme.font};
   font-weight: 200;
   font-size: 1.15rem;
   background-color: ${props =>

@@ -22,5 +22,6 @@ declare module 'styled-components' {
       middle: number;
       lowest: number;
     };
+    font: string;
   }
 }

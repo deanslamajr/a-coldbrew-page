@@ -19,4 +19,5 @@ export const theme: DefaultTheme = {
     middle: 0,
     lowest: -999,
   },
+  font: `'Roboto', sans-serif`,
 };

@@ -40,8 +40,29 @@ const FormFieldContainer = styled.div`
 
   & input,
   & textarea {
-    min-height: 46px;
     border: inherit;
+    background-color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.black};
+    width: 30rem;
+    outline: none;
+    min-height: unset;
+    font-size: 16px;
+    padding: 0.5rem !important;
+    font-family: ${({ theme }) => theme.font};
+    box-shadow: ${({ theme }) => getBoxShadow(theme.colors.clearBlack)};
+  }
+
+  & input {
+    height: unset;
+  }
+
+  & textarea {
+    height: 7rem;
+    resize: none;
+  }
+
+  & label {
+    font-family: ${({ theme }) => theme.font};
   }
 `;
 
@@ -61,7 +82,6 @@ const DatePickerStylesOverride = styled.div`
   }
   /* override @datepicker-react/styled input styles */
   & input {
-    padding: 0;
     font-weight: inherit;
   }
 
@@ -141,12 +161,7 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
             </FormFieldContainer>
             <FormFieldContainer>
               <label>Description</label>
-              <Field
-                name="description"
-                component="textarea"
-                type="text"
-                placeholder="description"
-              />
+              <Field name="description" component="textarea" type="text" />
             </FormFieldContainer>
             {/* Also need a dropdown input that can select a recurring  */}
             {/* None, daily, weekly, monthly, yearly */}
