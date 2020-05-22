@@ -1,6 +1,6 @@
 {
   "name": "snap-dragon",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "private": true,
   "scripts": {
     "codegen": "graphql-let",
