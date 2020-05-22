@@ -88,6 +88,7 @@ const DatePickerStylesOverride = styled.div`
   /* override @datepicker-react/styled input styles */
   & input {
     font-weight: inherit;
+    width: 100%;
   }
 
   /* Center horizontally and vertically */
