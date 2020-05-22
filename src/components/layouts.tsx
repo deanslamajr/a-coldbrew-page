@@ -78,9 +78,10 @@ export const GlobalStyles = createGlobalStyle`
 
     body {
       margin: 0;
-      background-color: ${props => props.theme.colors.white};
+      background-color: ${({ theme }) => theme.colors.white};
       overflow-y: overlay;
       overflow-x: hidden;
+      font-family: ${({ theme }) => theme.font};
     }
 
     a {

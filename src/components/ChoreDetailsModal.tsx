@@ -1,6 +1,7 @@
 import { IoMdArrowBack } from 'react-icons/io';
 import { GiCheckeredFlag } from 'react-icons/gi';
 import styled from 'styled-components';
+import nl2br from 'react-nl2br';
 
 import { Modal } from './Modal';
 import { NavButton, NavButtonPositions } from './NavButton';
@@ -30,7 +31,7 @@ const ChoreSummaryContainer = styled.div`
 
 const ChoreDescriptionContainer = styled.div`
   margin: 1rem;
-  text-align: center;
+  text-align: left;
   font-size: 1.5rem;
   color: ${({ theme }) => theme.colors.black};
 
@@ -49,7 +50,7 @@ export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
       <div>
         <ChoreSummaryContainer>{chore.name}</ChoreSummaryContainer>
         <ChoreDescriptionContainer>
-          {chore.description}
+          {nl2br(chore.description)}
         </ChoreDescriptionContainer>
       </div>
       <NavButton

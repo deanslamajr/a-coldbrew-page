@@ -46,16 +46,15 @@ const FormFieldContainer = styled.div`
 
   & input,
   & textarea {
-    border: inherit;
+    border: 1px solid ${({ theme }) => theme.colors.black};
     background-color: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.black};
     width: 30rem;
     outline: none;
     min-height: unset;
+    font-family: ${({ theme }) => theme.font};
     font-size: 16px;
     padding: 0.5rem !important;
-    font-family: ${({ theme }) => theme.font};
-    box-shadow: ${({ theme }) => getBoxShadow(theme.colors.clearBlack)};
 
     ${breakpoints.phoneMax`
       width: 100%;
@@ -69,10 +68,6 @@ const FormFieldContainer = styled.div`
   & textarea {
     height: 7rem;
     resize: none;
-  }
-
-  & label {
-    font-family: ${({ theme }) => theme.font};
   }
 `;
 
