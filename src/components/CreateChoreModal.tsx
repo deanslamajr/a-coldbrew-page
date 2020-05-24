@@ -9,7 +9,7 @@ import { NavButton, NavButtonPositions } from './NavButton';
 import { Modal } from './Modal';
 import { breakpoints } from './layouts';
 
-import { theme } from '../theme';
+import { cssTheme } from '../helpers/constants';
 
 export interface ChoreFormValuesInterface {
   summary: string;
@@ -29,7 +29,7 @@ interface CreateChoreModalProps {
 
 const initialValues: ChoreFormValuesInterface = {
   summary: 'some new chore',
-  dueDate: new Date(),
+  dueDate: new Date(Date.now()),
   description: '',
 };
 
@@ -179,8 +179,8 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
                 clickHandler={() => handleHideCreateChoreModal()}
                 icon={
                   <IoMdArrowBack
-                    color={theme.colors.red}
-                    size={theme.sizes.navbarButtonIconSize}
+                    color={cssTheme.colors.red}
+                    size={cssTheme.sizes.navbarButtonIconSize}
                   />
                 }
               />
@@ -191,8 +191,8 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
                 clickHandler={() => form.submit()}
                 icon={
                   <RiCheckLine
-                    color={theme.colors.green}
-                    size={theme.sizes.navbarButtonIconSize}
+                    color={cssTheme.colors.green}
+                    size={cssTheme.sizes.navbarButtonIconSize}
                   />
                 }
               />

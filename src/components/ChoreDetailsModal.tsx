@@ -7,7 +7,7 @@ import { Modal } from './Modal';
 import { NavButton, NavButtonPositions } from './NavButton';
 import { breakpoints } from './layouts';
 
-import { theme } from '../theme';
+import { cssTheme } from '../helpers/constants';
 
 import { ChoreInterface } from '../types';
 
@@ -58,8 +58,8 @@ export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
         clickHandler={() => handleHide()}
         icon={
           <IoMdArrowBack
-            color={theme.colors.red}
-            size={theme.sizes.navbarButtonIconSize}
+            color={cssTheme.colors.red}
+            size={cssTheme.sizes.navbarButtonIconSize}
           />
         }
       />
@@ -68,8 +68,8 @@ export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
         clickHandler={handleCompleteChore}
         icon={
           <GiCheckeredFlag
-            color={theme.colors.green}
-            size={theme.sizes.navbarButtonIconSize}
+            color={cssTheme.colors.green}
+            size={cssTheme.sizes.navbarButtonIconSize}
           />
         }
       />

@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Chore /> due today exact date 1`] = `
+<button
+  className="indexstyles__ChoreButton-sc-1iii6aj-0 iMqLsj"
+  onClick={[Function]}
+>
+  today\`s chore
+  <br />
+  <div
+    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+  >
+    Due Today
+  </div>
+</button>
+`;
+
+exports[`<Chore /> due today later in day 1`] = `
+<button
+  className="indexstyles__ChoreButton-sc-1iii6aj-0 iMqLsj"
+  onClick={[Function]}
+>
+  today\`s chore
+  <br />
+  <div
+    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+  >
+    Due Today
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due 1 day in future 1`] = `
+<button
+  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+  >
+    (Due in 1 day)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due 1 month in future 1`] = `
+<button
+  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+  >
+    (Due in 1 month)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due 1 year in future 1`] = `
+<button
+  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+  >
+    (Due in 1 year)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due 9 days in future 1`] = `
+<button
+  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+  >
+    (Due in 9 days)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due 10 years in future 1`] = `
+<button
+  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+  >
+    (Due in 10 years)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due 11 months in future 1`] = `
+<button
+  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+  >
+    (Due in 11 months)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> overdue 1 day ago 1`] = `
+<button
+  className="indexstyles__ChoreButton-sc-1iii6aj-0 fTvUmn"
+  onClick={[Function]}
+>
+  overdue chore
+  <br />
+  <div
+    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+  >
+    (1 years overdue)
+  </div>
+</button>
+`;

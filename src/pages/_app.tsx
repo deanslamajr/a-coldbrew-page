@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 
 import { GlobalStyles } from '../components/layouts';
 
-import { theme } from '../theme';
+import { cssTheme } from '../helpers/constants';
 
 export default class MyApp extends App {
   render() {
@@ -17,7 +17,7 @@ export default class MyApp extends App {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="shortcut icon" href="/favicon.png" />
         </Head>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={cssTheme}>
           <GlobalStyles />
           <Component {...pageProps} />
         </ThemeProvider>

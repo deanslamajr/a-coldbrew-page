@@ -1,6 +1,8 @@
 import { DefaultTheme } from 'styled-components';
 
-export const theme: DefaultTheme = {
+export const choreVersion = 1;
+
+export const cssTheme: DefaultTheme = {
   colors: {
     clearWhite: 'rgba(254, 253, 239, 0.5)',
     clearBlack: 'rgba(12, 9, 13, 0.5)',

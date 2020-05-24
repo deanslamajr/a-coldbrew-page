@@ -1,17 +1,23 @@
 import shortid from 'shortid';
 
-import { ClientCacheInterface, ChoreInterface } from '../types';
+import {
+  ClientCacheInterface,
+  ChoreInterface,
+  DueDateInterface,
+} from '../types';
+import { transformDateToDueDate } from './dueDates';
+import { choreVersion } from './constants';
 
-const getDateForDaysAgo = (daysOverDue: number): Date => {
-  const now = new Date();
+const getDateForDaysAgo = (daysOverDue: number): DueDateInterface => {
+  const now = new Date(Date.now());
   now.setDate(now.getDate() - daysOverDue);
-  return now;
+  return transformDateToDueDate(now);
 };
 
-const getDateForHoursAgo = (hoursOverDue: number): Date => {
-  const now = new Date();
+const getDateForHoursAgo = (hoursOverDue: number): DueDateInterface => {
+  const now = new Date(Date.now());
   now.setHours(now.getHours() - hoursOverDue);
-  return now;
+  return transformDateToDueDate(now);
 };
 
 export const mockedChores: ChoreInterface[] = [
@@ -22,6 +28,7 @@ export const mockedChores: ChoreInterface[] = [
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     due: getDateForDaysAgo(1),
+    version: choreVersion,
   },
   {
     id: shortid.generate(),
@@ -29,6 +36,7 @@ export const mockedChores: ChoreInterface[] = [
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     due: getDateForDaysAgo(7),
+    version: choreVersion,
   },
   // Due today
   {
@@ -37,6 +45,7 @@ export const mockedChores: ChoreInterface[] = [
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     due: getDateForHoursAgo(1),
+    version: choreVersion,
   },
   {
     id: shortid.generate(),
@@ -44,6 +53,7 @@ export const mockedChores: ChoreInterface[] = [
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     due: getDateForHoursAgo(10),
+    version: choreVersion,
   },
   // Not yet due
   {
@@ -52,6 +62,7 @@ export const mockedChores: ChoreInterface[] = [
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     due: getDateForDaysAgo(-5),
+    version: choreVersion,
   },
   {
     id: shortid.generate(),
@@ -59,6 +70,7 @@ export const mockedChores: ChoreInterface[] = [
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     due: getDateForHoursAgo(-10),
+    version: choreVersion,
   },
 ];
 

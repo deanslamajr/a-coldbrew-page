@@ -3,7 +3,7 @@ import { IoMdArrowBack } from 'react-icons/io';
 import { Modal } from './Modal';
 import { NavButton, NavButtonPositions } from './NavButton';
 
-import { theme } from '../theme';
+import { cssTheme } from '../helpers/constants';
 
 interface FiltersModalPropsInterface {
   closeFiltersModal: () => void;
@@ -20,8 +20,8 @@ export const FiltersModal: React.FC<FiltersModalPropsInterface> = ({
         clickHandler={() => closeFiltersModal()}
         icon={
           <IoMdArrowBack
-            color={theme.colors.red}
-            size={theme.sizes.navbarButtonIconSize}
+            color={cssTheme.colors.red}
+            size={cssTheme.sizes.navbarButtonIconSize}
           />
         }
       />

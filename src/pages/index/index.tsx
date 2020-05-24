@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import getConfig from 'next/config';
-import moment from 'moment';
 import shortid from 'shortid';
 import { RiAddLine } from 'react-icons/ri';
 import { IoMdSearch } from 'react-icons/io';
@@ -25,16 +24,21 @@ import {
   getChores as getChoresFromClientCache,
   setChores as updateChoresOnClientCache,
 } from '../../helpers/clientCache';
+import {
+  getOverdue,
+  isBefore,
+  isDue,
+  transformDateToDueDate,
+} from '../../helpers/dueDates';
+import { choreVersion, cssTheme } from '../../helpers/constants';
 
-import { theme } from '../../theme';
-
-import { ChoreInterface } from '../../types';
+import { ChoreInterface, DueDateInterface } from '../../types';
 
 import { withApollo } from '../../graphql/with-apollo';
 // import { useFetchHomeQuery } from '../../graphql/queries/fetchHome.graphql';
 
 interface ChoreProps {
-  dueDate: Date;
+  dueDate: DueDateInterface;
   name: string;
   clickHandler: () => void;
 }
@@ -52,78 +56,63 @@ export enum DueStatusEnum {
 
 const { publicRuntimeConfig } = getConfig();
 
-const Chore: React.FunctionComponent<ChoreProps> = ({
+export const Chore: React.FC<ChoreProps> = ({
   clickHandler,
   dueDate,
   name,
 }) => {
-  const todayMoment = moment();
-  const dueDateMoment = moment(dueDate);
-
   const computeStatus = (): StatusInterface => {
-    // chore not yet due
-    if (todayMoment.isBefore(dueDateMoment)) {
-      const daysUntilDue = dueDateMoment.diff(todayMoment, 'days');
-      const hoursUntilDue = dueDateMoment.diff(todayMoment, 'hours');
-      const minutesUntilDue = dueDateMoment.diff(todayMoment, 'minutes');
-
-      const dueInCopy = 'Due in';
-
-      if (daysUntilDue >= 1 && hoursUntilDue >= 24) {
-        const daysCopy = daysUntilDue > 1 ? 'days' : 'day';
-        return {
-          status: DueStatusEnum.NotYetDue,
-          dueDifferenceCopy: `(${dueInCopy} ${daysUntilDue} ${daysCopy})`,
-        };
+    if (isDue(dueDate)) {
+      const overdueData = getOverdue(dueDate);
+      let overDueCount =
+        overdueData.years || overdueData.months || overdueData.days;
+      if (overDueCount) {
+        overDueCount = overDueCount * -1;
       }
 
-      if (hoursUntilDue > 1 && minutesUntilDue >= 60) {
-        const hoursCopy = hoursUntilDue > 1 ? 'hours' : 'hour';
+      if (overDueCount) {
+        const typeCopy = overdueData.years
+          ? overdueData.years < 1
+            ? 'years'
+            : 'year'
+          : overdueData.months
+          ? overdueData.months < 1
+            ? 'months'
+            : 'month'
+          : overdueData.days && overdueData.days < 1
+          ? 'days'
+          : 'day';
+
         return {
-          status: DueStatusEnum.NotYetDue,
-          dueDifferenceCopy: `(${dueInCopy} ${hoursUntilDue} ${hoursCopy})`,
+          status: DueStatusEnum.OverDue,
+          dueDifferenceCopy: `(${overDueCount} ${typeCopy} overdue)`,
+        };
+      } else {
+        return {
+          status: DueStatusEnum.DueToday,
+          dueDifferenceCopy: 'Due Today',
         };
       }
+    } else {
+      const overdueData = getOverdue(dueDate);
+      const dueInCount =
+        overdueData.years || overdueData.months || overdueData.days;
 
-      const dueDifferenceCopy =
-        minutesUntilDue > 1
-          ? `(${dueInCopy} ${minutesUntilDue} minutes)`
-          : `(${dueInCopy} seconds...)`;
+      const typeCopy = overdueData.years
+        ? overdueData.years > 1
+          ? 'years'
+          : 'year'
+        : overdueData.months
+        ? overdueData.months > 1
+          ? 'months'
+          : 'month'
+        : overdueData.days && overdueData.days > 1
+        ? 'days'
+        : 'day';
 
       return {
         status: DueStatusEnum.NotYetDue,
-        dueDifferenceCopy,
-      };
-    } else {
-      const overdueCopy = 'overdue';
-      const daysOverdue = todayMoment.diff(dueDateMoment, 'days');
-      const hoursOverdue = todayMoment.diff(dueDateMoment, 'hours');
-      const minutesOverdue = todayMoment.diff(dueDateMoment, 'minutes');
-
-      if (daysOverdue >= 1 && hoursOverdue >= 24) {
-        const daysCopy = daysOverdue > 1 ? 'days' : 'day';
-        return {
-          status: DueStatusEnum.OverDue,
-          dueDifferenceCopy: `(${daysOverdue} ${daysCopy} ${overdueCopy})`,
-        };
-      }
-
-      if (hoursOverdue > 1 && minutesOverdue >= 60) {
-        const hoursCopy = hoursOverdue > 1 ? 'hours' : 'hour';
-        return {
-          status: DueStatusEnum.DueToday,
-          dueDifferenceCopy: `(${hoursOverdue} ${hoursCopy} ${overdueCopy})`,
-        };
-      }
-
-      const dueDifferenceCopy =
-        minutesOverdue > 1
-          ? `(${minutesOverdue} minutes ${overdueCopy})`
-          : `(${overdueCopy})`;
-
-      return {
-        status: DueStatusEnum.DueToday,
-        dueDifferenceCopy,
+        dueDifferenceCopy: `(Due in ${dueInCount} ${typeCopy})`,
       };
     }
   };
@@ -139,6 +128,12 @@ const Chore: React.FunctionComponent<ChoreProps> = ({
   );
 };
 
+const sortChores = (chores: ChoreInterface[]): ChoreInterface[] => {
+  return chores.slice().sort(({ due: a }, { due: b }) => {
+    return isBefore(a, b) ? 1 : 0;
+  });
+};
+
 const Home: NextPage = () => {
   //const { data, loading, error } = useFetchHomeQuery();
   const [chores, setChores] = useState<ChoreInterface[] | null>(null);
@@ -151,7 +146,8 @@ const Home: NextPage = () => {
   // Rehydrate / Initialize Chores
   useEffect(() => {
     const hydratedChores = getChoresFromClientCache();
-    setChores(hydratedChores);
+    const sortedChores = sortChores(hydratedChores);
+    setChores(sortedChores);
   }, []);
 
   const markTaskCompleted = (id: string): void => {
@@ -160,8 +156,9 @@ const Home: NextPage = () => {
     if (index > -1) {
       newChoresPayload.splice(index, 1);
     }
-    setChores(newChoresPayload);
-    updateChoresOnClientCache(newChoresPayload);
+    const sortedChores = sortChores(newChoresPayload);
+    setChores(sortedChores);
+    updateChoresOnClientCache(sortedChores);
   };
 
   const toggleFiltersModal = (show = !showFiltersModal): void => {
@@ -183,13 +180,15 @@ const Home: NextPage = () => {
       id: shortid.generate(),
       name: values.summary,
       description: values.description,
-      due: values.dueDate,
+      due: transformDateToDueDate(values.dueDate),
+      version: choreVersion,
     };
 
     const newChoresPayload = [...(chores as ChoreInterface[]), newChore];
 
-    setChores(newChoresPayload);
-    updateChoresOnClientCache(newChoresPayload);
+    const sortedChores = sortChores(newChoresPayload);
+    setChores(sortedChores);
+    updateChoresOnClientCache(sortedChores);
     setShowCreateChoreModal(false);
   };
 
@@ -228,8 +227,8 @@ const Home: NextPage = () => {
           clickHandler={() => toggleChoreModal(true)}
           icon={
             <RiAddLine
-              color={theme.colors.green}
-              size={theme.sizes.navbarButtonIconSize}
+              color={cssTheme.colors.green}
+              size={cssTheme.sizes.navbarButtonIconSize}
             />
           }
         />
@@ -240,8 +239,8 @@ const Home: NextPage = () => {
           clickHandler={() => toggleFiltersModal(true)}
           icon={
             <IoMdSearch
-              color={theme.colors.blue}
-              size={theme.sizes.navbarButtonIconSize}
+              color={cssTheme.colors.blue}
+              size={cssTheme.sizes.navbarButtonIconSize}
             />
           }
         />
