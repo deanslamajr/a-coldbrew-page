@@ -2,6 +2,7 @@
 import React from 'react';
 // import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
+import 'jest-styled-components';
 import { ThemeProvider } from 'styled-components';
 
 import { Chore } from './index';
@@ -31,130 +32,132 @@ describe('<Chore />', () => {
   });
 
   describe('overdue', () => {
-    it.only('1 day ago', () => {
-      const dueDate = {
-        year: 2019,
-        month: 11, // December
-        day: 31,
-      };
-
-      const tree = renderer
-        .create(
-          <ThemeProvider theme={cssTheme}>
-            <Chore
-              dueDate={dueDate}
-              clickHandler={() => {}}
-              name={'overdue chore'}
-            />
-          </ThemeProvider>
-        )
-        .toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-
-    it('9 days in future', () => {
-      const dueDate = {
-        year: 2020,
-        month: 0, // January
-        day: 10,
-      };
-
-      const tree = renderer
-        .create(
-          <ThemeProvider theme={cssTheme}>
-            <Chore
-              dueDate={dueDate}
-              clickHandler={() => {}}
-              name={'future chore'}
-            />
-          </ThemeProvider>
-        )
-        .toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-
-    it('1 month in future', () => {
-      const dueDate = {
-        year: 2020,
-        month: 1, // February
-        day: 1,
-      };
-
-      const tree = renderer
-        .create(
-          <ThemeProvider theme={cssTheme}>
-            <Chore
-              dueDate={dueDate}
-              clickHandler={() => {}}
-              name={'future chore'}
-            />
-          </ThemeProvider>
-        )
-        .toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-
-    it('11 months in future', () => {
-      const dueDate = {
-        year: 2020,
-        month: 11, // December
-        day: 1,
-      };
-
-      const tree = renderer
-        .create(
-          <ThemeProvider theme={cssTheme}>
-            <Chore
-              dueDate={dueDate}
-              clickHandler={() => {}}
-              name={'future chore'}
-            />
-          </ThemeProvider>
-        )
-        .toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-
-    it('1 year in future', () => {
-      const dueDate = {
-        year: 2021,
-        month: 0, // January
-        day: 1,
-      };
-
-      const tree = renderer
-        .create(
-          <ThemeProvider theme={cssTheme}>
-            <Chore
-              dueDate={dueDate}
-              clickHandler={() => {}}
-              name={'future chore'}
-            />
-          </ThemeProvider>
-        )
-        .toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-
-    it('10 years in future', () => {
-      const dueDate = {
-        year: 2030,
-        month: 0, // January
-        day: 1,
-      };
-
-      const tree = renderer
-        .create(
-          <ThemeProvider theme={cssTheme}>
-            <Chore
-              dueDate={dueDate}
-              clickHandler={() => {}}
-              name={'future chore'}
-            />
-          </ThemeProvider>
-        )
-        .toJSON();
-      expect(tree).toMatchSnapshot();
+    describe('date range crosses new year', () => {
+      it('1 day ago', () => {
+        const dueDate = {
+          year: 2019,
+          month: 11, // December
+          day: 31,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'overdue chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
+  
+      it('9 days ago', () => {
+        const dueDate = {
+          year: 2019,
+          month: 11, // December
+          day: 23,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
+  
+      it('1 month ago', () => {
+        const dueDate = {
+          year: 2019,
+          month: 11, // December
+          day: 1,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
+  
+      it('11 months ago', () => {
+        const dueDate = {
+          year: 2019,
+          month: 1, // February
+          day: 1,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
+  
+      it('1 year ago', () => {
+        const dueDate = {
+          year: 2019,
+          month: 0, // January
+          day: 1,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
+  
+      it('10 years ago', () => {
+        const dueDate = {
+          year: 2010,
+          month: 0, // January
+          day: 1,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
     });
   });
 
@@ -331,6 +334,147 @@ describe('<Chore />', () => {
         )
         .toJSON();
       expect(tree).toMatchSnapshot();
+    });
+
+    describe('date range crosses new year', () => {
+      let previousDateNow: () => number;
+
+      beforeEach(() => {
+        previousDateNow = Date.now.bind(global.Date);
+        const lastDayOf2019 = new Date('December 31 2019');
+        const dateNowStub = jest.fn(() => lastDayOf2019.getTime());
+        global.Date.now = dateNowStub;
+      });
+
+      afterEach(() => {
+        global.Date.now = previousDateNow;
+      });
+
+      it('1 day in future', () => {
+        const dueDate = {
+          year: 2020,
+          month: 0, // January
+          day: 1,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
+  
+      it('9 days in future', () => {
+        const dueDate = {
+          year: 2020,
+          month: 0, // January
+          day: 9,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
+  
+      it('1 month in future', () => {
+        const dueDate = {
+          year: 2020,
+          month: 0, // January
+          day: 31,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
+  
+      it('11 months in future', () => {
+        const dueDate = {
+          year: 2020,
+          month: 10, // November
+          day: 30,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
+  
+      it('1 year in future', () => {
+        const dueDate = {
+          year: 2020,
+          month: 11, // December
+          day: 31,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
+  
+      it('10 years in future', () => {
+        const dueDate = {
+          year: 2029,
+          month: 11, // December
+          day: 31,
+        };
+  
+        const tree = renderer
+          .create(
+            <ThemeProvider theme={cssTheme}>
+              <Chore
+                dueDate={dueDate}
+                clickHandler={() => {}}
+                name={'future chore'}
+              />
+            </ThemeProvider>
+          )
+          .toJSON();
+        expect(tree).toMatchSnapshot();
+      });
     });
   });
 });

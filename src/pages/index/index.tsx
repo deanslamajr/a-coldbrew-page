@@ -25,7 +25,7 @@ import {
   setChores as updateChoresOnClientCache,
 } from '../../helpers/clientCache';
 import {
-  getOverdue,
+  getDiffFromNow,
   isBefore,
   isDue,
   transformDateToDueDate,
@@ -62,8 +62,10 @@ export const Chore: React.FC<ChoreProps> = ({
   name,
 }) => {
   const computeStatus = (): StatusInterface => {
+    const overdueData = getDiffFromNow(dueDate);
+    console.log('overdueData', overdueData);
+
     if (isDue(dueDate)) {
-      const overdueData = getOverdue(dueDate);
       let overDueCount =
         overdueData.years || overdueData.months || overdueData.days;
       if (overDueCount) {
@@ -94,7 +96,6 @@ export const Chore: React.FC<ChoreProps> = ({
         };
       }
     } else {
-      const overdueData = getOverdue(dueDate);
       const dueInCount =
         overdueData.years || overdueData.months || overdueData.days;
 

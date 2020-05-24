@@ -1,14 +1,52 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Chore /> due today exact date 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(255,153,20,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
 <button
-  className="indexstyles__ChoreButton-sc-1iii6aj-0 iMqLsj"
+  className="c0"
   onClick={[Function]}
 >
   today\`s chore
   <br />
   <div
-    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+    className="c1"
   >
     Due Today
   </div>
@@ -16,14 +54,52 @@ exports[`<Chore /> due today exact date 1`] = `
 `;
 
 exports[`<Chore /> due today later in day 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(255,153,20,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
 <button
-  className="indexstyles__ChoreButton-sc-1iii6aj-0 iMqLsj"
+  className="c0"
   onClick={[Function]}
 >
   today\`s chore
   <br />
   <div
-    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+    className="c1"
   >
     Due Today
   </div>
@@ -31,106 +107,955 @@ exports[`<Chore /> due today later in day 1`] = `
 `;
 
 exports[`<Chore /> not yet due 1 day in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
 <button
-  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  className="c0"
   onClick={[Function]}
 >
   future chore
   <br />
   <div
-    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+    className="c1"
   >
-    (Due in 1 day)
+    (Due in undefined day)
   </div>
 </button>
 `;
 
 exports[`<Chore /> not yet due 1 month in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
 <button
-  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  className="c0"
   onClick={[Function]}
 >
   future chore
   <br />
   <div
-    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+    className="c1"
   >
-    (Due in 1 month)
+    (Due in undefined day)
   </div>
 </button>
 `;
 
 exports[`<Chore /> not yet due 1 year in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
 <button
-  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  className="c0"
   onClick={[Function]}
 >
   future chore
   <br />
   <div
-    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+    className="c1"
   >
-    (Due in 1 year)
+    (Due in undefined day)
   </div>
 </button>
 `;
 
 exports[`<Chore /> not yet due 9 days in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
 <button
-  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  className="c0"
   onClick={[Function]}
 >
   future chore
   <br />
   <div
-    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+    className="c1"
   >
-    (Due in 9 days)
+    (Due in undefined day)
   </div>
 </button>
 `;
 
 exports[`<Chore /> not yet due 10 years in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
 <button
-  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  className="c0"
   onClick={[Function]}
 >
   future chore
   <br />
   <div
-    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+    className="c1"
   >
-    (Due in 10 years)
+    (Due in undefined day)
   </div>
 </button>
 `;
 
 exports[`<Chore /> not yet due 11 months in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
 <button
-  className="indexstyles__ChoreButton-sc-1iii6aj-0 ecZqrF"
+  className="c0"
   onClick={[Function]}
 >
   future chore
   <br />
   <div
-    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+    className="c1"
   >
-    (Due in 11 months)
+    (Due in undefined day)
   </div>
 </button>
 `;
 
-exports[`<Chore /> overdue 1 day ago 1`] = `
+exports[`<Chore /> not yet due date range crosses new year 1 day in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
 <button
-  className="indexstyles__ChoreButton-sc-1iii6aj-0 fTvUmn"
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    (Due in undefined day)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due date range crosses new year 1 month in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    (Due in undefined day)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due date range crosses new year 1 year in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    (Due in undefined day)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due date range crosses new year 9 days in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    (Due in undefined day)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due date range crosses new year 10 years in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    (Due in undefined day)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> not yet due date range crosses new year 11 months in future 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(41,191,18,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    (Due in undefined day)
+  </div>
+</button>
+`;
+
+exports[`<Chore /> overdue date range crosses new year 1 day ago 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(255,153,20,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
   onClick={[Function]}
 >
   overdue chore
   <br />
   <div
-    className="indexstyles__ChoreButtonDueDate-sc-1iii6aj-1 bNZmAR"
+    className="c1"
   >
-    (1 years overdue)
+    Due Today
+  </div>
+</button>
+`;
+
+exports[`<Chore /> overdue date range crosses new year 1 month ago 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(255,153,20,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    Due Today
+  </div>
+</button>
+`;
+
+exports[`<Chore /> overdue date range crosses new year 1 year ago 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(255,153,20,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    Due Today
+  </div>
+</button>
+`;
+
+exports[`<Chore /> overdue date range crosses new year 9 days ago 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(255,153,20,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    Due Today
+  </div>
+</button>
+`;
+
+exports[`<Chore /> overdue date range crosses new year 10 years ago 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(255,153,20,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    Due Today
+  </div>
+</button>
+`;
+
+exports[`<Chore /> overdue date range crosses new year 11 months ago 1`] = `
+.c0 {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1rem;
+  border: 0.16em solid rgba(255,255,255,0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Roboto',sans-serif;
+  font-weight: 200;
+  font-size: 1.15rem;
+  background-color: rgba(255,153,20,1);
+  color: rgba(12,9,13,1);
+  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-align: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 6px 10px 0 #666;
+}
+
+.c0:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.c0:hover {
+  box-shadow: 0 6px 14px 0 #666;
+}
+
+.c1 {
+  font-size: 0.9rem;
+  color: rgba(12,9,13,0.5);
+}
+
+<button
+  className="c0"
+  onClick={[Function]}
+>
+  future chore
+  <br />
+  <div
+    className="c1"
+  >
+    Due Today
   </div>
 </button>
 `;

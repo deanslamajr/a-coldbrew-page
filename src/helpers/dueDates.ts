@@ -1,9 +1,16 @@
+import monthDays from 'month-days';
+
 import { DueDateInterface } from '../types';
 
-interface OverdueInterface {
-  years?: number;
-  months?: number;
-  days?: number;
+enum DurationTypes {
+  Year = 'YEAR',
+  Month = 'MONTH',
+  Day = 'DAY',
+}
+
+interface DateDiffInterface {
+  amount: number;
+  type: DurationTypes;
 }
 
 export const transformDateToDueDate = (date: Date): DueDateInterface => {
@@ -52,28 +59,94 @@ export const isDue = (dueDate: DueDateInterface): boolean => {
   return true;
 };
 
-export const getOverdue = (dueDate: DueDateInterface): OverdueInterface => {
-  let yearsDiff;
-  let monthsDiff;
-  let daysDiff;
+export const getDiffFromNow = (
+  dueDate: DueDateInterface
+): DateDiffInterface => {
+  let yearsDiff = 0;
+  let monthsDiff = 0;
+  let daysDiff = 0;
 
   const now = getNow();
 
-  if (dueDate.year !== now.year) {
-    yearsDiff = dueDate.year - now.year;
+  yearsDiff = dueDate.year - now.year;
+  monthsDiff = dueDate.month - now.month;
+
+  if (yearsDiff !== 0 && dueDate.month === now.month) {
+    return {
+      amount: yearsDiff,
+      type: DurationTypes.Year,
+    };
   }
 
-  if (dueDate.month !== now.month) {
-    monthsDiff = dueDate.month - now.month;
+  if (
+    (now.year > dueDate.year && now.month > dueDate.month) ||
+    (dueDate.year > now.year && dueDate.month > now.month)
+  ) {
+    if (Math.abs(yearsDiff) >= 1) {
+      return {
+        amount: yearsDiff,
+        type: DurationTypes.Year,
+      };
+    } else if (Math.abs(monthsDiff) >= 1) {
+      return {
+        amount: monthsDiff,
+        type: DurationTypes.Month,
+      };
+    }
   }
 
-  if (dueDate.day !== now.day) {
+  if (
+    (now.year > dueDate.year && now.month < dueDate.month) ||
+    (dueDate.year > now.year && dueDate.month < now.month)
+  ) {
+    if (Math.abs(yearsDiff) > 1) {
+      return {
+        amount: yearsDiff - 1,
+        type: DurationTypes.Year,
+      };
+    }
+
+    monthsDiff = dueDate.month > now.month
+      ? dueDate.month - 11 - now.month - 1 // month is 0 indexed
+      : now.month - 11 + dueDate.month + 1; // month is 0 indexed
+  }
+
+  const daysInNowsMonth = monthDays({ month: now.month, year: now.year });
+  const daysInDueDatesMonth = monthDays({
+    month: dueDate.month,
+    year: dueDate.year,
+  });
+
+  if (monthsDiff === 0) {
     daysDiff = dueDate.day - now.day;
+  } else if (
+    (now.month < dueDate.month && now.year <= dueDate.year) ||
+    now.year < dueDate.year
+  ) {
+    // not yet due
+    daysDiff = daysInNowsMonth - now.day;
+    daysDiff += dueDate.day;
+  } else {
+    // due
+    // not yet due
+    const daysOverdueInDueDatesMonth = daysInDueDatesMonth - dueDate.day;
+    daysDiff = now.day * -1 - daysOverdueInDueDatesMonth;
+  }
+
+  if (Math.abs(daysDiff) >= daysInDueDatesMonth) {
+    return {
+      amount: monthsDiff,
+      type: DurationTypes.Month,
+    };
+  } else if (Math.abs(monthsDiff) > 1) {
+    return {
+      amount: monthsDiff - 1,
+      type: DurationTypes.Month,
+    };
   }
 
   return {
-    years: yearsDiff,
-    months: monthsDiff,
-    days: daysDiff,
+    amount: daysDiff,
+    type: DurationTypes.Day,
   };
 };
