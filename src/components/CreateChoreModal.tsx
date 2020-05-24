@@ -105,7 +105,8 @@ const DatePickerStylesOverride = styled.div`
   }
 
   /* day buttons */
-  & button[data-testid='Day'], & button[data-testid='DatepickerNavButton'] {
+  & button[data-testid='Day'],
+  & button[data-testid='DatepickerNavButton'] {
     background-color: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.black};
     box-shadow: ${({ theme }) => getBoxShadow(theme.colors.clearBlack)};

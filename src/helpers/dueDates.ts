@@ -2,7 +2,7 @@ import monthDays from 'month-days';
 
 import { DueDateInterface } from '../types';
 
-enum DurationTypes {
+export enum DurationTypes {
   Year = 'YEAR',
   Month = 'MONTH',
   Day = 'DAY',
@@ -21,17 +21,29 @@ export const transformDateToDueDate = (date: Date): DueDateInterface => {
   };
 };
 
-export const isBefore = (
+export const sortDueDatesFn = (
   dueDateA: DueDateInterface,
   dueDateB: DueDateInterface
-): boolean => {
-  if (dueDateA.year !== dueDateB.year) {
-    return dueDateB.year - dueDateA.year > 0;
-  } else if (dueDateA.month !== dueDateB.month) {
-    return dueDateB.month - dueDateA.month > 0;
-  } else {
-    return dueDateB.day - dueDateA.day > 0;
+): number => {
+  if (dueDateA.year > dueDateB.year) {
+    return 1;
+  } else if (dueDateA.year < dueDateB.year) {
+    return -1;
   }
+
+  if (dueDateA.month > dueDateB.month) {
+    return 1;
+  } else if (dueDateA.month < dueDateB.month) {
+    return -1;
+  }
+
+  if (dueDateA.day > dueDateB.day) {
+    return 1;
+  } else if (dueDateA.day < dueDateB.day) {
+    return -1;
+  }
+
+  return 0;
 };
 
 const getNow = (): DueDateInterface =>
@@ -106,9 +118,10 @@ export const getDiffFromNow = (
       };
     }
 
-    monthsDiff = dueDate.month > now.month
-      ? dueDate.month - 11 - now.month - 1 // month is 0 indexed
-      : now.month - 11 + dueDate.month + 1; // month is 0 indexed
+    monthsDiff =
+      dueDate.month > now.month
+        ? dueDate.month - 11 - now.month - 1 // month is 0 indexed
+        : now.month - 11 + dueDate.month + 1; // month is 0 indexed
   }
 
   const daysInNowsMonth = monthDays({ month: now.month, year: now.year });

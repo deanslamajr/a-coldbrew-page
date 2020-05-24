@@ -25,8 +25,9 @@ import {
   setChores as updateChoresOnClientCache,
 } from '../../helpers/clientCache';
 import {
+  DurationTypes,
   getDiffFromNow,
-  isBefore,
+  sortDueDatesFn,
   isDue,
   transformDateToDueDate,
 } from '../../helpers/dueDates';
@@ -63,57 +64,58 @@ export const Chore: React.FC<ChoreProps> = ({
 }) => {
   const computeStatus = (): StatusInterface => {
     const overdueData = getDiffFromNow(dueDate);
-    console.log('overdueData', overdueData);
+
+    let typeCopy: string;
+
+    switch (overdueData.type) {
+      case DurationTypes.Year:
+        typeCopy = Math.abs(overdueData.amount) > 1 ? 'years' : 'year';
+        break;
+      case DurationTypes.Month:
+        typeCopy = Math.abs(overdueData.amount) > 1 ? 'months' : 'month';
+        break;
+      case DurationTypes.Day:
+        typeCopy = 'days';
+        break;
+    }
 
     if (isDue(dueDate)) {
-      let overDueCount =
-        overdueData.years || overdueData.months || overdueData.days;
-      if (overDueCount) {
-        overDueCount = overDueCount * -1;
-      }
-
-      if (overDueCount) {
-        const typeCopy = overdueData.years
-          ? overdueData.years < 1
-            ? 'years'
-            : 'year'
-          : overdueData.months
-          ? overdueData.months < 1
-            ? 'months'
-            : 'month'
-          : overdueData.days && overdueData.days < 1
-          ? 'days'
-          : 'day';
+      if (overdueData.amount) {
+        if (
+          overdueData.amount === -1 &&
+          overdueData.type === DurationTypes.Day
+        ) {
+          return {
+            status: DueStatusEnum.OverDue,
+            dueDifferenceCopy: '(due yesterday)',
+          };
+        }
 
         return {
           status: DueStatusEnum.OverDue,
-          dueDifferenceCopy: `(${overDueCount} ${typeCopy} overdue)`,
+          dueDifferenceCopy: `(due ${Math.abs(
+            overdueData.amount
+          )} ${typeCopy} ago)`,
         };
       } else {
         return {
           status: DueStatusEnum.DueToday,
-          dueDifferenceCopy: 'Due Today',
+          dueDifferenceCopy: '(due today)',
         };
       }
     } else {
-      const dueInCount =
-        overdueData.years || overdueData.months || overdueData.days;
-
-      const typeCopy = overdueData.years
-        ? overdueData.years > 1
-          ? 'years'
-          : 'year'
-        : overdueData.months
-        ? overdueData.months > 1
-          ? 'months'
-          : 'month'
-        : overdueData.days && overdueData.days > 1
-        ? 'days'
-        : 'day';
+      if (overdueData.amount === 1 && overdueData.type === DurationTypes.Day) {
+        return {
+          status: DueStatusEnum.NotYetDue,
+          dueDifferenceCopy: '(due tomorrow)',
+        };
+      }
 
       return {
         status: DueStatusEnum.NotYetDue,
-        dueDifferenceCopy: `(Due in ${dueInCount} ${typeCopy})`,
+        dueDifferenceCopy: `(due in ${Math.abs(
+          overdueData.amount
+        )} ${typeCopy})`,
       };
     }
   };
@@ -131,7 +133,7 @@ export const Chore: React.FC<ChoreProps> = ({
 
 const sortChores = (chores: ChoreInterface[]): ChoreInterface[] => {
   return chores.slice().sort(({ due: a }, { due: b }) => {
-    return isBefore(a, b) ? 1 : 0;
+    return sortDueDatesFn(a, b);
   });
 };
 

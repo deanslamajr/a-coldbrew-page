@@ -82,7 +82,7 @@ const getButtonByPosition = (
   }
 
   return button;
-}
+};
 
 export const NavButton: React.FC<NavButtonProps> = ({
   position,

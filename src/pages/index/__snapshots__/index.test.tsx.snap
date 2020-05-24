@@ -48,7 +48,7 @@ exports[`<Chore /> due today exact date 1`] = `
   <div
     className="c1"
   >
-    Due Today
+    (due today)
   </div>
 </button>
 `;
@@ -101,7 +101,7 @@ exports[`<Chore /> due today later in day 1`] = `
   <div
     className="c1"
   >
-    Due Today
+    (due today)
   </div>
 </button>
 `;
@@ -154,7 +154,7 @@ exports[`<Chore /> not yet due 1 day in future 1`] = `
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due tomorrow)
   </div>
 </button>
 `;
@@ -207,7 +207,7 @@ exports[`<Chore /> not yet due 1 month in future 1`] = `
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due in 1 month)
   </div>
 </button>
 `;
@@ -260,7 +260,7 @@ exports[`<Chore /> not yet due 1 year in future 1`] = `
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due in 1 year)
   </div>
 </button>
 `;
@@ -313,7 +313,7 @@ exports[`<Chore /> not yet due 9 days in future 1`] = `
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due in 9 days)
   </div>
 </button>
 `;
@@ -366,7 +366,7 @@ exports[`<Chore /> not yet due 10 years in future 1`] = `
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due in 10 years)
   </div>
 </button>
 `;
@@ -419,7 +419,7 @@ exports[`<Chore /> not yet due 11 months in future 1`] = `
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due in 11 months)
   </div>
 </button>
 `;
@@ -472,7 +472,7 @@ exports[`<Chore /> not yet due date range crosses new year 1 day in future 1`] =
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due tomorrow)
   </div>
 </button>
 `;
@@ -525,7 +525,7 @@ exports[`<Chore /> not yet due date range crosses new year 1 month in future 1`]
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due in 1 month)
   </div>
 </button>
 `;
@@ -578,7 +578,7 @@ exports[`<Chore /> not yet due date range crosses new year 1 year in future 1`] 
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due in 1 year)
   </div>
 </button>
 `;
@@ -631,7 +631,7 @@ exports[`<Chore /> not yet due date range crosses new year 9 days in future 1`] 
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due in 9 days)
   </div>
 </button>
 `;
@@ -684,7 +684,7 @@ exports[`<Chore /> not yet due date range crosses new year 10 years in future 1`
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due in 10 years)
   </div>
 </button>
 `;
@@ -737,7 +737,7 @@ exports[`<Chore /> not yet due date range crosses new year 11 months in future 1
   <div
     className="c1"
   >
-    (Due in undefined day)
+    (due in 11 months)
   </div>
 </button>
 `;
@@ -755,7 +755,7 @@ exports[`<Chore /> overdue date range crosses new year 1 day ago 1`] = `
   font-family: 'Roboto',sans-serif;
   font-weight: 200;
   font-size: 1.15rem;
-  background-color: rgba(255,153,20,1);
+  background-color: rgba(241,80,37,1);
   color: rgba(12,9,13,1);
   text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
   text-align: center;
@@ -790,7 +790,7 @@ exports[`<Chore /> overdue date range crosses new year 1 day ago 1`] = `
   <div
     className="c1"
   >
-    Due Today
+    (due yesterday)
   </div>
 </button>
 `;
@@ -808,7 +808,7 @@ exports[`<Chore /> overdue date range crosses new year 1 month ago 1`] = `
   font-family: 'Roboto',sans-serif;
   font-weight: 200;
   font-size: 1.15rem;
-  background-color: rgba(255,153,20,1);
+  background-color: rgba(241,80,37,1);
   color: rgba(12,9,13,1);
   text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
   text-align: center;
@@ -843,7 +843,7 @@ exports[`<Chore /> overdue date range crosses new year 1 month ago 1`] = `
   <div
     className="c1"
   >
-    Due Today
+    (due 1 month ago)
   </div>
 </button>
 `;
@@ -861,7 +861,7 @@ exports[`<Chore /> overdue date range crosses new year 1 year ago 1`] = `
   font-family: 'Roboto',sans-serif;
   font-weight: 200;
   font-size: 1.15rem;
-  background-color: rgba(255,153,20,1);
+  background-color: rgba(241,80,37,1);
   color: rgba(12,9,13,1);
   text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
   text-align: center;
@@ -896,7 +896,7 @@ exports[`<Chore /> overdue date range crosses new year 1 year ago 1`] = `
   <div
     className="c1"
   >
-    Due Today
+    (due 1 year ago)
   </div>
 </button>
 `;
@@ -914,7 +914,7 @@ exports[`<Chore /> overdue date range crosses new year 9 days ago 1`] = `
   font-family: 'Roboto',sans-serif;
   font-weight: 200;
   font-size: 1.15rem;
-  background-color: rgba(255,153,20,1);
+  background-color: rgba(241,80,37,1);
   color: rgba(12,9,13,1);
   text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
   text-align: center;
@@ -949,7 +949,7 @@ exports[`<Chore /> overdue date range crosses new year 9 days ago 1`] = `
   <div
     className="c1"
   >
-    Due Today
+    (due 9 days ago)
   </div>
 </button>
 `;
@@ -967,7 +967,7 @@ exports[`<Chore /> overdue date range crosses new year 10 years ago 1`] = `
   font-family: 'Roboto',sans-serif;
   font-weight: 200;
   font-size: 1.15rem;
-  background-color: rgba(255,153,20,1);
+  background-color: rgba(241,80,37,1);
   color: rgba(12,9,13,1);
   text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
   text-align: center;
@@ -1002,7 +1002,7 @@ exports[`<Chore /> overdue date range crosses new year 10 years ago 1`] = `
   <div
     className="c1"
   >
-    Due Today
+    (due 10 years ago)
   </div>
 </button>
 `;
@@ -1020,7 +1020,7 @@ exports[`<Chore /> overdue date range crosses new year 11 months ago 1`] = `
   font-family: 'Roboto',sans-serif;
   font-weight: 200;
   font-size: 1.15rem;
-  background-color: rgba(255,153,20,1);
+  background-color: rgba(241,80,37,1);
   color: rgba(12,9,13,1);
   text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
   text-align: center;
@@ -1055,7 +1055,7 @@ exports[`<Chore /> overdue date range crosses new year 11 months ago 1`] = `
   <div
     className="c1"
   >
-    Due Today
+    (due 11 months ago)
   </div>
 </button>
 `;
