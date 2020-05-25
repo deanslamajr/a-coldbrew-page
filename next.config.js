@@ -18,6 +18,8 @@ module.exports = {
       ],
     });
 
+    config.plugins.push(new options.webpack.IgnorePlugin(/\/__tests__\//));
+
     return config;
   },
   // Will only be available on the server side

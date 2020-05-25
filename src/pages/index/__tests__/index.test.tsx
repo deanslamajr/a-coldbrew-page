@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
-// import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 import 'jest-styled-components';
 import { ThemeProvider } from 'styled-components';
 
-import { Chore } from './index';
-import { cssTheme } from '../../helpers/constants';
+import { Chore } from '../index';
+import { cssTheme } from '../../../helpers/constants';
 
-jest.mock('../../helpers/clientCache', () => ({
+jest.mock('../../../helpers/clientCache', () => ({
   getChores: jest.fn(),
   setChores: jest.fn(),
 }));
