@@ -72,54 +72,56 @@ export const breakpoints = {
 };
 
 export const GlobalStyles = createGlobalStyle`
-    * {
-      ${limitMobileTouchActions()}
-    }
+  * {
+    ${limitMobileTouchActions()}
+  }
 
-    body {
-      margin: 0;
-      background-color: ${({ theme }) => theme.colors.white};
-      overflow-y: overlay;
-      overflow-x: hidden;
-      font-family: ${({ theme }) => theme.font};
-    }
+  body {
+    margin: 0;
+    background-color: ${({ theme }) => theme.colors.white};
+    overflow-y: overlay;
+    overflow-x: hidden;
+    font-family: ${({ theme }) => theme.font};
+  }
 
-    a {
-      color: ${props => props.theme.colors.white};
-    }
+  a {
+    color: ${props => props.theme.colors.black};
+    text-shadow: 1px 1px ${props => props.theme.colors.blue};
+    text-decoration: none;
+  }
 
-    /* visited link */
-    a:visited {
-      opacity: .75;
-    }
+  /* visited link */
+  a:visited {
+    opacity: .75;
+  }
 
-    /* mouse over link */
-    a:hover {
-      opacity: .75;
-    }
+  /* mouse over link */
+  a:hover {
+    opacity: .75;
+  }
 
-    /* selected link */
-    a:active {
-      opacity: .5;
-    }
+  /* selected link */
+  a:active {
+    opacity: .5;
+  }
 
-    /* Prevent screen zoom on input focus on mobile */
-    input[type="color"],
-    input[type="date"],
-    input[type="datetime"],
-    input[type="datetime-local"],
-    input[type="email"],
-    input[type="month"],
-    input[type="number"],
-    input[type="password"],
-    input[type="search"],
-    input[type="tel"],
-    input[type="text"],
-    input[type="time"],
-    input[type="url"],
-    input[type="week"],
-    select:focus,
-    textarea {
-      font-size: 16px;
-    }
+  /* Prevent screen zoom on input focus on mobile */
+  input[type="color"],
+  input[type="date"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="email"],
+  input[type="month"],
+  input[type="number"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="text"],
+  input[type="time"],
+  input[type="url"],
+  input[type="week"],
+  select:focus,
+  textarea {
+    font-size: 16px;
+  }
 `;
