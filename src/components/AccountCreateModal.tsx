@@ -3,7 +3,7 @@ import { Form, Field } from 'react-final-form';
 import { IoMdArrowBack } from 'react-icons/io';
 import { MdDoneAll } from 'react-icons/md';
 import styled from 'styled-components';
-import Link from 'next/link';
+import * as EmailValidator from 'email-validator';
 
 import { NavButton, NavButtonPositions } from './NavButton';
 import { Modal } from './Modal';
@@ -17,15 +17,15 @@ interface ModalPropsInterface {
 
 interface FormFieldsInterface {
   email: string;
-  password: string;
+  verifyEmail: string;
 }
+
+type ValidationErrors = Partial<FormFieldsInterface>;
 
 const initialValues: FormFieldsInterface = {
   email: '',
-  password: '',
+  verifyEmail: '',
 };
-
-const required = (value: string) => (value ? undefined : 'Required');
 
 const HeaderTextContainer = styled.div`
   padding: 1rem;
@@ -33,31 +33,53 @@ const HeaderTextContainer = styled.div`
   text-align: center;
 `;
 
-const StyledLink = styled.div`
-  padding: 0.5rem;
-  cursor: pointer;
-`;
+const validateForm = (values: FormFieldsInterface): ValidationErrors => {
+  const errors: ValidationErrors = {};
 
-const FooterContainer = styled.div`
-  display: block;
-  margin-bottom: 2rem;
-`;
+  const emailIsValidEmail = EmailValidator.validate(values.email);
+  const verifyEmailIsValidEmail = EmailValidator.validate(values.verifyEmail);
 
-export const AccountLoginModal: React.FC<ModalPropsInterface> = ({
+  if (
+    !values.email ||
+    !values.verifyEmail ||
+    !emailIsValidEmail ||
+    !verifyEmailIsValidEmail
+  ) {
+    const requiredError = 'Required';
+    const mustBeValidEmailError = 'Must be a valid email address';
+    if (!values.email) {
+      errors.email = requiredError;
+    } else if (!emailIsValidEmail) {
+      errors.email = mustBeValidEmailError;
+    }
+    if (!values.verifyEmail) {
+      errors.verifyEmail = requiredError;
+    } else if (!verifyEmailIsValidEmail) {
+      errors.verifyEmail = mustBeValidEmailError;
+    }
+  } else if (values.email !== values.verifyEmail) {
+    errors.verifyEmail = 'Must match "Email"';
+  }
+  return errors;
+};
+
+export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
   handleBackClick,
 }) => {
   return (
     <Modal>
       <HeaderTextContainer>
-        What Coldbrew Page Account will you be using today?
+        <div>Submit a valid email address to which</div>
+        <div>we can send a one-time, time-sensitive ‘Create Account’ link</div>
       </HeaderTextContainer>
       <Form
         onSubmit={values => console.log('submitted form, values:', values)}
         initialValues={initialValues}
+        validate={validateForm}
         render={({ form, valid }) => (
           <form>
             <div>
-              <Field name="email" validate={required}>
+              <Field name="email">
                 {({ input, meta }) => (
                   <FormFieldContainer>
                     <label>Email</label>
@@ -68,11 +90,11 @@ export const AccountLoginModal: React.FC<ModalPropsInterface> = ({
                   </FormFieldContainer>
                 )}
               </Field>
-              <Field name="password" validate={required}>
+              <Field name="verifyEmail">
                 {({ input, meta }) => (
                   <FormFieldContainer>
-                    <label>Password</label>
-                    <input {...input} type="password" placeholder="password" />
+                    <label>Verify Email</label>
+                    <input {...input} type="text" placeholder="email" />
                     <InvalidFieldMessage>
                       {meta.error && meta.touched ? meta.error : ''}
                     </InvalidFieldMessage>
@@ -107,16 +129,6 @@ export const AccountLoginModal: React.FC<ModalPropsInterface> = ({
           </form>
         )}
       />
-      <FooterContainer>
-        <StyledLink>
-          <Link href="/a/new">
-            <a>create new account</a>
-          </Link>
-        </StyledLink>
-        <StyledLink>
-          <a>remain anonymous</a>
-        </StyledLink>
-      </FooterContainer>
     </Modal>
   );
 };

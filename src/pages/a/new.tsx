@@ -4,23 +4,23 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 
-import { AccountLoginModal } from '../../components/AccountLoginModal';
+import { AccountCreateModal } from '../../components/AccountCreateModal';
 
 import { withApollo } from '../../graphql/with-apollo';
 
 const { publicRuntimeConfig } = getConfig();
 
-const Login: NextPage = () => {
+const NewPage: NextPage = () => {
   const router = useRouter();
 
   return (
     <>
       <Head>
-        <title>{publicRuntimeConfig.APP_TITLE} - login</title>
+        <title>{publicRuntimeConfig.APP_TITLE} - new</title>
       </Head>
-      <AccountLoginModal handleBackClick={() => router.push('/')} />
+      <AccountCreateModal handleBackClick={() => router.push('/a/login')} />
     </>
   );
 };
 
-export default withApollo(Login);
+export default withApollo(NewPage);
