@@ -1,15 +1,21 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { useContext } from 'react';
 import { Form, Field } from 'react-final-form';
 import { IoMdArrowBack } from 'react-icons/io';
 import { MdDoneAll } from 'react-icons/md';
 import styled from 'styled-components';
 import * as EmailValidator from 'email-validator';
+import getConfig from 'next/config';
 
 import { NavButton, NavButtonPositions } from './NavButton';
 import { Modal } from './Modal';
 import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
-import { cssTheme } from '../helpers/constants';
+import { RecaptchaV3Context } from '../contexts/RecaptchaV3Context';
+
+import { cssTheme, CAPTCHA_ACTION_CREATE_ACCOUNT } from '../helpers/constants';
+
+const { publicRuntimeConfig } = getConfig();
 
 interface ModalPropsInterface {
   handleBackClick: () => void;
@@ -66,6 +72,46 @@ const validateForm = (values: FormFieldsInterface): ValidationErrors => {
 export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
   handleBackClick,
 }) => {
+  const recaptchaV3Instance = useContext(RecaptchaV3Context);
+
+  // TODO: replace this with a apollo query hook
+  const sendAccountCreateEmail = (payload: {
+    email: string;
+    recaptchaV3Response: string;
+  }): Promise<void> => {
+    console.log(
+      'result from recaptchaV3Instance.execute',
+      payload.recaptchaV3Response
+    );
+    return Promise.resolve();
+  };
+
+  const checkRecaptchaV3Status = (): Promise<string> => {
+    if (!publicRuntimeConfig.RECAPTCHA_V3_SITE) {
+      return Promise.resolve('');
+    }
+
+    if (!recaptchaV3Instance) {
+      return Promise.reject('recaptcha instance does not exist!');
+    }
+
+    return recaptchaV3Instance.execute(CAPTCHA_ACTION_CREATE_ACCOUNT);
+  };
+
+  const captureRecaptchaAndSendEmail = (email: string): void => {
+    // setSubmittedEmail(email);
+    checkRecaptchaV3Status()
+      .then(recaptchaV3Response =>
+        sendAccountCreateEmail({
+          email,
+          recaptchaV3Response,
+        })
+      )
+      .catch(error => {
+        console.log('captureRecaptchaAndSendEmail, error', error);
+      });
+  };
+
   return (
     <Modal>
       <HeaderTextContainer>
@@ -73,7 +119,7 @@ export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
         <div>we can send a one-time, time-sensitive ‘Create Account’ link</div>
       </HeaderTextContainer>
       <Form
-        onSubmit={values => console.log('submitted form, values:', values)}
+        onSubmit={values => captureRecaptchaAndSendEmail(values.email)}
         initialValues={initialValues}
         validate={validateForm}
         render={({ form, valid }) => (
@@ -129,6 +175,11 @@ export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
           </form>
         )}
       />
+      {/* TODO: <RecaptchaV2
+        show={false}
+        onPass={()=>{}}
+        onFail={()=>{}}
+      /> */}
     </Modal>
   );
 };
