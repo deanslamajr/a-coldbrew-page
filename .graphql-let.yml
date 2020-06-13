@@ -6,3 +6,4 @@ plugins:
   - typescript-operations
   - typescript-react-apollo
 respectGitIgnore: true
+config:

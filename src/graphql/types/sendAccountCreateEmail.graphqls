@@ -1,0 +1,8 @@
+input SendAccountCreateEmailInput {
+  email: String!
+  recaptchaV3Response: String!
+}
+
+type SendAccountCreateEmailResponse {
+  recaptchaPassed: Boolean!
+}

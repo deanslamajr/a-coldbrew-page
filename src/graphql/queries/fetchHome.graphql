@@ -1,5 +1,0 @@
-query FetchHome {
-    homePage {
-        test
-    }
-}

@@ -1,3 +1,3 @@
 type HomePage {
-    test: String!
+  test: String!
 }

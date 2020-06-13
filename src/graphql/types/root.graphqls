@@ -1,4 +1,9 @@
 type Query {
-    homePage: HomePage!
+  homePage: HomePage!
 }
 
+type Mutation {
+  sendAccountCreateEmail(
+    input: SendAccountCreateEmailInput!
+  ): SendAccountCreateEmailResponse!
+}

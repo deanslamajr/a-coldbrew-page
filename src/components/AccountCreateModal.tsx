@@ -15,6 +15,8 @@ import { RecaptchaV3Context } from '../contexts/RecaptchaV3Context';
 
 import { cssTheme, CAPTCHA_ACTION_CREATE_ACCOUNT } from '../helpers/constants';
 
+import { useSendAccountCreateEmailMutation } from '../graphql/mutations/sendAccountCreateEmail.graphql';
+
 const { publicRuntimeConfig } = getConfig();
 
 interface ModalPropsInterface {
@@ -73,18 +75,7 @@ export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
   handleBackClick,
 }) => {
   const recaptchaV3Instance = useContext(RecaptchaV3Context);
-
-  // TODO: replace this with a apollo query hook
-  const sendAccountCreateEmail = (payload: {
-    email: string;
-    recaptchaV3Response: string;
-  }): Promise<void> => {
-    console.log(
-      'result from recaptchaV3Instance.execute',
-      payload.recaptchaV3Response
-    );
-    return Promise.resolve();
-  };
+  const [sendAccountCreateEmail] = useSendAccountCreateEmailMutation();
 
   const checkRecaptchaV3Status = (): Promise<string> => {
     if (!publicRuntimeConfig.RECAPTCHA_V3_SITE) {
@@ -98,18 +89,24 @@ export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
     return recaptchaV3Instance.execute(CAPTCHA_ACTION_CREATE_ACCOUNT);
   };
 
-  const captureRecaptchaAndSendEmail = (email: string): void => {
+  const captureRecaptchaAndSendEmail = async (email: string): Promise<any> => {
     // setSubmittedEmail(email);
-    checkRecaptchaV3Status()
-      .then(recaptchaV3Response =>
-        sendAccountCreateEmail({
-          email,
-          recaptchaV3Response,
-        })
-      )
-      .catch(error => {
-        console.log('captureRecaptchaAndSendEmail, error', error);
+    try {
+      const recaptchaV3Response = await checkRecaptchaV3Status();
+
+      const mutationResponse = await sendAccountCreateEmail({
+        variables: {
+          input: {
+            email,
+            recaptchaV3Response,
+          },
+        },
       });
+
+      console.log('mutationResponse', mutationResponse);
+    } catch (error) {
+      console.log('captureRecaptchaAndSendEmail, error', error);
+    }
   };
 
   return (

@@ -1,0 +1,5 @@
+mutation SendAccountCreateEmail($input: SendAccountCreateEmailInput!) {
+  sendAccountCreateEmail(input: $input) {
+    recaptchaPassed
+  }
+}
