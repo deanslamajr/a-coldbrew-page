@@ -5,4 +5,5 @@ input SendAccountCreateEmailInput {
 
 type SendAccountCreateEmailResponse {
   recaptchaPassed: Boolean!
+  emailSendSuccess: Boolean!
 }
