@@ -24,4 +24,6 @@ export const cssTheme: DefaultTheme = {
 
 export const choreVersion = 1;
 
-export const CAPTCHA_ACTION_CREATE_ACCOUNT = 'CAPTCHA_ACTION_CREATE_ACCOUNT';
+export const RECAPTCHA_ACTION_CREATE_ACCOUNT =
+  'RECAPTCHA_ACTION_CREATE_ACCOUNT';
+export const RECAPTCHA_THRESHOLD = 0.5;

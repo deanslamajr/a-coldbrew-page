@@ -13,7 +13,10 @@ import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
 import { RecaptchaV3Context } from '../contexts/RecaptchaV3Context';
 
-import { cssTheme, CAPTCHA_ACTION_CREATE_ACCOUNT } from '../helpers/constants';
+import {
+  cssTheme,
+  RECAPTCHA_ACTION_CREATE_ACCOUNT,
+} from '../helpers/constants';
 
 import { useSendAccountCreateEmailMutation } from '../graphql/mutations/sendAccountCreateEmail.graphql';
 
@@ -86,7 +89,7 @@ export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
       return Promise.reject('recaptcha instance does not exist!');
     }
 
-    return recaptchaV3Instance.execute(CAPTCHA_ACTION_CREATE_ACCOUNT);
+    return recaptchaV3Instance.execute(RECAPTCHA_ACTION_CREATE_ACCOUNT);
   };
 
   const captureRecaptchaAndSendEmail = async (email: string): Promise<any> => {
