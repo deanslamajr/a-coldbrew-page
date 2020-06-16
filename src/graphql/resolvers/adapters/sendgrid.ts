@@ -2,10 +2,11 @@ import sgMail from '@sendgrid/mail';
 import getConfig from 'next/config';
 
 const {
-  serverRuntimeConfig: { SENDGRID_APIKEY },
+  publicRuntimeConfig: { APP_DOMAIN },
+  serverRuntimeConfig: { SENDGRID_APIKEY, SENDGRID_FROM_EMAIL },
 } = getConfig();
 
-export const sendEmail = async (messageConfig: {
+const sendEmail = async (messageConfig: {
   to: string;
   subject: string;
   text: string;
@@ -14,8 +15,7 @@ export const sendEmail = async (messageConfig: {
   try {
     const sendConfig = {
       ...messageConfig,
-      // @TODO move this to an env var
-      from: 'noreply@coldbrew.page',
+      from: SENDGRID_FROM_EMAIL,
     };
     sgMail.setApiKey(SENDGRID_APIKEY);
     const [response] = await sgMail.send(sendConfig);
@@ -34,12 +34,9 @@ export const sendAccountCreateEmail = ({
   toEmail: string;
   token: string;
 }): Promise<boolean> => {
-  // @TODO - replace the domain (and protocol) hardcoding with an env var e.g. APP_DOMAIN="https://a.coldbrew.page"
-  const accountCreateLink = `https://a.coldbrew.page/a/create?c=${token}`;
-  const copy =
-    'Welcome, friend! Please use the following link to finish creating your new account at coldbrew.page';
-  const text = `${copy} : ${accountCreateLink}`;
-  const html = `<strong>${copy}.<br>${accountCreateLink}</strong>`;
+  const accountCreateLink = `${APP_DOMAIN}/a/create?t=${token}`;
+  const text = `Welcome, friend! Please use the following link to finish creating your new account: ${accountCreateLink}`;
+  const html = `Welcome, friend!<br>Please use <a href=${accountCreateLink}>this link</a> to finish creating your new account.`;
   return sendEmail({
     to: toEmail,
     subject: 'Welcome to coldbrew.page!',

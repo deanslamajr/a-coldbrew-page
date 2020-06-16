@@ -6,6 +6,7 @@ const fromProcessEnv = name => {
 };
 
 const clientEnvironment = {
+  APP_DOMAIN: fromProcessEnv('APP_DOMAIN'),
   APP_TITLE: fromProcessEnv('APP_TITLE'),
   LOCALSTORAGE_KEY: fromProcessEnv('LOCALSTORAGE_KEY'),
   RECAPTCHA_V3_SITE: fromProcessEnv('RECAPTCHA_V3_SITE'),
@@ -17,6 +18,7 @@ const serverSecrets = {
   RECAPTCHA_V3_SECRET: fromProcessEnv('RECAPTCHA_V3_SECRET'),
   RECAPTCHA_V2_SECRET: fromProcessEnv('RECAPTCHA_V2_SECRET'),
   SENDGRID_APIKEY: fromProcessEnv('SENDGRID_APIKEY'),
+  SENDGRID_FROM_EMAIL: fromProcessEnv('SENDGRID_FROM_EMAIL'),
 };
 
 const serverEnvironment = Object.assign({}, clientEnvironment, serverSecrets);
