@@ -18,11 +18,11 @@ const sendEmail = async (messageConfig: {
       from: SENDGRID_FROM_EMAIL,
     };
     sgMail.setApiKey(SENDGRID_APIKEY);
-    const [response] = await sgMail.send(sendConfig);
-    console.log('sendgrid response:', response);
+    await sgMail.send(sendConfig);
     return true;
   } catch (error) {
-    console.log('sendgrid error:', error);
+    // @TODO log error
+    console.error('sendgrid error:', error);
     return false;
   }
 };
