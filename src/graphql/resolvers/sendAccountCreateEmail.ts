@@ -1,7 +1,7 @@
 import { MutationResolvers } from '../types/sendAccountCreateEmail.graphqls';
 import { RECAPTCHA_ACTION_CREATE_ACCOUNT } from '../../helpers/constants';
-import { verifyRecaptchaV3 } from './adapters/recaptcha';
-import { sendAccountCreateEmail } from './adapters/sendgrid';
+import { verifyRecaptchaV3 } from './services/recaptcha';
+import { sendAccountCreateEmail } from './services/sendgrid';
 
 export const resolver: MutationResolvers['sendAccountCreateEmail'] = async (
   _parent,

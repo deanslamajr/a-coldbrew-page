@@ -8,5 +8,8 @@ npm-debug.log
 # graphql-let
 __generated__
 
-# secrets
+# development environment variables
 .env
+
+# sequelize configuration
+config.json

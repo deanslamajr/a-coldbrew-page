@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "username",
+    "password": "password",
+    "database": "local-snapdragon",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "qa": {
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "",
+    "dialect": "postgres"
+  }
+}

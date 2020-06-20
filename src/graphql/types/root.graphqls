@@ -1,5 +1,5 @@
 type Query {
-  homePage: HomePage!
+  test: Test!
 }
 
 type Mutation {
