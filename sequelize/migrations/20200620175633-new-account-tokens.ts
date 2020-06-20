@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
-
+import { QueryInterface } from 'sequelize';
 const tableName = 'new-account-tokens';
 
-module.exports = {
-  up: (queryInterface, Sequelize) => {
+const migration = {
+  up: (queryInterface: QueryInterface, Sequelize): Promise<void> => {
     return queryInterface.createTable(tableName, {
       created_at: Sequelize.DATE,
       updated_at: Sequelize.DATE,
@@ -29,7 +29,9 @@ module.exports = {
     });
   },
 
-  down: queryInterface => {
+  down: (queryInterface: QueryInterface): Promise<void> => {
     return queryInterface.dropTable(tableName);
   },
 };
+
+export default migration;

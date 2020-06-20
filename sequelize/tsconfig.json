@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig",
+  "include": ["./migrations/*"],
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmit": false,
+    "module": "CommonJS"
+  }
+}

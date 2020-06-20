@@ -11,5 +11,6 @@ __generated__
 # development environment variables
 .env
 
-# sequelize configuration
-config.json
+# sequelize
+sequelize.json
+migrations-build
