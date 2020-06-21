@@ -17,10 +17,8 @@
     "migrate": "npm run build:migrations && sequelize db:migrate",
     "migrate:undo": "npm run build:migrations && sequelize db:migrate:undo",
     "migrate:undo:all": "npm run build:migrations && sequelize db:migrate:undo:all",
-    "migrate:create": "sequelize migration:generate",
-    "seed:create": "sequelize seed:generate",
     "seed": "npm run build:migrations && sequelize db:seed:all",
-    "seed:undo:all": "npm run build:migrations && sequelize db:seed:undo:all",
+    "seed:undo": "npm run build:migrations && sequelize db:seed:undo:all",
     "publish": "npm run image:build && npm run image:promote && npm run image:delete",
     "publish:test": "npm version prerelease --preid=g\"$(git rev-parse --short=5 HEAD)\" && npm run publish",
     "publish:patch": "npm version patch && npm run publish",
@@ -68,6 +66,7 @@
     "uuid": "^8.1.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.10.3",
     "@graphql-codegen/cli": "^1.12.2",
     "@graphql-codegen/plugin-helpers": "^1.12.2",
     "@graphql-codegen/typescript": "^1.12.2",
@@ -83,6 +82,7 @@
     "@types/react-dom": "^16.9.5",
     "@types/shortid": "0.0.29",
     "@types/styled-components": "^5.0.1",
+    "@types/uuid": "^8.0.0",
     "@types/validator": "^13.0.0",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",

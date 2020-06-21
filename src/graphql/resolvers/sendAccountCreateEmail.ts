@@ -2,6 +2,7 @@ import { MutationResolvers } from '../types/sendAccountCreateEmail.graphqls';
 import { RECAPTCHA_ACTION_CREATE_ACCOUNT } from '../../helpers/constants';
 import { verifyRecaptchaV3 } from './services/recaptcha';
 import { sendAccountCreateEmail } from './services/sendgrid';
+import { NewAccountTokens } from './services/db';
 
 export const resolver: MutationResolvers['sendAccountCreateEmail'] = async (
   _parent,
@@ -24,14 +25,12 @@ export const resolver: MutationResolvers['sendAccountCreateEmail'] = async (
     };
   }
 
-  // Generate and Persist Single Use Token
-  // @TODO actually implement this
-  const token = 'taco17';
+  const token = await NewAccountTokens.create({ email: input.email });
 
   // Send Email
   const emailSendSuccess = await sendAccountCreateEmail({
     toEmail: input.email,
-    token,
+    token: token.get('code'),
   });
 
   return {
