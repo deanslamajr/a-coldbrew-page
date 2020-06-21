@@ -13,4 +13,4 @@ __generated__
 
 # sequelize
 sequelize.json
-migrations-build
+sequelize/build

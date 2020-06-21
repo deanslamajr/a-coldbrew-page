@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig",
-  "include": ["./migrations/*"],
+  "include": ["./migrations/*", "./seeders/*"],
   "compilerOptions": {
     "noImplicitAny": false,
     "noEmit": false,

@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 const fromProcessEnv = name => {
-  return process.env[name];
+  return process.env[name] || '';
 };
 
 const clientEnvironment = {
@@ -14,6 +14,10 @@ const clientEnvironment = {
 };
 
 const serverSecrets = {
+  DB_DBNAME: fromProcessEnv('DB_DBNAME'),
+  DB_HOST: fromProcessEnv('DB_HOST'),
+  DB_USERNAME: fromProcessEnv('DB_USERNAME'),
+  DB_PASSWORD: fromProcessEnv('DB_PASSWORD'),
   RECAPTCHA_V3_SECRET: fromProcessEnv('RECAPTCHA_V3_SECRET'),
   RECAPTCHA_V2_SECRET: fromProcessEnv('RECAPTCHA_V2_SECRET'),
   SENDGRID_APIKEY: fromProcessEnv('SENDGRID_APIKEY'),

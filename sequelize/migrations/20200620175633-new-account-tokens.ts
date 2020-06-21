@@ -21,7 +21,7 @@ const migration = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      hasBeenUsed: {
+      has_been_used: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
         allowNull: false,
