@@ -78,7 +78,10 @@ export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
   handleBackClick,
 }) => {
   const recaptchaV3Instance = useContext(RecaptchaV3Context);
-  const [sendAccountCreateEmail] = useSendAccountCreateEmailMutation();
+  const [
+    sendAccountCreateEmail,
+    { data, error, loading },
+  ] = useSendAccountCreateEmailMutation();
 
   const checkRecaptchaV3Status = (): Promise<string> => {
     if (!publicRuntimeConfig.RECAPTCHA_V3_SITE) {

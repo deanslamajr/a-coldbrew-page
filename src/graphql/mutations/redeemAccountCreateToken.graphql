@@ -1,0 +1,5 @@
+mutation RedeemAccountCreateToken($input: RedeemAccountTokenInput!) {
+  redeemAccountCreateToken(input: $input) {
+    wasTokenValid
+  }
+}

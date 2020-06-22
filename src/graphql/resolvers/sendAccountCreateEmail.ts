@@ -4,7 +4,7 @@ import { verifyRecaptchaV3 } from './services/recaptcha';
 import { sendAccountCreateEmail } from './services/sendgrid';
 import { NewAccountTokens } from './services/db';
 
-export const resolver: MutationResolvers['sendAccountCreateEmail'] = async (
+export const resolver: NonNullable<MutationResolvers['sendAccountCreateEmail']> = async (
   _parent,
   args,
   _context,

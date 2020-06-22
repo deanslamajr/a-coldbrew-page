@@ -3,6 +3,10 @@ type Query {
 }
 
 type Mutation {
+  redeemAccountCreateToken(
+    input: RedeemAccountTokenInput!
+  ): RedeemAccountTokenResponse!
+
   sendAccountCreateEmail(
     input: SendAccountCreateEmailInput!
   ): SendAccountCreateEmailResponse!

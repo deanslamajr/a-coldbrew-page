@@ -12,7 +12,7 @@ type InitialProps = {
   apolloState: any;
 } & Record<string, any>;
 
-type WithApolloPageContext = {
+export type WithApolloPageContext = {
   apolloClient: TApolloClient;
 } & NextPageContext;
 
@@ -23,7 +23,7 @@ let globalApolloClient: TApolloClient;
  * to a next.js PageTree. Use it by wrapping
  * your PageComponent via HOC pattern.
  */
-export function withApollo(PageComponent: NextPage, { ssr = true } = {}) {
+export function withApollo<T>(PageComponent: NextPage<T>, { ssr = true } = {}) {
   const WithApollo = ({
     apolloClient,
     apolloState,
@@ -32,7 +32,7 @@ export function withApollo(PageComponent: NextPage, { ssr = true } = {}) {
     const client = apolloClient || initApolloClient(apolloState);
     return (
       <ApolloProvider client={client}>
-        <PageComponent {...pageProps} />
+        <PageComponent {...(pageProps as T)} />
       </ApolloProvider>
     );
   };
