@@ -1,11 +1,9 @@
-type Query {
-  test: Test!
-}
-
 type Mutation {
   finishAccountCreate(
     input: FinishAccountCreateInput!
   ): FinishAccountCreateResponse!
+
+  loginAccount(input: LoginAccountInput!): LoginAccountResponse!
 
   sendAccountCreateEmail(
     input: SendAccountCreateEmailInput!

@@ -11,6 +11,8 @@ import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
 import { cssTheme } from '../helpers/constants';
 
+import { useLoginAccountMutation } from '../graphql/mutations/loginAccount.graphql';
+
 interface ModalPropsInterface {
   handleBackClick: () => void;
 }
@@ -46,13 +48,34 @@ const FooterContainer = styled.div`
 export const AccountLoginModal: React.FC<ModalPropsInterface> = ({
   handleBackClick,
 }) => {
+  const [loginAccount, { data, error, loading }] = useLoginAccountMutation();
+
+  const login = async ({
+    email,
+    password,
+  }: FormFieldsInterface): Promise<any> => {
+    try {
+      const mutationResponse = await loginAccount({
+        variables: {
+          input: {
+            email,
+            password,
+          },
+        },
+      });
+      console.log('mutationResponse', mutationResponse);
+    } catch (error) {
+      console.log('finishAccountCreation, error', error);
+    }
+  };
+
   return (
     <Modal>
       <HeaderTextContainer>
         What Coldbrew Page Account will you be using today?
       </HeaderTextContainer>
       <Form
-        onSubmit={values => console.log('submitted form, values:', values)}
+        onSubmit={values => login(values)}
         initialValues={initialValues}
         render={({ form, valid }) => (
           <form>

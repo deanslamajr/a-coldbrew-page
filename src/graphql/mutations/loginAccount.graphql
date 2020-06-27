@@ -1,0 +1,5 @@
+mutation LoginAccount($input: LoginAccountInput!) {
+  loginAccount(input: $input) {
+    wasLoginSuccess
+  }
+}

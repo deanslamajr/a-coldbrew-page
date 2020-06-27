@@ -1,0 +1,8 @@
+input LoginAccountInput {
+  email: String!
+  password: String!
+}
+
+type LoginAccountResponse {
+  wasLoginSuccess: Boolean!
+}
