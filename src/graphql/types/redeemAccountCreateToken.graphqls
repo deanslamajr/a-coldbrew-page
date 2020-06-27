@@ -1,7 +1,0 @@
-input RedeemAccountTokenInput {
-  token: String!
-}
-
-type RedeemAccountTokenResponse {
-  wasTokenValid: Boolean!
-}

@@ -1,10 +1,10 @@
 import { MutationResolvers } from '../types/root.graphqls';
 import { resolver as sendAccountCreateEmailResolver } from './sendAccountCreateEmail';
-import { resolver as redeemAccountCreateTokenResolver } from './redeemAccountCreateToken';
+import { resolver as finishAccountCreateResolver } from './finishAccountCreate';
 import { scalars } from './scalars';
 
 const Mutation: Required<MutationResolvers> = {
-  redeemAccountCreateToken: redeemAccountCreateTokenResolver,
+  finishAccountCreate: finishAccountCreateResolver,
   sendAccountCreateEmail: sendAccountCreateEmailResolver,
 };
 

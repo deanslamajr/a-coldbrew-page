@@ -1,0 +1,6 @@
+mutation FinishAccountCreate($input: FinishAccountCreateInput!) {
+  finishAccountCreate(input: $input) {
+    accountCreateSuccess
+    wasTokenValid
+  }
+}

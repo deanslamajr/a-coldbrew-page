@@ -25,6 +25,8 @@ export const resolver: NonNullable<MutationResolvers['sendAccountCreateEmail']> 
     };
   }
 
+  // @TODO verify that the given email doesn't already exist in Accounts table
+
   const token = await NewAccountTokens.create({ email: input.email });
 
   // Send Email

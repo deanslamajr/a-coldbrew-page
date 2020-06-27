@@ -1,21 +1,23 @@
 import React from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 
-import { redirect } from '../../helpers/nextLifeCycle';
-import { withApollo, WithApolloPageContext } from '../../graphql/with-apollo';
+import { AccountCreateFinishModal } from '../../components/AccountCreateFinishModal';
 
-import {
-  RedeemAccountCreateTokenDocument,
-  RedeemAccountCreateTokenMutation,
-} from '../../graphql/mutations/redeemAccountCreateToken.graphql';
+import { redirect } from '../../helpers/nextLifeCycle';
+
+import { withApollo } from '../../graphql/with-apollo';
 
 const { publicRuntimeConfig } = getConfig();
 
-interface CreatePageProps {}
+interface CreatePageProps {
+  token: string;
+}
 
-const CreatePage: NextPage<CreatePageProps> = ({}) => {
+const CreatePage: NextPage<CreatePageProps> = ({ token }) => {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -23,42 +25,27 @@ const CreatePage: NextPage<CreatePageProps> = ({}) => {
           {publicRuntimeConfig.APP_TITLE} - finish creating new account
         </title>
       </Head>
+      <AccountCreateFinishModal
+        handleBackClick={() => router.push('/a/login')}
+        token={token}
+      />
     </>
   );
 };
 
 CreatePage.getInitialProps = async props => {
-  let hasValidToken = false;
   let accountCreateToken = props.query?.t;
-  const apolloClient = (props as WithApolloPageContext).apolloClient;
 
-  if (accountCreateToken) {
-    if (Array.isArray(accountCreateToken)) {
-      accountCreateToken = accountCreateToken[0];
-    }
-
-    const { data } = await apolloClient.mutate<
-      RedeemAccountCreateTokenMutation
-    >({
-      mutation: RedeemAccountCreateTokenDocument,
-      variables: {
-        input: {
-          token: accountCreateToken,
-        },
-      },
-    });
-
-    if (data) {
-      hasValidToken = data.redeemAccountCreateToken.wasTokenValid;
-    }
-  }
-
-  if (!hasValidToken) {
+  if (!accountCreateToken) {
     redirect('/a/new', props.res);
-    return {};
+    return { token: '' };
   }
 
-  return {};
+  if (Array.isArray(accountCreateToken)) {
+    accountCreateToken = accountCreateToken[0];
+  }
+
+  return { token: accountCreateToken };
 };
 
 export default withApollo(CreatePage);

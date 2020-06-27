@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { QueryInterface } from 'sequelize';
-const tableName = 'new-account-tokens';
+const tableName = 'accounts';
 
 const migration = {
   up: (queryInterface: QueryInterface, Sequelize): Promise<void> => {
@@ -13,17 +13,17 @@ const migration = {
         primaryKey: true,
         allowNull: false,
       },
-      code: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      has_been_used: {
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      is_active: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
+        defaultValue: true,
         allowNull: false,
       },
     });

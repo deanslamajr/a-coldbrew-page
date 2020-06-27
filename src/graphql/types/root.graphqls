@@ -3,9 +3,9 @@ type Query {
 }
 
 type Mutation {
-  redeemAccountCreateToken(
-    input: RedeemAccountTokenInput!
-  ): RedeemAccountTokenResponse!
+  finishAccountCreate(
+    input: FinishAccountCreateInput!
+  ): FinishAccountCreateResponse!
 
   sendAccountCreateEmail(
     input: SendAccountCreateEmailInput!

@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 
+import { Accounts } from './models/Accounts';
 import { NewAccountTokens } from './models/NewAccountTokens';
 
 import { serverSecrets } from '../../../../../env-config';
@@ -23,6 +24,6 @@ export const sequelize = new Sequelize(
   }
 );
 
-sequelize.addModels([NewAccountTokens]);
+sequelize.addModels([Accounts, NewAccountTokens]);
 
-export { NewAccountTokens };
+export { Accounts, NewAccountTokens };

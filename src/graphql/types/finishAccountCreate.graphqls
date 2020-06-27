@@ -1,0 +1,9 @@
+input FinishAccountCreateInput {
+  token: String!
+  password: String!
+}
+
+type FinishAccountCreateResponse {
+  accountCreateSuccess: Boolean!
+  wasTokenValid: Boolean!
+}
