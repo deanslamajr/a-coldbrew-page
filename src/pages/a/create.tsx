@@ -3,17 +3,19 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import getConfig from 'next/config';
 
+import { redirect } from '../../helpers/nextLifeCycle';
 import { withApollo, WithApolloPageContext } from '../../graphql/with-apollo';
 
-import { RedeemAccountCreateTokenDocument } from '../../graphql/mutations/redeemAccountCreateToken.graphql';
+import {
+  RedeemAccountCreateTokenDocument,
+  RedeemAccountCreateTokenMutation,
+} from '../../graphql/mutations/redeemAccountCreateToken.graphql';
 
 const { publicRuntimeConfig } = getConfig();
 
-interface CreatePageProps {
-  hasValidToken: boolean;
-}
+interface CreatePageProps {}
 
-const CreatePage: NextPage<CreatePageProps> = ({ hasValidToken }) => {
+const CreatePage: NextPage<CreatePageProps> = ({}) => {
   return (
     <>
       <Head>
@@ -21,38 +23,42 @@ const CreatePage: NextPage<CreatePageProps> = ({ hasValidToken }) => {
           {publicRuntimeConfig.APP_TITLE} - finish creating new account
         </title>
       </Head>
-      {hasValidToken ? (
-        <div>TOKEN IS VALID!!!!!!!!</div>
-      ) : (
-        <div>Invalid token: Please try again</div>
-      )}
     </>
   );
 };
 
 CreatePage.getInitialProps = async props => {
-  const hasValidToken = false;
-  const accountCreateToken = props.query?.t;
+  let hasValidToken = false;
+  let accountCreateToken = props.query?.t;
   const apolloClient = (props as WithApolloPageContext).apolloClient;
-  console.log('accountCreateToken:', accountCreateToken);
-  // console.log('apolloClient:', apolloClient);
 
-  if (!accountCreateToken) {
-    return { hasValidToken };
+  if (accountCreateToken) {
+    if (Array.isArray(accountCreateToken)) {
+      accountCreateToken = accountCreateToken[0];
+    }
+
+    const { data } = await apolloClient.mutate<
+      RedeemAccountCreateTokenMutation
+    >({
+      mutation: RedeemAccountCreateTokenDocument,
+      variables: {
+        input: {
+          token: accountCreateToken,
+        },
+      },
+    });
+
+    if (data) {
+      hasValidToken = data.redeemAccountCreateToken.wasTokenValid;
+    }
   }
 
-  const response = await apolloClient.mutate({
-    mutation: RedeemAccountCreateTokenDocument,
-    variables: {
-      input: {
-        token: accountCreateToken,
-      },
-    },
-  });
+  if (!hasValidToken) {
+    redirect('/a/new', props.res);
+    return {};
+  }
 
-  console.log('response', response);
-
-  return { hasValidToken };
+  return {};
 };
 
 export default withApollo(CreatePage);
