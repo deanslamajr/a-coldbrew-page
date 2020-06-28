@@ -1,19 +1,11 @@
-import {
-  NextPage,
-  NextPageContext,
-  NextApiRequest,
-  NextApiResponse,
-} from 'next';
+import { NextPage, NextPageContext } from 'next';
 import React from 'react';
 import Head from 'next/head';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 
-import {
-  ContextInterface,
-  IncomingMessageWithSession,
-} from '../graphql-server/context';
+import { ContextInterface } from '../graphql-server/context';
 
 type TApolloClient = ApolloClient<NormalizedCacheObject>;
 
@@ -63,29 +55,14 @@ export function withApollo<T>(PageComponent: NextPage<T>, { ssr = true } = {}) {
     WithApollo.getInitialProps = async (ctx: WithApolloPageContext) => {
       const { AppTree } = ctx;
 
-      let resolvedContext;
+      let resolvedContext: ContextInterface | undefined;
       if (ssr && ctx.req && ctx.res) {
-        // @TODO move this to a separate module so that server secrets don't leak to the client
-        const cookieSession = (await import('cookie-session')).default;
-        const nextConnect = (await import('next-connect')).default;
-        const contextResolver = (await import('../graphql-server/context'))
-          .default;
-        const handler = nextConnect();
-        handler.use(
-          cookieSession({
-            name: 'session',
-            secret: 'babylou',
-            expires: new Date(253402300000000), // Approximately Friday, 31 Dec 9999 23:59:59 GMT
-          })
-        );
-        await handler.apply(
-          ctx.req as NextApiRequest,
-          ctx.res as NextApiResponse
-        );
-        resolvedContext = contextResolver({
-          req: ctx.req as IncomingMessageWithSession,
+        const resolveContext = await (await import('../graphql-server/context'))
+          .resolveContextDuringNextSSR;
+        resolvedContext = await resolveContext({
+          req: ctx.req,
+          res: ctx.res,
         });
-        console.log('resolvedContext', resolvedContext);
       }
 
       // Initialize ApolloClient, add it to the ctx object so
