@@ -6,7 +6,7 @@ import getConfig from 'next/config';
 
 import { AccountCreateModal } from '../../components/AccountCreateModal';
 
-import { withApollo } from '../../graphql/with-apollo';
+import { withApollo } from '../../graphql-client/with-apollo';
 
 const { publicRuntimeConfig } = getConfig();
 

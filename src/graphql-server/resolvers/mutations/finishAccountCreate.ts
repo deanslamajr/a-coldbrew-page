@@ -3,10 +3,10 @@ import bcrypt from 'bcrypt';
 
 import { MutationResolvers } from '../types/finishAccountCreate.graphqls';
 
-import { ContextInterface } from '../context';
+import { ContextInterface } from '../../context';
 
-import { Accounts, NewAccountTokens } from './services/db';
-import { getValuesFromInstance } from './services/db/utils';
+import { Accounts, NewAccountTokens } from '../services/db';
+import { getValuesFromInstance } from '../services/db/utils';
 
 const isLessThanAnHourOld = (date: Date): boolean => {
   const hoursAgo = Math.abs(moment(date).diff(Date.now(), 'hours'));

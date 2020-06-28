@@ -18,7 +18,7 @@ import {
   RECAPTCHA_ACTION_CREATE_ACCOUNT,
 } from '../helpers/constants';
 
-import { useSendAccountCreateEmailMutation } from '../graphql/mutations/sendAccountCreateEmail.graphql';
+import { useSendAccountCreateEmailMutation } from '../graphql-client/mutations/sendAccountCreateEmail.graphql';
 
 const { publicRuntimeConfig } = getConfig();
 

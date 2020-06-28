@@ -35,8 +35,7 @@ import { choreVersion, cssTheme } from '../../helpers/constants';
 
 import { ChoreInterface, DueDateInterface } from '../../types';
 
-import { withApollo } from '../../graphql/with-apollo';
-// import { useFetchHomeQuery } from '../../graphql/queries/fetchHome.graphql';
+import { withApollo } from '../../graphql-client/with-apollo';
 
 interface ChoreProps {
   dueDate: DueDateInterface;
@@ -138,7 +137,6 @@ const sortChores = (chores: ChoreInterface[]): ChoreInterface[] => {
 };
 
 const Home: NextPage = () => {
-  //const { data, loading, error } = useFetchHomeQuery();
   const [chores, setChores] = useState<ChoreInterface[] | null>(null);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [showCreateChoreModal, setShowCreateChoreModal] = useState(false);

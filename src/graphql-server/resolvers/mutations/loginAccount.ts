@@ -4,8 +4,8 @@ import { MutationResolvers } from '../types/loginAccount.graphqls';
 
 import { ContextInterface } from '../context';
 
-import { Accounts } from './services/db';
-import { getValuesFromInstance } from './services/db/utils';
+import { Accounts } from '../services/db';
+import { getValuesFromInstance } from '../services/db/utils';
 
 export const resolver: NonNullable<MutationResolvers<
   ContextInterface

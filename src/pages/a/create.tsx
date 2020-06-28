@@ -8,7 +8,7 @@ import { AccountCreateFinishModal } from '../../components/AccountCreateFinishMo
 
 import { redirect } from '../../helpers/nextLifeCycle';
 
-import { withApollo } from '../../graphql/with-apollo';
+import { withApollo } from '../../graphql-client/with-apollo';
 
 const { publicRuntimeConfig } = getConfig();
 

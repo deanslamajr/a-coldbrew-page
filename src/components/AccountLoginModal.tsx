@@ -11,7 +11,7 @@ import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
 import { cssTheme } from '../helpers/constants';
 
-import { useLoginAccountMutation } from '../graphql/mutations/loginAccount.graphql';
+import { useLoginAccountMutation } from '../graphql-client/mutations/loginAccount.graphql';
 
 interface ModalPropsInterface {
   handleBackClick: () => void;

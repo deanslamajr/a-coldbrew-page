@@ -10,7 +10,7 @@ import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
 import { cssTheme } from '../helpers/constants';
 
-import { useFinishAccountCreateMutation } from '../graphql/mutations/finishAccountCreate.graphql';
+import { useFinishAccountCreateMutation } from '../graphql-client/mutations/finishAccountCreate.graphql';
 
 interface ModalPropsInterface {
   handleBackClick: () => void;

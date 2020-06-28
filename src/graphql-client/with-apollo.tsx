@@ -1,9 +1,19 @@
-import { NextPage, NextPageContext } from 'next';
+import {
+  NextPage,
+  NextPageContext,
+  NextApiRequest,
+  NextApiResponse,
+} from 'next';
 import React from 'react';
 import Head from 'next/head';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
+
+import {
+  ContextInterface,
+  IncomingMessageWithSession,
+} from '../graphql-server/context';
 
 type TApolloClient = ApolloClient<NormalizedCacheObject>;
 
@@ -53,9 +63,36 @@ export function withApollo<T>(PageComponent: NextPage<T>, { ssr = true } = {}) {
     WithApollo.getInitialProps = async (ctx: WithApolloPageContext) => {
       const { AppTree } = ctx;
 
+      let resolvedContext;
+      if (ssr && ctx.req && ctx.res) {
+        // @TODO move this to a separate module so that server secrets don't leak to the client
+        const cookieSession = (await import('cookie-session')).default;
+        const nextConnect = (await import('next-connect')).default;
+        const contextResolver = (await import('../graphql-server/context'))
+          .default;
+        const handler = nextConnect();
+        handler.use(
+          cookieSession({
+            name: 'session',
+            secret: 'babylou',
+            expires: new Date(253402300000000), // Approximately Friday, 31 Dec 9999 23:59:59 GMT
+          })
+        );
+        await handler.apply(
+          ctx.req as NextApiRequest,
+          ctx.res as NextApiResponse
+        );
+        resolvedContext = contextResolver({
+          req: ctx.req as IncomingMessageWithSession,
+        });
+        console.log('resolvedContext', resolvedContext);
+      }
+
       // Initialize ApolloClient, add it to the ctx object so
       // we can use it in `PageComponent.getInitialProp`.
-      const apolloClient = (ctx.apolloClient = initApolloClient());
+      const apolloClient = (ctx.apolloClient = initApolloClient({
+        resolvedContext,
+      }));
 
       // Run wrapped getInitialProps methods
       let pageProps = {};
@@ -110,21 +147,28 @@ export function withApollo<T>(PageComponent: NextPage<T>, { ssr = true } = {}) {
   return WithApollo;
 }
 
+interface InitApolloClientParams {
+  initialState?: any;
+  resolvedContext?: ContextInterface;
+}
+
 /**
  * Always creates a new apollo client on the server
  * Creates or reuses apollo client in the browser.
- * @param  {Object} initialState
  */
-function initApolloClient(initialState?: any) {
+function initApolloClient({
+  resolvedContext,
+  initialState,
+}: InitApolloClientParams) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (typeof window === 'undefined') {
-    return createApolloClient(initialState);
+    return createApolloClient({ resolvedContext, initialState });
   }
 
   // Reuse client on the client-side
   if (!globalApolloClient) {
-    globalApolloClient = createApolloClient(initialState);
+    globalApolloClient = createApolloClient({ initialState });
   }
 
   return globalApolloClient;
@@ -134,24 +178,27 @@ function initApolloClient(initialState?: any) {
  * Creates and configures the ApolloClient
  * @param  {Object} [initialState={}]
  */
-function createApolloClient(initialState = {}) {
+function createApolloClient({
+  resolvedContext,
+  initialState = {},
+}: InitApolloClientParams) {
   const ssrMode = typeof window === 'undefined';
   const cache = new InMemoryCache().restore(initialState);
 
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   return new ApolloClient({
     ssrMode,
-    link: createIsomorphLink(),
+    link: createIsomorphLink(resolvedContext),
     cache,
   });
 }
 
-function createIsomorphLink() {
+function createIsomorphLink(resolvedContext?: ContextInterface) {
   if (typeof window === 'undefined') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { SchemaLink } = require('apollo-link-schema');
-    const schema = require('./schema').default;
-    return new SchemaLink({ schema });
+    const schema = require('../graphql-server/schema').default;
+    return new SchemaLink({ context: resolvedContext, schema });
   } else {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { HttpLink } = require('apollo-link-http');

@@ -1,8 +1,8 @@
 import { MutationResolvers } from '../types/sendAccountCreateEmail.graphqls';
-import { RECAPTCHA_ACTION_CREATE_ACCOUNT } from '../../helpers/constants';
-import { verifyRecaptchaV3 } from './services/recaptcha';
-import { sendAccountCreateEmail } from './services/sendgrid';
-import { NewAccountTokens } from './services/db';
+import { RECAPTCHA_ACTION_CREATE_ACCOUNT } from '../../../helpers/constants';
+import { verifyRecaptchaV3 } from '../services/recaptcha';
+import { sendAccountCreateEmail } from '../services/sendgrid';
+import { NewAccountTokens } from '../services/db';
 
 export const resolver: NonNullable<MutationResolvers['sendAccountCreateEmail']> = async (
   _parent,
