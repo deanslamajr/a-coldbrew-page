@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 
 import { MutationResolvers } from '../types/finishAccountCreate.graphqls';
 
+import { ContextInterface } from '../context';
+
 import { Accounts, NewAccountTokens } from './services/db';
 import { getValuesFromInstance } from './services/db/utils';
 
@@ -16,12 +18,9 @@ const hashPassword = async (password: string): Promise<string> => {
   return bcrypt.hash(password, saltRounds);
 };
 
-export const resolver: NonNullable<MutationResolvers['finishAccountCreate']> = async (
-  _parent,
-  args,
-  _context,
-  _info
-) => {
+export const resolver: NonNullable<MutationResolvers<
+  ContextInterface
+>['finishAccountCreate']> = async (_parent, args, context, _info) => {
   const { input } = args;
   let wasTokenValid = false;
   let accountCreateSuccess = false;
@@ -38,17 +37,19 @@ export const resolver: NonNullable<MutationResolvers['finishAccountCreate']> = a
       isLessThanAnHourOld(tokenValues.created_at) && !tokenValues.has_been_used;
 
     if (wasTokenValid) {
-      // @TODO hash password
       const hashedPassword = await hashPassword(input.password);
 
-      await Promise.all<NewAccountTokens, Accounts>([
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        newAccountToken.update({ has_been_used: true }),
+      const [newAccount] = await Promise.all<Accounts, NewAccountTokens>([
         Accounts.create({
           email: tokenValues.email,
           password: hashedPassword,
         }),
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        newAccountToken.update({ has_been_used: true }),
       ]);
+
+      const newAccountValues = getValuesFromInstance(newAccount);
+      context.session.setAccountId(newAccountValues.id);
       accountCreateSuccess = true;
     }
   }

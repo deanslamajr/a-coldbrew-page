@@ -1,7 +1,16 @@
 import { ApolloServer } from 'apollo-server-micro';
-import schema from '../../graphql/schema';
+import nextConnect from 'next-connect';
+import cookieSession from 'cookie-session';
+import getConfig from 'next/config';
 
-const apolloServer = new ApolloServer({ schema });
+import schema from '../../graphql/schema';
+import context from '../../graphql/context';
+
+const {
+  serverRuntimeConfig: { SESSION_COOKIE_SECRET },
+} = getConfig();
+
+const apolloServer = new ApolloServer({ context, schema });
 
 export const config = {
   api: {
@@ -9,4 +18,11 @@ export const config = {
   },
 };
 
-export default apolloServer.createHandler({ path: '/api/graphql' });
+export default nextConnect()
+  .use(
+    cookieSession({
+      secret: SESSION_COOKIE_SECRET,
+      expires: new Date(253402300000000), // Approximately Friday, 31 Dec 9999 23:59:59 GMT
+    })
+  )
+  .use(apolloServer.createHandler({ path: '/api/graphql' }));

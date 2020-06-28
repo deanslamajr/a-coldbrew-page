@@ -2,15 +2,14 @@ import bcrypt from 'bcrypt';
 
 import { MutationResolvers } from '../types/loginAccount.graphqls';
 
+import { ContextInterface } from '../context';
+
 import { Accounts } from './services/db';
 import { getValuesFromInstance } from './services/db/utils';
 
-export const resolver: NonNullable<MutationResolvers['loginAccount']> = async (
-  _parent,
-  args,
-  _context,
-  _info
-) => {
+export const resolver: NonNullable<MutationResolvers<
+  ContextInterface
+>['loginAccount']> = async (_parent, args, context, _info) => {
   const { input } = args;
   let wasLoginSuccess = false;
 
@@ -30,6 +29,7 @@ export const resolver: NonNullable<MutationResolvers['loginAccount']> = async (
 
     if (isCorrectPassword && isUserActive) {
       wasLoginSuccess = true;
+      context.session.setAccountId(accountValues.id);
     }
   }
 

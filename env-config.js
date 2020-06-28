@@ -22,6 +22,7 @@ const serverSecrets = {
   RECAPTCHA_V2_SECRET: fromProcessEnv('RECAPTCHA_V2_SECRET'),
   SENDGRID_APIKEY: fromProcessEnv('SENDGRID_APIKEY'),
   SENDGRID_FROM_EMAIL: fromProcessEnv('SENDGRID_FROM_EMAIL'),
+  SESSION_COOKIE_SECRET: fromProcessEnv('SESSION_COOKIE_SECRET'),
 };
 
 const serverEnvironment = Object.assign({}, clientEnvironment, serverSecrets);
