@@ -16,7 +16,7 @@ export interface ContextInterface {
   session: {
     setAccountId: (id: string) => void;
     getAccountId: () => string | undefined;
-    clear: () => void;
+    logout: () => void;
   };
 }
 
@@ -42,7 +42,7 @@ export const resolveContext = (incomingContext: {
         (incomingContext.req.session.accountId = id),
       getAccountId: () =>
         incomingContext.req.session && incomingContext.req.session.accountId,
-      clear: () => (incomingContext.req.session = { ...initializedSession }),
+      logout: () => (incomingContext.req.session = { ...initializedSession }),
     },
   };
 };

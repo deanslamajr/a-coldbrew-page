@@ -13,12 +13,21 @@ import {
   useGetAccountFromSessionQuery,
   GetAccountFromSessionQuery,
 } from '../../graphql-client/queries/getAccountFromSession.graphql';
+import { useLogoutAccountMutation } from '../../graphql-client/mutations/logoutAccount.graphql';
 
 const { publicRuntimeConfig } = getConfig();
 
 const Login: NextPage = () => {
   const router = useRouter();
   const { data, error, loading } = useGetAccountFromSessionQuery();
+  const [
+    logoutAccount,
+    {
+      data: logoutAccountData,
+      error: logoutAccountError,
+      loading: isLogoutAccountLoading,
+    },
+  ] = useLogoutAccountMutation();
 
   return (
     <>
@@ -33,7 +42,10 @@ const Login: NextPage = () => {
           const loggedInAccountEmail = queryResult.getAccountFromSession.email;
 
           return loggedInAccountEmail ? (
-            <div>Logged in as:{loggedInAccountEmail}</div>
+            <>
+              <div>Logged in as:{loggedInAccountEmail}</div>
+              <button onClick={() => logoutAccount()}>Logout</button>
+            </>
           ) : (
             <AccountLoginModal handleBackClick={() => router.push('/')} />
           );

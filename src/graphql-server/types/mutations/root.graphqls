@@ -5,6 +5,8 @@ type Mutation {
 
   loginAccount(input: LoginAccountInput!): LoginAccountResponse!
 
+  logoutAccount: LogoutAccountResponse!
+
   sendAccountCreateEmail(
     input: SendAccountCreateEmailInput!
   ): SendAccountCreateEmailResponse!

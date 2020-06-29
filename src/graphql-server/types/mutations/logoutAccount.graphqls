@@ -1,0 +1,3 @@
+type LogoutAccountResponse {
+  wasLogoutSuccess: Boolean!
+}
