@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 
 import { MutationResolvers } from '../types/loginAccount.graphqls';
 
-import { ContextInterface } from '../context';
+import { ContextInterface } from '../../context';
 
 import { Accounts } from '../services/db';
 import { getValuesFromInstance } from '../services/db/utils';
