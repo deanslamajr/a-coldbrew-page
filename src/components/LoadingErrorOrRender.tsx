@@ -1,31 +1,49 @@
+import { ReactNode } from 'react';
 import { ApolloError } from 'apollo-client';
+import { MdError } from 'react-icons/md';
 
 import { Spinner } from './Spinner';
 
-interface LoadingErrorOrRenderProps<T> {
+import { cssTheme } from '../helpers/constants';
+
+interface Props {
   error: ApolloError | undefined;
   isLoading: boolean;
-  queryResult: T | undefined;
-  render: (props: { queryResult: T }) => JSX.Element;
+  data: any;
+  renderOnSuccess?: ReactNode;
 }
 
-export const LoadingErrorOrRender = <T,>({
+export const LoadingErrorOrRender: React.FC<Props> = ({
+  data,
   error,
   isLoading,
-  queryResult,
-  render,
-}: React.PropsWithChildren<LoadingErrorOrRenderProps<T>>) => {
+  children,
+  renderOnSuccess,
+}) => {
   if (isLoading) {
     return <Spinner />;
   }
 
-  if (error || !queryResult) {
+  if (error) {
     // @TODO replace with centralized logging
     console.error('error', error);
-    return null;
+    return (
+      <MdError color={cssTheme.colors.red} size={cssTheme.sizes.errorIcon} />
+    );
   }
 
-  return render({
-    queryResult,
-  });
+  if (data && renderOnSuccess) {
+    return <>{renderOnSuccess}</>;
+  }
+
+  if (!children) {
+    console.error(
+      'Inproper use of LoadingErrorOrRender:\nMust pass a child component.'
+    );
+    return (
+      <MdError color={cssTheme.colors.red} size={cssTheme.sizes.errorIcon} />
+    );
+  }
+
+  return <>{children}</>;
 };

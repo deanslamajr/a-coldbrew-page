@@ -16,6 +16,7 @@ declare module 'styled-components' {
     };
     sizes: {
       navbarButtonIconSize: string;
+      errorIcon: string;
     };
     zIndex: {
       highest: number;

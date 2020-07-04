@@ -29,8 +29,11 @@ export const ModalBase = styled.div`
   background-color: ${props => props.theme.colors.white};
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
+  min-width: 50vw;
   max-width: 75vw;
+  min-height: 50vh;
   max-height: 75vh;
   padding: 0.5rem;
   overflow: overlay;

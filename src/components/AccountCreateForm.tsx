@@ -1,29 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useContext } from 'react';
 import { Form, Field } from 'react-final-form';
-import { IoMdArrowBack } from 'react-icons/io';
 import { MdDoneAll } from 'react-icons/md';
 import styled from 'styled-components';
 import * as EmailValidator from 'email-validator';
-import getConfig from 'next/config';
 
 import { NavButton, NavButtonPositions } from './NavButton';
-import { Modal } from './Modal';
 import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
-import { RecaptchaV3Context } from '../contexts/RecaptchaV3Context';
+import { cssTheme } from '../helpers/constants';
 
-import {
-  cssTheme,
-  RECAPTCHA_ACTION_CREATE_ACCOUNT,
-} from '../helpers/constants';
-
-import { useSendAccountCreateEmailMutation } from '../graphql-client/mutations/sendAccountCreateEmail.graphql';
-
-const { publicRuntimeConfig } = getConfig();
-
-interface ModalPropsInterface {
-  handleBackClick: () => void;
+interface Props {
+  captureRecaptchaAndSendEmail: (email: string) => void;
 }
 
 interface FormFieldsInterface {
@@ -74,49 +61,11 @@ const validateForm = (values: FormFieldsInterface): ValidationErrors => {
   return errors;
 };
 
-export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
-  handleBackClick,
+export const AccountCreateForm: React.FC<Props> = ({
+  captureRecaptchaAndSendEmail,
 }) => {
-  const recaptchaV3Instance = useContext(RecaptchaV3Context);
-  const [
-    sendAccountCreateEmail,
-    { data, error, loading },
-  ] = useSendAccountCreateEmailMutation();
-
-  const checkRecaptchaV3Status = (): Promise<string> => {
-    if (!publicRuntimeConfig.RECAPTCHA_V3_SITE) {
-      return Promise.resolve('');
-    }
-
-    if (!recaptchaV3Instance) {
-      return Promise.reject('recaptcha instance does not exist!');
-    }
-
-    return recaptchaV3Instance.execute(RECAPTCHA_ACTION_CREATE_ACCOUNT);
-  };
-
-  const captureRecaptchaAndSendEmail = async (email: string): Promise<any> => {
-    // setSubmittedEmail(email);
-    try {
-      const recaptchaV3Response = await checkRecaptchaV3Status();
-
-      const mutationResponse = await sendAccountCreateEmail({
-        variables: {
-          input: {
-            email,
-            recaptchaV3Response,
-          },
-        },
-      });
-
-      console.log('mutationResponse', mutationResponse);
-    } catch (error) {
-      console.log('captureRecaptchaAndSendEmail, error', error);
-    }
-  };
-
   return (
-    <Modal>
+    <>
       <HeaderTextContainer>
         <div>Submit a valid email address to which</div>
         <div>we can send a one-time, time-sensitive ‘Create Account’ link</div>
@@ -151,17 +100,6 @@ export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
                 )}
               </Field>
 
-              <NavButton
-                position={NavButtonPositions.BottomLeft}
-                clickHandler={() => handleBackClick()}
-                icon={
-                  <IoMdArrowBack
-                    color={cssTheme.colors.red}
-                    size={cssTheme.sizes.navbarButtonIconSize}
-                  />
-                }
-              />
-
               {valid && (
                 <NavButton
                   position={NavButtonPositions.BottomRight}
@@ -183,6 +121,6 @@ export const AccountCreateModal: React.FC<ModalPropsInterface> = ({
         onPass={()=>{}}
         onFail={()=>{}}
       /> */}
-    </Modal>
+    </>
   );
 };

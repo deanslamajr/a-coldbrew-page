@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 
 import { AccountLoginModal } from '../../components/AccountLoginModal';
-import { LoadingErrorOrRender } from '../../components/LoadingErrorOrRender';
+import { LoadingErrorOrRenderQuery } from '../../components/LoadingErrorOrRenderQuery';
 
 import { withApollo } from '../../graphql-client/with-apollo';
 
@@ -20,21 +20,14 @@ const { publicRuntimeConfig } = getConfig();
 const Login: NextPage = () => {
   const router = useRouter();
   const { data, error, loading } = useGetAccountFromSessionQuery();
-  const [
-    logoutAccount,
-    {
-      data: logoutAccountData,
-      error: logoutAccountError,
-      loading: isLogoutAccountLoading,
-    },
-  ] = useLogoutAccountMutation();
+  const [logoutAccount, result] = useLogoutAccountMutation();
 
   return (
     <>
       <Head>
         <title>{publicRuntimeConfig.APP_TITLE} - login</title>
       </Head>
-      <LoadingErrorOrRender<GetAccountFromSessionQuery>
+      <LoadingErrorOrRenderQuery<GetAccountFromSessionQuery>
         error={error}
         isLoading={loading}
         queryResult={data}

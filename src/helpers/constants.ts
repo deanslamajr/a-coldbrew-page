@@ -13,6 +13,7 @@ export const cssTheme: DefaultTheme = {
   },
   sizes: {
     navbarButtonIconSize: '2rem',
+    errorIcon: '5rem',
   },
   zIndex: {
     highest: 999,
