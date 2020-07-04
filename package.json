@@ -14,6 +14,8 @@
     "image:build": "sudo docker build -t deanslamajr/snap-dragon:\"$(git describe)\" .",
     "image:promote": "sudo docker push deanslamajr/snap-dragon:\"$(git describe)\"",
     "image:delete": "sudo docker image rm deanslamajr/snap-dragon:\"$(git describe)\" && sudo docker image prune --filter label=stage=builder --force",
+    "image:start": "sudo docker run --env-file ./.env --network=\"host\" -p 8080:8080/tcp deanslamajr/snap-dragon:\"$(git describe)\"",
+    "image:bash": "sudo docker run --env-file ./.env --network=\"host\" -p 8080:8080/tcp -it deanslamajr/snap-dragon:\"$(git describe)\" /bin/sh",
     "migrate": "npm run build:migrations && sequelize db:migrate",
     "migrate:undo": "npm run build:migrations && sequelize db:migrate:undo",
     "migrate:undo:all": "npm run build:migrations && sequelize db:migrate:undo:all",
