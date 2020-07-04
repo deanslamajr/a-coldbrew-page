@@ -1,5 +1,5 @@
 import moment from 'moment';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 import { MutationResolvers } from '../types/finishAccountCreate.graphqls';
 
