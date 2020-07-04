@@ -42,6 +42,7 @@ export const ModalBase = styled.div`
   ${breakpoints.phoneMax`
     width: 100vw;
     max-width: none;
+    min-height: 25vh;
     max-height: none;
   `}
 `;
