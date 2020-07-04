@@ -25,37 +25,46 @@ export const resolver: NonNullable<MutationResolvers<
   let wasTokenValid = false;
   let accountCreateSuccess = false;
 
-  // @TODO ACQUIRE A LOCK SO THAT QUERY AND MUTATION ARE ATOMIC
-  const newAccountToken = await NewAccountTokens.findOne({
-    where: { code: input.token },
-  });
+  try {
+    // @TODO ACQUIRE A LOCK SO THAT QUERY AND MUTATION ARE ATOMIC
+    const newAccountToken = await NewAccountTokens.findOne({
+      where: { code: input.token },
+    });
 
-  if (newAccountToken) {
-    const tokenValues = getValuesFromInstance(newAccountToken);
+    if (newAccountToken) {
+      const tokenValues = getValuesFromInstance(newAccountToken);
 
-    wasTokenValid =
-      isLessThanAnHourOld(tokenValues.created_at) && !tokenValues.has_been_used;
+      wasTokenValid =
+        isLessThanAnHourOld(tokenValues.created_at) &&
+        !tokenValues.has_been_used;
 
-    if (wasTokenValid) {
-      const hashedPassword = await hashPassword(input.password);
+      if (wasTokenValid) {
+        const hashedPassword = await hashPassword(input.password);
 
-      const [newAccount] = await Promise.all<Accounts, NewAccountTokens>([
-        Accounts.create({
-          email: tokenValues.email,
-          password: hashedPassword,
-        }),
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        newAccountToken.update({ has_been_used: true }),
-      ]);
+        const [newAccount] = await Promise.all<Accounts, NewAccountTokens>([
+          Accounts.create({
+            email: tokenValues.email,
+            password: hashedPassword,
+          }),
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          newAccountToken.update({ has_been_used: true }),
+        ]);
 
-      const newAccountValues = getValuesFromInstance(newAccount);
-      context.session.setAccountId(newAccountValues.id);
-      accountCreateSuccess = true;
+        const newAccountValues = getValuesFromInstance(newAccount);
+        context.session.setAccountId(newAccountValues.id);
+        accountCreateSuccess = true;
+      }
     }
-  }
 
-  return {
-    accountCreateSuccess,
-    wasTokenValid,
-  };
+    return {
+      accountCreateSuccess,
+      wasTokenValid,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      accountCreateSuccess: false,
+      wasTokenValid: false,
+    };
+  }
 };
