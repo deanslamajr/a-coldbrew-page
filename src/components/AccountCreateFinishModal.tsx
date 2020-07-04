@@ -1,20 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Form, Field } from 'react-final-form';
-import { IoMdArrowBack } from 'react-icons/io';
 import { MdDoneAll } from 'react-icons/md';
 import styled from 'styled-components';
 
 import { NavButton, NavButtonPositions } from './NavButton';
-import { Modal } from './Modal';
 import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
 import { cssTheme } from '../helpers/constants';
 
-import { useFinishAccountCreateMutation } from '../graphql-client/mutations/finishAccountCreate.graphql';
-
 interface ModalPropsInterface {
-  handleBackClick: () => void;
-  token: string;
+  finishAccountCreation: (password: string) => Promise<any>;
 }
 
 interface FormFieldsInterface {
@@ -53,33 +48,10 @@ const validateForm = (values: FormFieldsInterface): ValidationErrors => {
 };
 
 export const AccountCreateFinishModal: React.FC<ModalPropsInterface> = ({
-  handleBackClick,
-  token,
+  finishAccountCreation,
 }) => {
-  const [
-    finishAccountCreate,
-    { data, error, loading },
-  ] = useFinishAccountCreateMutation();
-
-  const finishAccountCreation = async (password: string): Promise<any> => {
-    try {
-      const mutationResponse = await finishAccountCreate({
-        variables: {
-          input: {
-            token,
-            password,
-          },
-        },
-      });
-
-      console.log('mutationResponse', mutationResponse);
-    } catch (error) {
-      console.log('finishAccountCreation, error', error);
-    }
-  };
-
   return (
-    <Modal>
+    <>
       <HeaderTextContainer>
         <div>Finish Account Creation</div>
       </HeaderTextContainer>
@@ -117,17 +89,6 @@ export const AccountCreateFinishModal: React.FC<ModalPropsInterface> = ({
                 )}
               </Field>
 
-              <NavButton
-                position={NavButtonPositions.BottomLeft}
-                clickHandler={() => handleBackClick()}
-                icon={
-                  <IoMdArrowBack
-                    color={cssTheme.colors.red}
-                    size={cssTheme.sizes.navbarButtonIconSize}
-                  />
-                }
-              />
-
               {valid && (
                 <NavButton
                   position={NavButtonPositions.BottomRight}
@@ -144,6 +105,6 @@ export const AccountCreateFinishModal: React.FC<ModalPropsInterface> = ({
           </form>
         )}
       />
-    </Modal>
+    </>
   );
 };
