@@ -7,6 +7,10 @@ import { ContextInterface } from '../../context';
 
 import { Accounts, NewAccountTokens } from '../services/db';
 import { getValuesFromInstance } from '../services/db/utils';
+import {
+  SendEmailResponse,
+  sendAccountCreatedSuccessEmail,
+} from '../services/sendgrid';
 
 const isLessThanAnHourOld = (date: Date): boolean => {
   const hoursAgo = Math.abs(moment(date).diff(Date.now(), 'hours'));
@@ -39,13 +43,18 @@ export const resolver: NonNullable<MutationResolvers<
     if (wasTokenValid) {
       const hashedPassword = await hashPassword(input.password);
 
-      const [newAccount] = await Promise.all<Accounts, NewAccountTokens>([
+      const [newAccount] = await Promise.all<
+        Accounts,
+        NewAccountTokens,
+        SendEmailResponse
+      >([
         Accounts.create({
           email: tokenValues.email,
           password: hashedPassword,
         }),
         // eslint-disable-next-line @typescript-eslint/camelcase
         newAccountToken.update({ has_been_used: true }),
+        sendAccountCreatedSuccessEmail({ toEmail: tokenValues.email }),
       ]);
 
       const newAccountValues = getValuesFromInstance(newAccount);
