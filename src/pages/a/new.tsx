@@ -65,7 +65,7 @@ const NewPage: NextPage = () => {
         <LoadingErrorOrRender
           error={error}
           isLoading={loading}
-          data={data}
+          isSuccess={!!data}
           renderOnSuccess={
             <FiCheckCircle
               color={cssTheme.colors.green}

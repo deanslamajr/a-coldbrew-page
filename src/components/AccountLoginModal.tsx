@@ -1,23 +1,20 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Form, Field } from 'react-final-form';
-import { IoMdArrowBack } from 'react-icons/io';
 import { MdDoneAll } from 'react-icons/md';
 import styled from 'styled-components';
 import Link from 'next/link';
 
 import { NavButton, NavButtonPositions } from './NavButton';
-import { Modal } from './Modal';
 import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
 import { cssTheme } from '../helpers/constants';
 
-import { useLoginAccountMutation } from '../graphql-client/mutations/loginAccount.graphql';
-
-interface ModalPropsInterface {
-  handleBackClick: () => void;
+interface Props {
+  isFailedLogin: boolean;
+  onLogin: (params: FormFieldsInterface) => Promise<any>;
 }
 
-interface FormFieldsInterface {
+export interface FormFieldsInterface {
   email: string;
   password: string;
 }
@@ -45,37 +42,22 @@ const FooterContainer = styled.div`
   margin-bottom: 2rem;
 `;
 
-export const AccountLoginModal: React.FC<ModalPropsInterface> = ({
-  handleBackClick,
+export const AccountLoginModal: React.FC<Props> = ({
+  isFailedLogin,
+  onLogin,
 }) => {
-  const [loginAccount, { data, error, loading }] = useLoginAccountMutation();
-
-  const login = async ({
-    email,
-    password,
-  }: FormFieldsInterface): Promise<any> => {
-    try {
-      const mutationResponse = await loginAccount({
-        variables: {
-          input: {
-            email,
-            password,
-          },
-        },
-      });
-      console.log('mutationResponse', mutationResponse);
-    } catch (error) {
-      console.log('finishAccountCreation, error', error);
-    }
-  };
-
   return (
-    <Modal>
+    <>
       <HeaderTextContainer>
         What Coldbrew Page Account will you be using today?
       </HeaderTextContainer>
+      {isFailedLogin && (
+        <InvalidFieldMessage>
+          The email or password are incorrect!
+        </InvalidFieldMessage>
+      )}
       <Form
-        onSubmit={values => login(values)}
+        onSubmit={values => onLogin(values)}
         initialValues={initialValues}
         render={({ form, valid }) => (
           <form>
@@ -103,17 +85,6 @@ export const AccountLoginModal: React.FC<ModalPropsInterface> = ({
                 )}
               </Field>
 
-              <NavButton
-                position={NavButtonPositions.BottomLeft}
-                clickHandler={() => handleBackClick()}
-                icon={
-                  <IoMdArrowBack
-                    color={cssTheme.colors.red}
-                    size={cssTheme.sizes.navbarButtonIconSize}
-                  />
-                }
-              />
-
               {valid && (
                 <NavButton
                   position={NavButtonPositions.BottomRight}
@@ -140,6 +111,6 @@ export const AccountLoginModal: React.FC<ModalPropsInterface> = ({
           <a>remain anonymous</a>
         </StyledLink>
       </FooterContainer>
-    </Modal>
+    </>
   );
 };

@@ -51,7 +51,7 @@ const CreatePage: NextPage<CreatePageProps> = ({ token }) => {
         <LoadingErrorOrRender
           error={error}
           isLoading={loading}
-          data={data}
+          isSuccess={!!data}
           renderOnSuccess={
             <FiCheckCircle
               color={cssTheme.colors.green}

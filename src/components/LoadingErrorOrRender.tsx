@@ -9,12 +9,12 @@ import { cssTheme } from '../helpers/constants';
 interface Props {
   error: ApolloError | undefined;
   isLoading: boolean;
-  data: any;
+  isSuccess: boolean;
   renderOnSuccess?: ReactNode;
 }
 
 export const LoadingErrorOrRender: React.FC<Props> = ({
-  data,
+  isSuccess,
   error,
   isLoading,
   children,
@@ -32,7 +32,7 @@ export const LoadingErrorOrRender: React.FC<Props> = ({
     );
   }
 
-  if (data && renderOnSuccess) {
+  if (isSuccess && renderOnSuccess) {
     return <>{renderOnSuccess}</>;
   }
 
