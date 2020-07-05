@@ -6,7 +6,7 @@ import getConfig from 'next/config';
 import { FiCheckCircle } from 'react-icons/fi';
 import { IoMdArrowBack } from 'react-icons/io';
 
-import { AccountCreateFinishModal } from '../../components/AccountCreateFinishModal';
+import { AccountCreateFinishForm } from '../../components/AccountCreateFinishForm';
 import { Modal } from '../../components/Modal';
 import { LoadingErrorOrRender } from '../../components/LoadingErrorOrRender';
 import { NavButton, NavButtonPositions } from '../../components/NavButton';
@@ -58,7 +58,7 @@ const CreatePage: NextPage<CreatePageProps> = ({ token }) => {
               size={cssTheme.sizes.errorIcon}
             />
           }>
-          <AccountCreateFinishModal
+          <AccountCreateFinishForm
             finishAccountCreation={finishAccountCreation}
           />
         </LoadingErrorOrRender>

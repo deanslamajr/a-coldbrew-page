@@ -8,7 +8,7 @@ import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
 import { cssTheme } from '../helpers/constants';
 
-interface ModalPropsInterface {
+interface Props {
   finishAccountCreation: (password: string) => Promise<any>;
 }
 
@@ -47,7 +47,7 @@ const validateForm = (values: FormFieldsInterface): ValidationErrors => {
   return errors;
 };
 
-export const AccountCreateFinishModal: React.FC<ModalPropsInterface> = ({
+export const AccountCreateFinishForm: React.FC<Props> = ({
   finishAccountCreation,
 }) => {
   return (

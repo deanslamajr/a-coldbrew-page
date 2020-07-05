@@ -55,7 +55,7 @@ const validateForm = (values: FormFieldsInterface): ValidationErrors => {
     } else if (!verifyEmailIsValidEmail) {
       errors.verifyEmail = mustBeValidEmailError;
     }
-  } else if (values.email !== values.verifyEmail) {
+  } else if (values.email.toLowerCase() !== values.verifyEmail.toLowerCase()) {
     errors.verifyEmail = 'Must match "Email"';
   }
   return errors;
@@ -71,7 +71,9 @@ export const AccountCreateForm: React.FC<Props> = ({
         <div>we can send a one-time, time-sensitive ‘Create Account’ link</div>
       </HeaderTextContainer>
       <Form
-        onSubmit={values => captureRecaptchaAndSendEmail(values.email)}
+        onSubmit={values =>
+          captureRecaptchaAndSendEmail(values.email.toLowerCase())
+        }
         initialValues={initialValues}
         validate={validateForm}
         render={({ form, valid }) => (
