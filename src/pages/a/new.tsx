@@ -65,7 +65,7 @@ const NewPage: NextPage = () => {
         <LoadingErrorOrRender
           error={error}
           isLoading={loading}
-          isSuccess={!!data}
+          isSuccess={data?.sendAccountCreateEmail.emailSendSuccess}
           renderOnSuccess={
             <FiCheckCircle
               color={cssTheme.colors.green}

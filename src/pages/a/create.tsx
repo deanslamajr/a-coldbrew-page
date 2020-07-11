@@ -3,13 +3,13 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
-import { FiCheckCircle } from 'react-icons/fi';
 import { IoMdArrowBack } from 'react-icons/io';
 
 import { AccountCreateFinishForm } from '../../components/AccountCreateFinishForm';
 import { Modal } from '../../components/Modal';
 import { LoadingErrorOrRender } from '../../components/LoadingErrorOrRender';
 import { NavButton, NavButtonPositions } from '../../components/NavButton';
+import { SuccessIconThenAction } from '../../components/SuccessIconThenAction';
 
 import { redirect } from '../../helpers/nextLifeCycle';
 import { cssTheme } from '../../helpers/constants';
@@ -51,12 +51,9 @@ const CreatePage: NextPage<CreatePageProps> = ({ token }) => {
         <LoadingErrorOrRender
           error={error}
           isLoading={loading}
-          isSuccess={!!data}
+          isSuccess={data?.finishAccountCreate.accountCreateSuccess}
           renderOnSuccess={
-            <FiCheckCircle
-              color={cssTheme.colors.green}
-              size={cssTheme.sizes.errorIcon}
-            />
+            <SuccessIconThenAction delayedCallback={() => router.push('/')} />
           }>
           <AccountCreateFinishForm
             finishAccountCreation={finishAccountCreation}

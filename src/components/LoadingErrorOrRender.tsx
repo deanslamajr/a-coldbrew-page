@@ -9,7 +9,7 @@ import { cssTheme } from '../helpers/constants';
 interface Props {
   error: ApolloError | undefined;
   isLoading: boolean;
-  isSuccess: boolean;
+  isSuccess?: boolean;
   renderOnSuccess?: ReactNode;
 }
 
@@ -27,6 +27,12 @@ export const LoadingErrorOrRender: React.FC<Props> = ({
   if (error) {
     // @TODO replace with centralized logging
     console.error('error', error);
+    return (
+      <MdError color={cssTheme.colors.red} size={cssTheme.sizes.errorIcon} />
+    );
+  }
+
+  if (isSuccess === false) {
     return (
       <MdError color={cssTheme.colors.red} size={cssTheme.sizes.errorIcon} />
     );

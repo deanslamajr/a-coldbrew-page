@@ -7,22 +7,15 @@ import Link from 'next/link';
 import { NavButton, NavButtonPositions } from './NavButton';
 import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
+import { LoginFormFields } from '../pages/a/login';
+
 import { cssTheme } from '../helpers/constants';
 
 interface Props {
+  initialValues: LoginFormFields;
   isFailedLogin: boolean;
-  onLogin: (params: FormFieldsInterface) => Promise<any>;
+  onLogin: (params: LoginFormFields) => Promise<any>;
 }
-
-export interface FormFieldsInterface {
-  email: string;
-  password: string;
-}
-
-const initialValues: FormFieldsInterface = {
-  email: '',
-  password: '',
-};
 
 const required = (value: string) => (value ? undefined : 'Required');
 
@@ -43,6 +36,7 @@ const FooterContainer = styled.div`
 `;
 
 export const AccountLoginModal: React.FC<Props> = ({
+  initialValues,
   isFailedLogin,
   onLogin,
 }) => {

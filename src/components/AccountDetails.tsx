@@ -27,7 +27,7 @@ export const AccountDetails: React.FC<Props> = ({
       <LoadingErrorOrRender
         error={error}
         isLoading={loading}
-        isSuccess={!!data}
+        isSuccess={data?.logoutAccount.wasLogoutSuccess}
         renderOnSuccess={
           <FiCheckCircle
             color={cssTheme.colors.green}

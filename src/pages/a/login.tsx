@@ -1,20 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
-import { FiCheckCircle } from 'react-icons/fi';
 import { IoMdArrowBack } from 'react-icons/io';
 
-import {
-  AccountLoginModal,
-  FormFieldsInterface,
-} from '../../components/AccountLoginModal';
+import { AccountLoginModal } from '../../components/AccountLoginModal';
 import { LoadingErrorOrRenderQuery } from '../../components/LoadingErrorOrRenderQuery';
 import { LoadingErrorOrRender } from '../../components/LoadingErrorOrRender';
 import { AccountDetails } from '../../components/AccountDetails';
 import { Modal } from '../../components/Modal';
 import { NavButton, NavButtonPositions } from '../../components/NavButton';
+import { SuccessIconThenAction } from '../../components/SuccessIconThenAction';
 
 import { cssTheme } from '../../helpers/constants';
 
@@ -27,6 +24,16 @@ import { useLoginAccountMutation } from '../../graphql-client/mutations/loginAcc
 
 const { publicRuntimeConfig } = getConfig();
 
+export interface LoginFormFields {
+  email: string;
+  password: string;
+}
+
+const initialValues: LoginFormFields = {
+  email: '',
+  password: '',
+};
+
 const Login: NextPage = () => {
   const router = useRouter();
   const { data, error, loading, refetch } = useGetAccountFromSessionQuery({});
@@ -34,11 +41,12 @@ const Login: NextPage = () => {
     loginAccount,
     { called, data: loginData, error: loginError, loading: isLoginLoading },
   ] = useLoginAccountMutation();
+  const [initialFormState, setInitialFormState] = useState<LoginFormFields>(
+    initialValues
+  );
 
-  const login = async ({
-    email,
-    password,
-  }: FormFieldsInterface): Promise<any> => {
+  const login = async ({ email, password }: LoginFormFields) => {
+    setInitialFormState({ email, password });
     return loginAccount({
       variables: {
         input: {
@@ -72,14 +80,12 @@ const Login: NextPage = () => {
               <LoadingErrorOrRender
                 error={loginError}
                 isLoading={isLoginLoading}
-                isSuccess={Boolean(loginData?.loginAccount.wasLoginSuccess)}
+                isSuccess={loginData?.loginAccount.wasLoginSuccess || undefined}
                 renderOnSuccess={
-                  <FiCheckCircle
-                    color={cssTheme.colors.green}
-                    size={cssTheme.sizes.errorIcon}
-                  />
+                  <SuccessIconThenAction delayedCallback={() => refetch()} />
                 }>
                 <AccountLoginModal
+                  initialValues={initialFormState}
                   isFailedLogin={
                     called &&
                     Boolean(
