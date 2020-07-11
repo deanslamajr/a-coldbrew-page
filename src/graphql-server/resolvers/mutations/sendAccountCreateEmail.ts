@@ -1,6 +1,6 @@
 import { MutationResolvers } from '../types/sendAccountCreateEmail.graphqls';
 import { RECAPTCHA_ACTION_CREATE_ACCOUNT } from '../../../helpers/constants';
-import { verifyRecaptchaV3 } from '../services/recaptcha';
+import { verifyRecaptchaV3, verifyRecaptchaV2 } from '../services/recaptcha';
 import { sendAccountCreateEmail } from '../services/sendgrid';
 import { NewAccountTokens } from '../services/db';
 
@@ -13,12 +13,17 @@ export const resolver: NonNullable<MutationResolvers['sendAccountCreateEmail']> 
   const { input } = args;
 
   // Verify Recaptcha
-  const isRecaptchaV3TokenValid = await verifyRecaptchaV3({
-    token: input.recaptchaV3Response,
-    expectedAction: RECAPTCHA_ACTION_CREATE_ACCOUNT,
-  });
+  let recaptchaPassed = false;
+  if (input.recaptchaV3Token) {
+    recaptchaPassed = await verifyRecaptchaV3({
+      token: input.recaptchaV3Token,
+      expectedAction: RECAPTCHA_ACTION_CREATE_ACCOUNT,
+    });
+  } else if (input.recaptchaV2Token) {
+    recaptchaPassed = await verifyRecaptchaV2(input.recaptchaV2Token);
+  }
 
-  if (!isRecaptchaV3TokenValid) {
+  if (!recaptchaPassed) {
     return {
       recaptchaPassed: false,
       emailSendSuccess: false,

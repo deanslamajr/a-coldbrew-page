@@ -1,6 +1,7 @@
 input SendAccountCreateEmailInput {
   email: String!
-  recaptchaV3Response: String!
+  recaptchaV3Token: String
+  recaptchaV2Token: String
 }
 
 type SendAccountCreateEmailResponse {

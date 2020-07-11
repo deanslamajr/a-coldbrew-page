@@ -11,19 +11,15 @@ import { cssTheme } from '../helpers/constants';
 
 interface Props {
   captureRecaptchaAndSendEmail: (email: string) => void;
+  initialValues: AccountCreateFormFields;
 }
 
-interface FormFieldsInterface {
+export interface AccountCreateFormFields {
   email: string;
   verifyEmail: string;
 }
 
-type ValidationErrors = Partial<FormFieldsInterface>;
-
-const initialValues: FormFieldsInterface = {
-  email: '',
-  verifyEmail: '',
-};
+type ValidationErrors = Partial<AccountCreateFormFields>;
 
 const HeaderTextContainer = styled.div`
   padding: 1rem;
@@ -31,7 +27,7 @@ const HeaderTextContainer = styled.div`
   text-align: center;
 `;
 
-const validateForm = (values: FormFieldsInterface): ValidationErrors => {
+const validateForm = (values: AccountCreateFormFields): ValidationErrors => {
   const errors: ValidationErrors = {};
 
   const emailIsValidEmail = EmailValidator.validate(values.email);
@@ -63,6 +59,7 @@ const validateForm = (values: FormFieldsInterface): ValidationErrors => {
 
 export const AccountCreateForm: React.FC<Props> = ({
   captureRecaptchaAndSendEmail,
+  initialValues,
 }) => {
   return (
     <>

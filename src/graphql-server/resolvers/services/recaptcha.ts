@@ -5,7 +5,7 @@ import qs from 'query-string';
 import { RECAPTCHA_THRESHOLD } from '../../../helpers/constants';
 
 const {
-  serverRuntimeConfig: { RECAPTCHA_V3_SECRET },
+  serverRuntimeConfig: { RECAPTCHA_V3_SECRET, RECAPTCHA_V2_SECRET },
 } = getConfig();
 
 const verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
@@ -37,6 +37,22 @@ export const verifyRecaptchaV3 = async ({
     recaptchaVerifyResponse.action !== expectedAction ||
     recaptchaVerifyResponse.score < RECAPTCHA_THRESHOLD
   ) {
+    return false;
+  }
+  return true;
+};
+
+export const verifyRecaptchaV2 = async (token: string): Promise<boolean> => {
+  const verifyPayload = {
+    response: token,
+    secret: RECAPTCHA_V2_SECRET,
+  };
+  const { data: recaptchaVerifyResponse } = await axios.post(
+    verifyUrl,
+    qs.stringify(verifyPayload)
+  );
+
+  if (!recaptchaVerifyResponse.success) {
     return false;
   }
   return true;

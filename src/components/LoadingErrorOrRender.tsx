@@ -11,7 +11,12 @@ interface Props {
   isLoading: boolean;
   isSuccess?: boolean;
   renderOnSuccess?: ReactNode;
+  renderOnFailure?: ReactNode;
 }
+
+const Error = () => (
+  <MdError color={cssTheme.colors.red} size={cssTheme.sizes.errorIcon} />
+);
 
 export const LoadingErrorOrRender: React.FC<Props> = ({
   isSuccess,
@@ -19,7 +24,15 @@ export const LoadingErrorOrRender: React.FC<Props> = ({
   isLoading,
   children,
   renderOnSuccess,
+  renderOnFailure,
 }) => {
+  if (!children) {
+    console.error(
+      'Inproper use of LoadingErrorOrRender:\nMust pass a child component.'
+    );
+    return <Error />;
+  }
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -27,28 +40,15 @@ export const LoadingErrorOrRender: React.FC<Props> = ({
   if (error) {
     // @TODO replace with centralized logging
     console.error('error', error);
-    return (
-      <MdError color={cssTheme.colors.red} size={cssTheme.sizes.errorIcon} />
-    );
+    return <Error />;
   }
 
   if (isSuccess === false) {
-    return (
-      <MdError color={cssTheme.colors.red} size={cssTheme.sizes.errorIcon} />
-    );
+    return renderOnFailure ? <>{renderOnFailure}</> : <Error />;
   }
 
-  if (isSuccess && renderOnSuccess) {
-    return <>{renderOnSuccess}</>;
-  }
-
-  if (!children) {
-    console.error(
-      'Inproper use of LoadingErrorOrRender:\nMust pass a child component.'
-    );
-    return (
-      <MdError color={cssTheme.colors.red} size={cssTheme.sizes.errorIcon} />
-    );
+  if (isSuccess) {
+    return <>{renderOnSuccess || children}</>;
   }
 
   return <>{children}</>;

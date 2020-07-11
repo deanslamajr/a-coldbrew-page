@@ -1,15 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
-import { FiCheckCircle } from 'react-icons/fi';
 import { IoMdArrowBack } from 'react-icons/io';
+import RecaptchaV2 from 'react-google-recaptcha';
 
-import { AccountCreateForm } from '../../components/AccountCreateForm';
+import {
+  AccountCreateForm,
+  AccountCreateFormFields,
+} from '../../components/AccountCreateForm';
 import { Modal } from '../../components/Modal';
 import { LoadingErrorOrRender } from '../../components/LoadingErrorOrRender';
 import { NavButton, NavButtonPositions } from '../../components/NavButton';
+import { SuccessIconThenAction } from '../../components/SuccessIconThenAction';
 
 import { withApollo } from '../../graphql-client/with-apollo';
 import { useSendAccountCreateEmailMutation } from '../../graphql-client/mutations/sendAccountCreateEmail.graphql';
@@ -23,6 +27,11 @@ import {
 
 const { publicRuntimeConfig } = getConfig();
 
+const initialValues: AccountCreateFormFields = {
+  email: '',
+  verifyEmail: '',
+};
+
 const NewPage: NextPage = () => {
   const router = useRouter();
   const recaptchaV3Instance = useContext(RecaptchaV3Context);
@@ -30,6 +39,9 @@ const NewPage: NextPage = () => {
     sendAccountCreateEmail,
     { error, data, loading },
   ] = useSendAccountCreateEmailMutation();
+  const [initialFormState, setInitialFormState] = useState<
+    AccountCreateFormFields
+  >(initialValues);
 
   const checkRecaptchaV3Status = (): Promise<string> => {
     if (!publicRuntimeConfig.RECAPTCHA_V3_SITE) {
@@ -44,17 +56,40 @@ const NewPage: NextPage = () => {
   };
 
   const captureRecaptchaAndSendEmail = async (email: string): Promise<any> => {
+    setInitialFormState({ email, verifyEmail: '' });
+
     const recaptchaV3Token = await checkRecaptchaV3Status();
 
     sendAccountCreateEmail({
       variables: {
         input: {
           email,
-          recaptchaV3Response: recaptchaV3Token,
+          recaptchaV3Token,
         },
       },
     });
   };
+
+  const handleRecaptchaComplete = (recaptchaV2Token: string | null) => {
+    if (recaptchaV2Token) {
+      sendAccountCreateEmail({
+        variables: {
+          input: {
+            email: initialFormState.email,
+            recaptchaV2Token,
+          },
+        },
+      });
+    }
+  };
+
+  const renderOnFailure =
+    data?.sendAccountCreateEmail.recaptchaPassed === false ? (
+      <RecaptchaV2
+        sitekey={publicRuntimeConfig.RECAPTCHA_V2_SITE}
+        onChange={handleRecaptchaComplete}
+      />
+    ) : null;
 
   return (
     <>
@@ -67,13 +102,14 @@ const NewPage: NextPage = () => {
           isLoading={loading}
           isSuccess={data?.sendAccountCreateEmail.emailSendSuccess}
           renderOnSuccess={
-            <FiCheckCircle
-              color={cssTheme.colors.green}
-              size={cssTheme.sizes.errorIcon}
+            <SuccessIconThenAction
+              delayedCallback={() => router.push('/a/login')}
             />
-          }>
+          }
+          renderOnFailure={renderOnFailure}>
           <AccountCreateForm
             captureRecaptchaAndSendEmail={captureRecaptchaAndSendEmail}
+            initialValues={initialFormState}
           />
         </LoadingErrorOrRender>
       </Modal>
