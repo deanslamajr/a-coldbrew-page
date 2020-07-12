@@ -144,11 +144,11 @@ export const AccountLoginModal: React.FC<Props> = ({
       />
       <FooterContainer>
         <Link href="/a/new">
-          <StyledLink tabIndex="0">
+          <StyledLink tabIndex={0}>
             <a>create new account</a>
           </StyledLink>
         </Link>
-        <StyledLink tabIndex="0">
+        <StyledLink tabIndex={0}>
           <a>remain anonymous</a>
         </StyledLink>
       </FooterContainer>
