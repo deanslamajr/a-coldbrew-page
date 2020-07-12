@@ -63,7 +63,7 @@ const Login: NextPage = () => {
     if (formIsReset) {
       return;
     }
-    return loginData?.loginAccount.wasLoginSuccess;
+    return loginData?.loginAccount.wasLoginSuccess || undefined;
   };
 
   return (
