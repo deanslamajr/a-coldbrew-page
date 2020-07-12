@@ -1,6 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { LoadingErrorOrRender } from './LoadingErrorOrRender';
-import { FiCheckCircle } from 'react-icons/fi';
+import { GoSignOut } from 'react-icons/go';
+
+import { NavButton, NavButtonPositions } from './NavButton';
+import { SuccessIconThenAction } from './SuccessIconThenAction';
 
 import { cssTheme } from '../helpers/constants';
 
@@ -17,11 +20,6 @@ export const AccountDetails: React.FC<Props> = ({
 }) => {
   const [logoutAccount, { data, loading, error }] = useLogoutAccountMutation();
 
-  const logout = async () => {
-    await logoutAccount();
-    onLogout();
-  };
-
   return (
     <>
       <LoadingErrorOrRender
@@ -29,14 +27,20 @@ export const AccountDetails: React.FC<Props> = ({
         isLoading={loading}
         isSuccess={data?.logoutAccount.wasLogoutSuccess}
         renderOnSuccess={
-          <FiCheckCircle
-            color={cssTheme.colors.green}
-            size={cssTheme.sizes.errorIcon}
-          />
+          <SuccessIconThenAction delayedCallback={() => onLogout()} />
         }>
         <>
           <div>Logged in as:{loggedInAccountEmail}</div>
-          <button onClick={logout}>Logout</button>
+          <NavButton
+            position={NavButtonPositions.BottomRight}
+            clickHandler={() => logoutAccount()}
+            icon={
+              <GoSignOut
+                color={cssTheme.colors.red}
+                size={cssTheme.sizes.navbarButtonIconSize}
+              />
+            }
+          />
         </>
       </LoadingErrorOrRender>
     </>

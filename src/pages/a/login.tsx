@@ -44,10 +44,11 @@ const Login: NextPage = () => {
   const [initialFormState, setInitialFormState] = useState<LoginFormFields>(
     initialValues
   );
+  const [formIsReset, setFormIsReset] = useState(true);
 
   const login = async ({ email, password }: LoginFormFields) => {
     setInitialFormState({ email, password });
-    return loginAccount({
+    await loginAccount({
       variables: {
         input: {
           email,
@@ -55,6 +56,14 @@ const Login: NextPage = () => {
         },
       },
     });
+    setFormIsReset(false);
+  };
+
+  const isSuccess = () => {
+    if (formIsReset) {
+      return;
+    }
+    return loginData?.loginAccount.wasLoginSuccess;
   };
 
   return (
@@ -74,13 +83,16 @@ const Login: NextPage = () => {
             return loggedInAccountEmail ? (
               <AccountDetails
                 loggedInAccountEmail={loggedInAccountEmail}
-                onLogout={() => refetch()}
+                onLogout={() => {
+                  setFormIsReset(true);
+                  return refetch();
+                }}
               />
             ) : (
               <LoadingErrorOrRender
                 error={loginError}
                 isLoading={isLoginLoading}
-                isSuccess={loginData?.loginAccount.wasLoginSuccess || undefined}
+                isSuccess={isSuccess()}
                 renderOnSuccess={
                   <SuccessIconThenAction delayedCallback={() => refetch()} />
                 }>
