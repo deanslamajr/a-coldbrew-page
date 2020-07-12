@@ -25,7 +25,7 @@ export const resolver: NonNullable<MutationResolvers<
       accountValues.password
     );
 
-    const isUserActive = accountValues.is_active;
+    const isUserActive = accountValues.isActive;
 
     if (isCorrectPassword && isUserActive) {
       await account.update({ lastLoginAt: new Date() });

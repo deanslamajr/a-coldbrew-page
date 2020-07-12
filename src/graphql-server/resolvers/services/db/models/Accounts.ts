@@ -24,16 +24,25 @@ export class Accounts extends Model<typeof Accounts> {
   password!: string;
 
   @Default(true)
-  @Column(DataType.BOOLEAN)
-  is_active!: boolean;
+  @Column({
+    type: DataType.BOOLEAN,
+    field: 'is_active',
+  })
+  isActive!: boolean;
 
   @CreatedAt
-  @Column(DataType.DATE)
-  created_at!: Date;
+  @Column({
+    type: DataType.DATE,
+    field: 'created_at',
+  })
+  createdAt!: Date;
 
   @UpdatedAt
-  @Column(DataType.DATE)
-  updated_at!: Date;
+  @Column({
+    type: DataType.DATE,
+    field: 'updated_at',
+  })
+  updatedAt!: Date;
 
   @Column({
     type: DataType.DATE,

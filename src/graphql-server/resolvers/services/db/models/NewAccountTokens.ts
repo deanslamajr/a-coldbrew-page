@@ -26,14 +26,23 @@ export class NewAccountTokens extends Model<typeof NewAccountTokens> {
   email!: string;
 
   @Default(false)
-  @Column(DataType.BOOLEAN)
-  has_been_used!: boolean;
+  @Column({
+    type: DataType.BOOLEAN,
+    field: 'has_been_used',
+  })
+  hasBeenUsed!: boolean;
 
   @CreatedAt
-  @Column(DataType.DATE)
-  created_at!: Date;
+  @Column({
+    type: DataType.DATE,
+    field: 'created_at',
+  })
+  createdAt!: Date;
 
   @UpdatedAt
-  @Column(DataType.DATE)
-  updated_at!: Date;
+  @Column({
+    type: DataType.DATE,
+    field: 'updated_at',
+  })
+  updatedAt!: Date;
 }

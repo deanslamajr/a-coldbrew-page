@@ -38,7 +38,7 @@ export const resolver: NonNullable<MutationResolvers<
     const tokenValues = getValuesFromInstance(newAccountToken);
 
     wasTokenValid =
-      isLessThanAnHourOld(tokenValues.created_at) && !tokenValues.has_been_used;
+      isLessThanAnHourOld(tokenValues.createdAt) && !tokenValues.hasBeenUsed;
 
     if (wasTokenValid) {
       const hashedPassword = await hashPassword(input.password);
@@ -53,8 +53,7 @@ export const resolver: NonNullable<MutationResolvers<
           password: hashedPassword,
           lastLoginAt: new Date(),
         }),
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        newAccountToken.update({ has_been_used: true }),
+        newAccountToken.update({ hasBeenUsed: true }),
         sendAccountCreatedSuccessEmail({ toEmail: tokenValues.email }),
       ]);
 

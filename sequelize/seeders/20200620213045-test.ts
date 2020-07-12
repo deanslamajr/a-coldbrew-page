@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { QueryInterface } from 'sequelize';
 
 import { NewAccountTokens } from '../../src/graphql-server/resolvers/services/db';
