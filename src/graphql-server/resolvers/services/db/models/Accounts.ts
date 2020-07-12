@@ -34,4 +34,10 @@ export class Accounts extends Model<typeof Accounts> {
   @UpdatedAt
   @Column(DataType.DATE)
   updated_at!: Date;
+
+  @Column({
+    type: DataType.DATE,
+    field: 'last_login_at',
+  })
+  lastLoginAt!: Date;
 }

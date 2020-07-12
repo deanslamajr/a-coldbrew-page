@@ -7,6 +7,7 @@ const migration = {
     return queryInterface.createTable(tableName, {
       created_at: Sequelize.DATE,
       updated_at: Sequelize.DATE,
+      last_login_at: Sequelize.DATE,
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,

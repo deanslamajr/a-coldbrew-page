@@ -51,6 +51,7 @@ export const resolver: NonNullable<MutationResolvers<
         Accounts.create({
           email: tokenValues.email,
           password: hashedPassword,
+          lastLoginAt: new Date(),
         }),
         // eslint-disable-next-line @typescript-eslint/camelcase
         newAccountToken.update({ has_been_used: true }),

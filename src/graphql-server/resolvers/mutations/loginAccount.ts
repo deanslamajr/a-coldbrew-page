@@ -28,6 +28,8 @@ export const resolver: NonNullable<MutationResolvers<
     const isUserActive = accountValues.is_active;
 
     if (isCorrectPassword && isUserActive) {
+      await account.update({ lastLoginAt: new Date() });
+
       wasLoginSuccess = true;
       context.session.setAccountId(accountValues.id);
     }

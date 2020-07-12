@@ -56,7 +56,7 @@ const NewPage: NextPage = () => {
   };
 
   const captureRecaptchaAndSendEmail = async (email: string): Promise<any> => {
-    setInitialFormState({ email, verifyEmail: '' });
+    setInitialFormState({ email, verifyEmail: email });
 
     const recaptchaV3Token = await checkRecaptchaV3Status();
 
