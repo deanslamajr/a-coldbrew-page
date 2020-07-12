@@ -30,7 +30,7 @@ export const ModalBase = styled.div`
   place-items: center;
 
   background-color: ${props => props.theme.colors.white};
-  min-width: 50vw;
+  min-width: 35vw;
   max-width: 75vw;
   min-height: 50vh;
   max-height: 75vh;

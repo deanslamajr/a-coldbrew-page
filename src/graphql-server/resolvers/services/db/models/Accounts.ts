@@ -7,6 +7,7 @@ import {
   CreatedAt,
   UpdatedAt,
   DataType,
+  Unique,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -17,6 +18,7 @@ export class Accounts extends Model<typeof Accounts> {
   @Column(DataType.UUIDV4)
   id!: string;
 
+  @Unique
   @Column(DataType.STRING)
   email!: string;
 

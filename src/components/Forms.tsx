@@ -10,7 +10,7 @@ export const FormFieldContainer = styled.div`
 
   ${breakpoints.phoneMax`
     margin: 1rem;
-    width: 85vw;
+    width: ${props => props.theme.sizes.formFieldWidthMobile};
   `}
 
   & input,
@@ -18,7 +18,7 @@ export const FormFieldContainer = styled.div`
     border: 1px solid ${({ theme }) => theme.colors.black};
     background-color: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.black};
-    width: 30rem;
+    width: ${({ theme }) => theme.sizes.formFieldWidth};
     outline: none;
     min-height: unset;
     font-family: ${({ theme }) => theme.font};

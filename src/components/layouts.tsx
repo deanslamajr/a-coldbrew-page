@@ -2,6 +2,7 @@ import {
   css,
   createGlobalStyle,
   CSSObject,
+  DefaultTheme,
   Interpolation,
   InterpolationFunction,
   SimpleInterpolation,
@@ -42,10 +43,10 @@ const tabletMax = <T extends {}>(
   cssRules:
     | CSSObject
     | TemplateStringsArray
-    | InterpolationFunction<ThemedStyledProps<T, {}>>,
+    | InterpolationFunction<ThemedStyledProps<T, DefaultTheme>>,
   ...interpolations:
     | SimpleInterpolation[]
-    | Array<Interpolation<ThemedStyledProps<T, {}>>>
+    | Array<Interpolation<ThemedStyledProps<T, DefaultTheme>>>
 ) => css`
   @media (max-width: 899px) {
     ${css(cssRules, ...interpolations)}
@@ -56,10 +57,10 @@ const phoneMax = <T extends {}>(
   cssRules:
     | CSSObject
     | TemplateStringsArray
-    | InterpolationFunction<ThemedStyledProps<T, {}>>,
+    | InterpolationFunction<ThemedStyledProps<T, DefaultTheme>>,
   ...interpolations:
     | SimpleInterpolation[]
-    | Array<Interpolation<ThemedStyledProps<T, {}>>>
+    | Array<Interpolation<ThemedStyledProps<T, DefaultTheme>>>
 ) => css`
   @media (max-width: 599px) {
     ${css(cssRules, ...interpolations)}

@@ -43,16 +43,13 @@ export const resolver: NonNullable<MutationResolvers<
     if (wasTokenValid) {
       const hashedPassword = await hashPassword(input.password);
 
-      const [newAccount] = await Promise.all<
-        Accounts,
-        NewAccountTokens,
-        SendEmailResponse
-      >([
-        Accounts.create({
-          email: tokenValues.email,
-          password: hashedPassword,
-          lastLoginAt: new Date(),
-        }),
+      const newAccount = await Accounts.create({
+        email: tokenValues.email,
+        password: hashedPassword,
+        lastLoginAt: new Date(),
+      });
+
+      await Promise.all<NewAccountTokens, SendEmailResponse>([
         newAccountToken.update({ hasBeenUsed: true }),
         sendAccountCreatedSuccessEmail({ toEmail: tokenValues.email }),
       ]);

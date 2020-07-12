@@ -30,12 +30,16 @@ const HeaderTextContainer = styled.div`
 const StyledLink = styled.div`
   padding: 0.5rem;
   cursor: pointer;
-  width: 30rem;
+  width: ${({ theme }) => theme.sizes.formFieldWidth};
   text-align: center;
   margin: 0.5rem;
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.clearGray};
   border-radius: 3px;
+
+  ${breakpoints.phoneMax`
+    width: ${props => props.theme.sizes.formFieldWidthMobile};
+  `}
 
   /* visited link */
   a:visited {
@@ -65,10 +69,6 @@ const StyledLink = styled.div`
   &:focus {
     outline: none;
   }
-
-  ${breakpoints.phoneMax`
-    width: 85vw;
-  `}
 `;
 
 const FooterContainer = styled.div`

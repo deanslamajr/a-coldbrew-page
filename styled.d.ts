@@ -19,6 +19,8 @@ declare module 'styled-components' {
     sizes: {
       navbarButtonIconSize: string;
       errorIcon: string;
+      formFieldWidth: string;
+      formFieldWidthMobile: string;
     };
     zIndex: {
       highest: number;

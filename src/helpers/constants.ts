@@ -16,6 +16,8 @@ export const cssTheme: DefaultTheme = {
   sizes: {
     navbarButtonIconSize: '2rem',
     errorIcon: '5rem',
+    formFieldWidth: '20rem',
+    formFieldWidthMobile: '85vw',
   },
   zIndex: {
     highest: 999,
