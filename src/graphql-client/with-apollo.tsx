@@ -31,7 +31,8 @@ export function withApollo<T>(PageComponent: NextPage<T>, { ssr = true } = {}) {
     apolloState,
     ...pageProps
   }: InitialProps) => {
-    const client = apolloClient || initApolloClient(apolloState);
+    const client =
+      apolloClient || initApolloClient({ initialState: apolloState });
     return (
       <ApolloProvider client={client}>
         <PageComponent {...(pageProps as T)} />
