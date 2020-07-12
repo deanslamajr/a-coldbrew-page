@@ -1,23 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// taken from https://gist.github.com/knowbody/578b35164b69e867ed4913423f6bed30
-export const Spinner = () => (
-  <StyledSpinner viewBox="0 0 50 50">
-    <circle
-      className="path"
-      cx="25"
-      cy="25"
-      r="20"
-      fill="none"
-      strokeWidth="4"
-    />
-  </StyledSpinner>
-);
+const Container = styled.div`
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden;
+`;
 
 const StyledSpinner = styled.svg`
   animation: rotate 2s linear infinite;
-  margin: -25px 0 0 -25px;
   width: 50px;
   height: 50px;
 
@@ -47,3 +38,19 @@ const StyledSpinner = styled.svg`
     }
   }
 `;
+
+// taken from https://gist.github.com/knowbody/578b35164b69e867ed4913423f6bed30
+export const Spinner = () => (
+  <Container>
+    <StyledSpinner viewBox="0 0 50 50">
+      <circle
+        className="path"
+        cx="25"
+        cy="25"
+        r="20"
+        fill="none"
+        strokeWidth="4"
+      />
+    </StyledSpinner>
+  </Container>
+);

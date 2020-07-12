@@ -26,17 +26,16 @@ const ScrollPreventionStyles = createGlobalStyle`
 `;
 
 export const ModalBase = styled.div`
+  display: grid;
+  place-items: center;
+
   background-color: ${props => props.theme.colors.white};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
   min-width: 50vw;
   max-width: 75vw;
   min-height: 50vh;
   max-height: 75vh;
   padding: 0.5rem;
-  overflow: overlay;
+  overflow: auto;
   ${shadow()}
 
   ${breakpoints.phoneMax`
@@ -47,11 +46,21 @@ export const ModalBase = styled.div`
   `}
 `;
 
+const ModalBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: min-content;
+`;
+
 export const Modal: React.FC = ({ children }) => {
   return (
     <ModalOverlay>
       <ScrollPreventionStyles />
-      <ModalBase>{children}</ModalBase>
+      <ModalBase>
+        <ModalBlock>{children}</ModalBlock>
+      </ModalBase>
     </ModalOverlay>
   );
 };

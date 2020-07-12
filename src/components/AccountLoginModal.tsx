@@ -6,6 +6,8 @@ import Link from 'next/link';
 
 import { NavButton, NavButtonPositions } from './NavButton';
 import { FormFieldContainer, InvalidFieldMessage } from './Forms';
+import { breakpoints } from './layouts';
+import { KeyAction } from './KeyAction';
 
 import { LoginFormFields } from '../pages/a/login';
 
@@ -28,6 +30,45 @@ const HeaderTextContainer = styled.div`
 const StyledLink = styled.div`
   padding: 0.5rem;
   cursor: pointer;
+  width: 30rem;
+  text-align: center;
+  margin: 0.5rem;
+  background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.clearGray};
+  border-radius: 3px;
+
+  /* visited link */
+  a:visited {
+    opacity: 1;
+  }
+
+  /* mouse over link */
+  a:hover {
+    opacity: 1;
+  }
+
+  /* selected link */
+  a:active {
+    opacity: 1;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: ${({ theme }) => theme.colors.clearGray};
+
+    a {
+      color: ${props => props.theme.colors.white};
+      text-shadow: none;
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  ${breakpoints.phoneMax`
+    width: 85vw;
+  `}
 `;
 
 const FooterContainer = styled.div`
@@ -80,28 +121,34 @@ export const AccountLoginModal: React.FC<Props> = ({
               </Field>
 
               {valid && (
-                <NavButton
-                  position={NavButtonPositions.BottomRight}
-                  clickHandler={() => form.submit()}
-                  icon={
-                    <MdDoneAll
-                      color={cssTheme.colors.green}
-                      size={cssTheme.sizes.navbarButtonIconSize}
-                    />
-                  }
-                />
+                <>
+                  <NavButton
+                    position={NavButtonPositions.BottomRight}
+                    clickHandler={() => form.submit()}
+                    icon={
+                      <MdDoneAll
+                        color={cssTheme.colors.green}
+                        size={cssTheme.sizes.navbarButtonIconSize}
+                      />
+                    }
+                  />
+                  <KeyAction
+                    keys={['Enter']}
+                    onKeyPress={() => form.submit()}
+                  />
+                </>
               )}
             </div>
           </form>
         )}
       />
       <FooterContainer>
-        <StyledLink>
-          <Link href="/a/new">
+        <Link href="/a/new">
+          <StyledLink tabIndex="0">
             <a>create new account</a>
-          </Link>
-        </StyledLink>
-        <StyledLink>
+          </StyledLink>
+        </Link>
+        <StyledLink tabIndex="0">
           <a>remain anonymous</a>
         </StyledLink>
       </FooterContainer>
