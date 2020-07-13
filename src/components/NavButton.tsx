@@ -1,6 +1,10 @@
 import styled, { DefaultTheme, StyledComponent } from 'styled-components';
+import { MdDoneAll } from 'react-icons/md';
 
-import { breakpoints, shadowEnlargenOnHover } from './layouts';
+import { shadowEnlargenOnHover } from './layouts';
+import { KeyAction } from './KeyAction';
+
+import { cssTheme } from '../helpers/constants';
 
 export enum NavButtonPositions {
   TopLeft = 'TOP_LEFT',
@@ -82,6 +86,32 @@ const getButtonByPosition = (
   }
 
   return button;
+};
+
+interface ConfirmButtonProps {
+  onClick: () => void;
+  position: NavButtonPositions;
+}
+
+export const ConfirmButton: React.FC<ConfirmButtonProps> = ({
+  onClick,
+  position,
+}) => {
+  return (
+    <>
+      <NavButton
+        position={position}
+        clickHandler={onClick}
+        icon={
+          <MdDoneAll
+            color={cssTheme.colors.green}
+            size={cssTheme.sizes.navbarButtonIconSize}
+          />
+        }
+      />
+      <KeyAction keys={['Enter']} onKeyPress={onClick} />
+    </>
+  );
 };
 
 export const NavButton: React.FC<NavButtonProps> = ({

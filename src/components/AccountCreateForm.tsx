@@ -4,7 +4,7 @@ import { MdDoneAll } from 'react-icons/md';
 import styled from 'styled-components';
 import * as EmailValidator from 'email-validator';
 
-import { NavButton, NavButtonPositions } from './NavButton';
+import { ConfirmButton, NavButtonPositions } from './NavButton';
 import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 
 import { cssTheme } from '../helpers/constants';
@@ -100,26 +100,15 @@ export const AccountCreateForm: React.FC<Props> = ({
               </Field>
 
               {valid && (
-                <NavButton
+                <ConfirmButton
                   position={NavButtonPositions.BottomRight}
-                  clickHandler={() => form.submit()}
-                  icon={
-                    <MdDoneAll
-                      color={cssTheme.colors.green}
-                      size={cssTheme.sizes.navbarButtonIconSize}
-                    />
-                  }
+                  onClick={() => form.submit()}
                 />
               )}
             </div>
           </form>
         )}
       />
-      {/* TODO: <RecaptchaV2
-        show={false}
-        onPass={()=>{}}
-        onFail={()=>{}}
-      /> */}
     </>
   );
 };

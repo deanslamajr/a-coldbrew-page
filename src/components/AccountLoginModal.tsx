@@ -1,17 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Form, Field } from 'react-final-form';
-import { MdDoneAll } from 'react-icons/md';
 import styled from 'styled-components';
 import Link from 'next/link';
 
-import { NavButton, NavButtonPositions } from './NavButton';
+import { ConfirmButton, NavButtonPositions } from './NavButton';
 import { FormFieldContainer, InvalidFieldMessage } from './Forms';
 import { breakpoints } from './layouts';
-import { KeyAction } from './KeyAction';
 
 import { LoginFormFields } from '../pages/a/login';
-
-import { cssTheme } from '../helpers/constants';
 
 interface Props {
   initialValues: LoginFormFields;
@@ -121,22 +117,10 @@ export const AccountLoginModal: React.FC<Props> = ({
               </Field>
 
               {valid && (
-                <>
-                  <NavButton
-                    position={NavButtonPositions.BottomRight}
-                    clickHandler={() => form.submit()}
-                    icon={
-                      <MdDoneAll
-                        color={cssTheme.colors.green}
-                        size={cssTheme.sizes.navbarButtonIconSize}
-                      />
-                    }
-                  />
-                  <KeyAction
-                    keys={['Enter']}
-                    onKeyPress={() => form.submit()}
-                  />
-                </>
+                <ConfirmButton
+                  position={NavButtonPositions.BottomRight}
+                  onClick={() => form.submit()}
+                />
               )}
             </div>
           </form>
