@@ -18,6 +18,7 @@ const serverSecrets = {
   DB_HOST: fromProcessEnv('DB_HOST'),
   DB_USERNAME: fromProcessEnv('DB_USERNAME'),
   DB_PASSWORD: fromProcessEnv('DB_PASSWORD'),
+  NODE_ENV: fromProcessEnv('NODE_ENV'),
   RECAPTCHA_V3_SECRET: fromProcessEnv('RECAPTCHA_V3_SECRET'),
   RECAPTCHA_V2_SECRET: fromProcessEnv('RECAPTCHA_V2_SECRET'),
   SENDGRID_APIKEY: fromProcessEnv('SENDGRID_APIKEY'),
