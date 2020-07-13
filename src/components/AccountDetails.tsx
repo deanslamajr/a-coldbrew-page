@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { LoadingErrorOrRender } from './LoadingErrorOrRender';
-import { GoSignOut } from 'react-icons/go';
+import { GiExitDoor } from 'react-icons/gi';
 
 import { NavButton, NavButtonPositions } from './NavButton';
 import { SuccessIconThenAction } from './SuccessIconThenAction';
@@ -35,7 +35,7 @@ export const AccountDetails: React.FC<Props> = ({
             position={NavButtonPositions.BottomRight}
             clickHandler={() => logoutAccount()}
             icon={
-              <GoSignOut
+              <GiExitDoor
                 color={cssTheme.colors.red}
                 size={cssTheme.sizes.navbarButtonIconSize}
               />

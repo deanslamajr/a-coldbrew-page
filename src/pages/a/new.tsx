@@ -3,7 +3,6 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
-import { IoMdArrowBack } from 'react-icons/io';
 import RecaptchaV2 from 'react-google-recaptcha';
 
 import {
@@ -12,7 +11,7 @@ import {
 } from '../../components/AccountCreateForm';
 import { Modal } from '../../components/Modal';
 import { LoadingErrorOrRender } from '../../components/LoadingErrorOrRender';
-import { NavButton, NavButtonPositions } from '../../components/NavButton';
+import { BackButton, NavButtonPositions } from '../../components/NavButton';
 import { SuccessIconThenAction } from '../../components/SuccessIconThenAction';
 
 import { withApollo } from '../../graphql-client/with-apollo';
@@ -20,10 +19,7 @@ import { useSendAccountCreateEmailMutation } from '../../graphql-client/mutation
 
 import { RecaptchaV3Context } from '../../contexts/RecaptchaV3Context';
 
-import {
-  cssTheme,
-  RECAPTCHA_ACTION_CREATE_ACCOUNT,
-} from '../../helpers/constants';
+import { RECAPTCHA_ACTION_CREATE_ACCOUNT } from '../../helpers/constants';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -113,15 +109,9 @@ const NewPage: NextPage = () => {
           />
         </LoadingErrorOrRender>
       </Modal>
-      <NavButton
+      <BackButton
         position={NavButtonPositions.BottomLeft}
-        clickHandler={() => router.push('/a/login')}
-        icon={
-          <IoMdArrowBack
-            color={cssTheme.colors.red}
-            size={cssTheme.sizes.navbarButtonIconSize}
-          />
-        }
+        onClick={() => router.push('/a/login')}
       />
     </>
   );

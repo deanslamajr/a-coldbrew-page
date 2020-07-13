@@ -3,16 +3,14 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
-import { IoMdArrowBack } from 'react-icons/io';
 
 import { AccountCreateFinishForm } from '../../components/AccountCreateFinishForm';
 import { Modal } from '../../components/Modal';
 import { LoadingErrorOrRender } from '../../components/LoadingErrorOrRender';
-import { NavButton, NavButtonPositions } from '../../components/NavButton';
+import { BackButton, NavButtonPositions } from '../../components/NavButton';
 import { SuccessIconThenAction } from '../../components/SuccessIconThenAction';
 
 import { redirect } from '../../helpers/nextLifeCycle';
-import { cssTheme } from '../../helpers/constants';
 
 import { withApollo } from '../../graphql-client/with-apollo';
 import { useFinishAccountCreateMutation } from '../../graphql-client/mutations/finishAccountCreate.graphql';
@@ -60,15 +58,9 @@ const CreatePage: NextPage<CreatePageProps> = ({ token }) => {
           />
         </LoadingErrorOrRender>
       </Modal>
-      <NavButton
+      <BackButton
         position={NavButtonPositions.BottomLeft}
-        clickHandler={() => router.push('/a/login')}
-        icon={
-          <IoMdArrowBack
-            color={cssTheme.colors.red}
-            size={cssTheme.sizes.navbarButtonIconSize}
-          />
-        }
+        onClick={() => router.push('/a/login')}
       />
     </>
   );

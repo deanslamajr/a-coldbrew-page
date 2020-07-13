@@ -1,8 +1,9 @@
 import styled, { DefaultTheme, StyledComponent } from 'styled-components';
 import { MdDoneAll } from 'react-icons/md';
+import { IoMdArrowBack } from 'react-icons/io';
+import useKey from '@rooks/use-key';
 
 import { shadowEnlargenOnHover } from './layouts';
-import { KeyAction } from './KeyAction';
 
 import { cssTheme } from '../helpers/constants';
 
@@ -88,29 +89,42 @@ const getButtonByPosition = (
   return button;
 };
 
-interface ConfirmButtonProps {
+interface ButtonProps {
   onClick: () => void;
   position: NavButtonPositions;
 }
 
-export const ConfirmButton: React.FC<ConfirmButtonProps> = ({
-  onClick,
-  position,
-}) => {
+export const ConfirmButton: React.FC<ButtonProps> = ({ onClick, position }) => {
+  useKey(['Enter'], onClick);
+
   return (
-    <>
-      <NavButton
-        position={position}
-        clickHandler={onClick}
-        icon={
-          <MdDoneAll
-            color={cssTheme.colors.green}
-            size={cssTheme.sizes.navbarButtonIconSize}
-          />
-        }
-      />
-      <KeyAction keys={['Enter']} onKeyPress={onClick} />
-    </>
+    <NavButton
+      position={position}
+      clickHandler={onClick}
+      icon={
+        <MdDoneAll
+          color={cssTheme.colors.green}
+          size={cssTheme.sizes.navbarButtonIconSize}
+        />
+      }
+    />
+  );
+};
+
+export const BackButton: React.FC<ButtonProps> = ({ onClick, position }) => {
+  useKey(['Escape'], onClick);
+
+  return (
+    <NavButton
+      position={position}
+      clickHandler={onClick}
+      icon={
+        <IoMdArrowBack
+          color={cssTheme.colors.black}
+          size={cssTheme.sizes.navbarButtonIconSize}
+        />
+      }
+    />
   );
 };
 

@@ -1,10 +1,9 @@
-import { IoMdArrowBack } from 'react-icons/io';
 import { GiCheckeredFlag } from 'react-icons/gi';
 import styled from 'styled-components';
 import nl2br from 'react-nl2br';
 
 import { Modal } from './Modal';
-import { NavButton, NavButtonPositions } from './NavButton';
+import { BackButton, NavButton, NavButtonPositions } from './NavButton';
 import { breakpoints } from './layouts';
 
 import { cssTheme } from '../helpers/constants';
@@ -53,15 +52,9 @@ export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
           {nl2br(chore.description)}
         </ChoreDescriptionContainer>
       </div>
-      <NavButton
+      <BackButton
         position={NavButtonPositions.BottomLeft}
-        clickHandler={() => handleHide()}
-        icon={
-          <IoMdArrowBack
-            color={cssTheme.colors.red}
-            size={cssTheme.sizes.navbarButtonIconSize}
-          />
-        }
+        onClick={() => handleHide()}
       />
       <NavButton
         position={NavButtonPositions.BottomRight}

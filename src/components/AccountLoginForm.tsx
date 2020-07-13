@@ -1,13 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Form, Field } from 'react-final-form';
 import styled from 'styled-components';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { FaUserPlus } from 'react-icons/fa';
 
-import { ConfirmButton, NavButtonPositions } from './NavButton';
+import { ConfirmButton, NavButton, NavButtonPositions } from './NavButton';
 import { FormFieldContainer, InvalidFieldMessage } from './Forms';
-import { breakpoints } from './layouts';
 
 import { LoginFormFields } from '../pages/a/login';
+
+import { cssTheme } from '../helpers/constants';
 
 interface Props {
   initialValues: LoginFormFields;
@@ -23,60 +25,13 @@ const HeaderTextContainer = styled.div`
   text-align: center;
 `;
 
-const StyledLink = styled.div`
-  padding: 0.5rem;
-  cursor: pointer;
-  width: ${({ theme }) => theme.sizes.formFieldWidth};
-  text-align: center;
-  margin: 0.5rem;
-  background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.clearGray};
-  border-radius: 3px;
-
-  ${breakpoints.phoneMax`
-    width: ${props => props.theme.sizes.formFieldWidthMobile};
-  `}
-
-  /* visited link */
-  a:visited {
-    opacity: 1;
-  }
-
-  /* mouse over link */
-  a:hover {
-    opacity: 1;
-  }
-
-  /* selected link */
-  a:active {
-    opacity: 1;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: ${({ theme }) => theme.colors.clearGray};
-
-    a {
-      color: ${props => props.theme.colors.white};
-      text-shadow: none;
-    }
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const FooterContainer = styled.div`
-  display: block;
-  margin-bottom: 2rem;
-`;
-
-export const AccountLoginModal: React.FC<Props> = ({
+export const AccountLoginForm: React.FC<Props> = ({
   initialValues,
   isFailedLogin,
   onLogin,
 }) => {
+  const router = useRouter();
+
   return (
     <>
       <HeaderTextContainer>
@@ -116,6 +71,17 @@ export const AccountLoginModal: React.FC<Props> = ({
                 )}
               </Field>
 
+              <NavButton
+                position={NavButtonPositions.TopRight}
+                clickHandler={() => router.push('/a/new')}
+                icon={
+                  <FaUserPlus
+                    color={cssTheme.colors.green}
+                    size={cssTheme.sizes.navbarButtonIconSize}
+                  />
+                }
+              />
+
               {valid && (
                 <ConfirmButton
                   position={NavButtonPositions.BottomRight}
@@ -126,16 +92,6 @@ export const AccountLoginModal: React.FC<Props> = ({
           </form>
         )}
       />
-      <FooterContainer>
-        <Link href="/a/new">
-          <StyledLink tabIndex={0}>
-            <a>create new account</a>
-          </StyledLink>
-        </Link>
-        <StyledLink tabIndex={0}>
-          <a>remain anonymous</a>
-        </StyledLink>
-      </FooterContainer>
     </>
   );
 };

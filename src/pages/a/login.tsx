@@ -3,14 +3,17 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
-import { IoMdArrowBack } from 'react-icons/io';
 
-import { AccountLoginModal } from '../../components/AccountLoginModal';
+import { AccountLoginForm } from '../../components/AccountLoginForm';
 import { LoadingErrorOrRenderQuery } from '../../components/LoadingErrorOrRenderQuery';
 import { LoadingErrorOrRender } from '../../components/LoadingErrorOrRender';
 import { AccountDetails } from '../../components/AccountDetails';
 import { Modal } from '../../components/Modal';
-import { NavButton, NavButtonPositions } from '../../components/NavButton';
+import {
+  NavButton,
+  BackButton,
+  NavButtonPositions,
+} from '../../components/NavButton';
 import { SuccessIconThenAction } from '../../components/SuccessIconThenAction';
 
 import { cssTheme } from '../../helpers/constants';
@@ -96,7 +99,7 @@ const Login: NextPage = () => {
                 renderOnSuccess={
                   <SuccessIconThenAction delayedCallback={() => refetch()} />
                 }>
-                <AccountLoginModal
+                <AccountLoginForm
                   initialValues={initialFormState}
                   isFailedLogin={
                     called &&
@@ -111,15 +114,9 @@ const Login: NextPage = () => {
           }}
         />
       </Modal>
-      <NavButton
+      <BackButton
         position={NavButtonPositions.BottomLeft}
-        clickHandler={() => router.push('/')}
-        icon={
-          <IoMdArrowBack
-            color={cssTheme.colors.red}
-            size={cssTheme.sizes.navbarButtonIconSize}
-          />
-        }
+        onClick={() => router.push('/')}
       />
     </>
   );

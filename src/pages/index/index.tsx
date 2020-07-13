@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import shortid from 'shortid';
 import { RiAddLine } from 'react-icons/ri';
-import { IoMdSearch } from 'react-icons/io';
+import { FaUser } from 'react-icons/fa';
 
 import {
   ChoreButton,
@@ -16,7 +17,6 @@ import {
   CreateChoreModal,
   ChoreFormValuesInterface,
 } from '../../components/CreateChoreModal';
-import { FiltersModal } from '../../components/FiltersModal';
 import { ChoreDetailsModal } from '../../components/ChoreDetailsModal';
 import { Spinner } from '../../components/Spinner';
 
@@ -138,11 +138,12 @@ const sortChores = (chores: ChoreInterface[]): ChoreInterface[] => {
 
 const Home: NextPage = () => {
   const [chores, setChores] = useState<ChoreInterface[] | null>(null);
-  const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [showCreateChoreModal, setShowCreateChoreModal] = useState(false);
   const [selectedChore, setSelectedChore] = useState<ChoreInterface | null>(
     null
   );
+
+  const router = useRouter();
 
   // Rehydrate / Initialize Chores
   useEffect(() => {
@@ -160,10 +161,6 @@ const Home: NextPage = () => {
     const sortedChores = sortChores(newChoresPayload);
     setChores(sortedChores);
     updateChoresOnClientCache(sortedChores);
-  };
-
-  const toggleFiltersModal = (show = !showFiltersModal): void => {
-    setShowFiltersModal(show);
   };
 
   const toggleChoreModal = (show = !showCreateChoreModal): void => {
@@ -201,7 +198,7 @@ const Home: NextPage = () => {
   };
 
   const showMainNavButtons = (): boolean =>
-    !showCreateChoreModal && !showFiltersModal && !selectedChore;
+    !showCreateChoreModal && !selectedChore;
 
   return (
     <>
@@ -237,9 +234,9 @@ const Home: NextPage = () => {
       {showMainNavButtons() && (
         <NavButton
           position={NavButtonPositions.BottomLeft}
-          clickHandler={() => toggleFiltersModal(true)}
+          clickHandler={() => router.push('/a/login')}
           icon={
-            <IoMdSearch
+            <FaUser
               color={cssTheme.colors.blue}
               size={cssTheme.sizes.navbarButtonIconSize}
             />
@@ -251,9 +248,6 @@ const Home: NextPage = () => {
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
           handleSubmit={handleSubmit}
         />
-      )}
-      {showFiltersModal && (
-        <FiltersModal closeFiltersModal={() => toggleFiltersModal(false)} />
       )}
       {selectedChore && (
         <ChoreDetailsModal

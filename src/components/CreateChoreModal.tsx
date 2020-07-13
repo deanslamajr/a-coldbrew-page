@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { Form, Field } from 'react-final-form';
 import { DateSingleInput } from '@datepicker-react/styled';
 import { RiCheckLine } from 'react-icons/ri';
-import { IoMdArrowBack } from 'react-icons/io';
 import styled from 'styled-components';
 
-import { NavButton, NavButtonPositions } from './NavButton';
+import { BackButton, NavButton, NavButtonPositions } from './NavButton';
 import { Modal } from './Modal';
 import { FormFieldContainer } from './Forms';
 
@@ -137,15 +136,9 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
             {/* but can set higher numbers e.g. every 1 day OR 2 days OR 3 days etc.*/}
 
             {!showDueDatePicker && (
-              <NavButton
+              <BackButton
                 position={NavButtonPositions.BottomLeft}
-                clickHandler={() => handleHideCreateChoreModal()}
-                icon={
-                  <IoMdArrowBack
-                    color={cssTheme.colors.red}
-                    size={cssTheme.sizes.navbarButtonIconSize}
-                  />
-                }
+                onClick={() => handleHideCreateChoreModal()}
               />
             )}
             {!showDueDatePicker && (
