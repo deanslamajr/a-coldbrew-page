@@ -8,8 +8,11 @@ import {
   UpdatedAt,
   DataType,
   Unique,
+  HasMany,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
+
+import { Chores } from './Chores';
 
 @Table({ tableName: 'accounts' })
 export class Accounts extends Model<typeof Accounts> {
@@ -24,6 +27,9 @@ export class Accounts extends Model<typeof Accounts> {
 
   @Column(DataType.STRING)
   password!: string;
+
+  @HasMany(() => Chores, 'created_by_account_id')
+  choresCreated!: Chores[];
 
   @Default(true)
   @Column({

@@ -20,7 +20,7 @@
     "migrate:undo": "npm run build:migrations && sequelize db:migrate:undo",
     "migrate:undo:all": "npm run build:migrations && sequelize db:migrate:undo:all",
     "seed": "npm run build:migrations && sequelize db:seed:all",
-    "seed:undo": "npm run build:migrations && sequelize db:seed:undo:all",
+    "seed:undo:all": "npm run build:migrations && sequelize db:seed:undo:all",
     "publish": "npm run image:build && npm run image:promote && npm run image:delete",
     "publish:test": "npm version prerelease --preid=g\"$(git rev-parse --short=5 HEAD)\" && npm run publish",
     "publish:patch": "npm version patch && npm run publish",
