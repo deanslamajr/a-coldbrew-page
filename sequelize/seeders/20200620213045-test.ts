@@ -2,15 +2,17 @@ import { QueryInterface } from 'sequelize';
 
 import { NewAccountTokens } from '../../src/graphql-server/resolvers/services/db';
 
-const email = 'testtest@test.test';
+import { newAccountTokensTable, testEmail } from '../constants';
 
 const migration = {
   up: async (): Promise<NewAccountTokens> => {
-    return NewAccountTokens.create({ email });
+    return NewAccountTokens.create({ email: testEmail });
   },
 
   down: (queryInterface: QueryInterface): Promise<object> => {
-    return queryInterface.bulkDelete('new-account-tokens', { email });
+    return queryInterface.bulkDelete(newAccountTokensTable, {
+      email: testEmail,
+    });
   },
 };
 

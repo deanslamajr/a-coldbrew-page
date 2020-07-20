@@ -9,10 +9,12 @@ import {
   DataType,
   Unique,
   HasMany,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Chores } from './Chores';
+import { ChoreAccounts } from './ChoreAccounts';
 
 @Table({ tableName: 'accounts' })
 export class Accounts extends Model<typeof Accounts> {
@@ -31,12 +33,26 @@ export class Accounts extends Model<typeof Accounts> {
   @HasMany(() => Chores, 'created_by_account_id')
   choresCreated!: Chores[];
 
+  @BelongsToMany(
+    () => Chores,
+    () => ChoreAccounts,
+    'chore_id',
+    'account_id'
+  )
+  chores!: Array<Chores & { ChoreAccounts: ChoreAccounts }>;
+
   @Default(true)
   @Column({
     type: DataType.BOOLEAN,
     field: 'is_active',
   })
   isActive!: boolean;
+
+  @Column({
+    type: DataType.DATE,
+    field: 'last_login_at',
+  })
+  lastLoginAt!: Date;
 
   @CreatedAt
   @Column({
@@ -51,10 +67,4 @@ export class Accounts extends Model<typeof Accounts> {
     field: 'updated_at',
   })
   updatedAt!: Date;
-
-  @Column({
-    type: DataType.DATE,
-    field: 'last_login_at',
-  })
-  lastLoginAt!: Date;
 }

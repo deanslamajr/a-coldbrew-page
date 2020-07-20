@@ -8,11 +8,13 @@ import {
   UpdatedAt,
   DataType,
   BelongsTo,
+  BelongsToMany,
   AllowNull,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Accounts } from './Accounts';
+import { ChoreAccounts } from './ChoreAccounts';
 
 import { choreVersion } from '../../../../../helpers/constants';
 
@@ -50,7 +52,11 @@ export class Chores extends Model<typeof Chores> {
   @BelongsTo(() => Accounts, 'created_by_account_id')
   createdByAccount!: Accounts;
 
-  // @TODO add Accounts->Chores Manyto1 association responsibleTo (needs a join table?)
+  @BelongsToMany(
+    () => Accounts,
+    () => ChoreAccounts
+  )
+  ownedByAccounts!: Accounts[];
 
   @AllowNull(false)
   @Default(true)

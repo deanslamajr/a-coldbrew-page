@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { QueryInterface } from 'sequelize';
-const tableName = 'accounts';
+
+import { accountsTable } from '../constants';
 
 const migration = {
   up: (queryInterface: QueryInterface, Sequelize): Promise<void> => {
-    return queryInterface.createTable(tableName, {
+    return queryInterface.createTable(accountsTable, {
       created_at: Sequelize.DATE,
       updated_at: Sequelize.DATE,
       last_login_at: Sequelize.DATE,
@@ -31,7 +32,7 @@ const migration = {
   },
 
   down: (queryInterface: QueryInterface): Promise<void> => {
-    return queryInterface.dropTable(tableName);
+    return queryInterface.dropTable(accountsTable);
   },
 };
 

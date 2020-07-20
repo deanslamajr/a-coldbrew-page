@@ -1,6 +1,7 @@
 import { QueryInterface } from 'sequelize';
 
-const accountsTable = 'accounts';
+import { accountsTable } from '../constants';
+
 const uniqueIndex = 'accounts_email_unique';
 
 const migration = {
