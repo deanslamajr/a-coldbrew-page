@@ -8,7 +8,7 @@ A simple, opinionated approach to managing chores
 
 - `nvm use`
 - `npm rm -rf node_modules && npm install`
-- [Initialize DB](Initialize-DB)
+- [Initialize DB](#initialize-db)
 - `npm run dev`
 
 ## Format on save
