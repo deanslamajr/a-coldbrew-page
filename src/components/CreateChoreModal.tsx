@@ -8,6 +8,8 @@ import { BackButton, NavButton, NavButtonPositions } from './NavButton';
 import { Modal } from './Modal';
 import { FormFieldContainer } from './Forms';
 
+import { useCreateChoreMutation } from '../graphql-client/mutations/createChore.graphql';
+
 import { cssTheme } from '../helpers/constants';
 
 export interface ChoreFormValuesInterface {
@@ -18,12 +20,14 @@ export interface ChoreFormValuesInterface {
 
 interface ChoreFormPropsInterface {
   handleHideCreateChoreModal: () => void;
-  handleSubmit: (values: ChoreFormValuesInterface) => void;
+  hasSession: boolean;
+  onAfterSubmit: () => Promise<void>;
 }
 
 interface CreateChoreModalProps {
   handleHideCreateChoreModal: () => void;
-  handleSubmit: (values: ChoreFormValuesInterface) => void;
+  hasSession: boolean;
+  onAfterSubmit: () => Promise<void>;
 }
 
 const initialValues: ChoreFormValuesInterface = {
@@ -79,9 +83,29 @@ const DatePickerStylesOverride = styled.div`
 
 export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
   handleHideCreateChoreModal,
-  handleSubmit,
+  hasSession,
+  onAfterSubmit,
 }) => {
+  const [createChore, { data, error, loading }] = useCreateChoreMutation();
+
   const [showDueDatePicker, toggleShowDueDatePicker] = useState(false);
+
+  const handleSubmit = async (values: ChoreFormValuesInterface) => {
+    if (hasSession) {
+      await createChore({
+        variables: {
+          input: {
+            chore: {
+              summary: values.summary,
+              description: values.description,
+              dueDate: values.dueDate,
+            },
+          },
+        },
+      });
+    }
+    onAfterSubmit();
+  };
 
   return (
     <Form
@@ -162,13 +186,15 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
 
 export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
   handleHideCreateChoreModal,
-  handleSubmit,
+  hasSession,
+  onAfterSubmit,
 }) => {
   return (
     <Modal>
       <ChoreForm
         handleHideCreateChoreModal={handleHideCreateChoreModal}
-        handleSubmit={handleSubmit}
+        hasSession={hasSession}
+        onAfterSubmit={onAfterSubmit}
       />
     </Modal>
   );

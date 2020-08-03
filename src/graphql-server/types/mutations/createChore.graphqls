@@ -1,0 +1,14 @@
+input Chore {
+  summary: String!
+  description: String!
+  dueDate: Date!
+}
+
+input CreateChoreInput {
+  chore: Chore!
+}
+
+type CreateChoreResponse {
+  isSessionValid: Boolean!
+  wasCreateSuccess: Boolean!
+}

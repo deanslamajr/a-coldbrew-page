@@ -36,6 +36,7 @@ import { choreVersion, cssTheme } from '../../helpers/constants';
 import { ChoreInterface, DueDateInterface } from '../../types';
 
 import { withApollo } from '../../graphql-client/with-apollo';
+import { useGetAccountFromSessionQuery } from '../../graphql-client/queries/getAccountFromSession.graphql';
 
 interface ChoreProps {
   dueDate: DueDateInterface;
@@ -136,21 +137,50 @@ const sortChores = (chores: ChoreInterface[]): ChoreInterface[] => {
   });
 };
 
+const useGetChores = () => {
+  return {
+    data: {},
+    error: null,
+    loading: false,
+    refetch: async () => {
+      console.log('refetch invoked!');
+      return;
+    },
+  };
+};
+
 const Home: NextPage = () => {
   const [chores, setChores] = useState<ChoreInterface[] | null>(null);
   const [showCreateChoreModal, setShowCreateChoreModal] = useState(false);
   const [selectedChore, setSelectedChore] = useState<ChoreInterface | null>(
     null
   );
+  const [hasSession, setHasSession] = useState(false);
 
   const router = useRouter();
 
+  const {
+    data: sessionQueryResponse,
+    error: sessionQueryError,
+    loading: isLoadingSession,
+  } = useGetAccountFromSessionQuery();
+
   // Rehydrate / Initialize Chores
   useEffect(() => {
+    if (!isLoadingSession) {
+      const hasSessionFromResponse = Boolean(
+        sessionQueryResponse?.getAccountFromSession.email
+      );
+      if (hasSessionFromResponse !== hasSession) {
+        setHasSession(hasSessionFromResponse);
+      }
+    }
     const hydratedChores = getChoresFromClientCache();
     const sortedChores = sortChores(hydratedChores);
     setChores(sortedChores);
-  }, []);
+  }, [hasSession, isLoadingSession, sessionQueryResponse]);
+
+  const { data, error, loading, refetch } = useGetChores();
 
   const markTaskCompleted = (id: string): void => {
     const newChoresPayload = [...(chores as ChoreInterface[])];
@@ -246,7 +276,11 @@ const Home: NextPage = () => {
       {showCreateChoreModal && (
         <CreateChoreModal
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
-          handleSubmit={handleSubmit}
+          hasSession={hasSession}
+          onAfterSubmit={async () => {
+            refetch();
+            toggleChoreModal(false);
+          }}
         />
       )}
       {selectedChore && (
