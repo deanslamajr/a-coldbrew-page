@@ -20,13 +20,11 @@ export interface ChoreFormValuesInterface {
 
 interface ChoreFormPropsInterface {
   handleHideCreateChoreModal: () => void;
-  hasSession: boolean;
   onAfterSubmit: () => Promise<void>;
 }
 
 interface CreateChoreModalProps {
   handleHideCreateChoreModal: () => void;
-  hasSession: boolean;
   onAfterSubmit: () => Promise<void>;
 }
 
@@ -83,26 +81,26 @@ const DatePickerStylesOverride = styled.div`
 
 export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
   handleHideCreateChoreModal,
-  hasSession,
   onAfterSubmit,
 }) => {
-  const [createChore, { data, error, loading }] = useCreateChoreMutation();
+  const [createChore] = useCreateChoreMutation();
 
   const [showDueDatePicker, toggleShowDueDatePicker] = useState(false);
 
   const handleSubmit = async (values: ChoreFormValuesInterface) => {
-    if (hasSession) {
-      await createChore({
-        variables: {
-          input: {
-            chore: {
-              summary: values.summary,
-              description: values.description,
-              dueDate: values.dueDate,
-            },
+    const createChoreResponse = await createChore({
+      variables: {
+        input: {
+          chore: {
+            summary: values.summary,
+            description: values.description,
+            dueDate: values.dueDate,
           },
         },
-      });
+      },
+    });
+    if (!createChoreResponse?.data?.createChore.hasAccountSession) {
+      // @TODO use localstorage when user doesn't have session
     }
     onAfterSubmit();
   };
@@ -186,14 +184,12 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
 
 export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
   handleHideCreateChoreModal,
-  hasSession,
   onAfterSubmit,
 }) => {
   return (
     <Modal>
       <ChoreForm
         handleHideCreateChoreModal={handleHideCreateChoreModal}
-        hasSession={hasSession}
         onAfterSubmit={onAfterSubmit}
       />
     </Modal>

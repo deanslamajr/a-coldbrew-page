@@ -1,14 +1,14 @@
-input Chore {
+input ChoreInput {
   summary: String!
   description: String!
   dueDate: Date!
 }
 
 input CreateChoreInput {
-  chore: Chore!
+  chore: ChoreInput!
 }
 
 type CreateChoreResponse {
-  isSessionValid: Boolean!
+  hasAccountSession: Boolean!
   wasCreateSuccess: Boolean!
 }

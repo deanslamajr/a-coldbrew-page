@@ -36,7 +36,7 @@ import { choreVersion, cssTheme } from '../../helpers/constants';
 import { ChoreInterface, DueDateInterface } from '../../types';
 
 import { withApollo } from '../../graphql-client/with-apollo';
-import { useGetAccountFromSessionQuery } from '../../graphql-client/queries/getAccountFromSession.graphql';
+import { useGetChoresQuery } from '../../graphql-client/queries/getChores.graphql';
 
 interface ChoreProps {
   dueDate: DueDateInterface;
@@ -132,21 +132,9 @@ export const Chore: React.FC<ChoreProps> = ({
 };
 
 const sortChores = (chores: ChoreInterface[]): ChoreInterface[] => {
-  return chores.slice().sort(({ due: a }, { due: b }) => {
+  return chores.slice().sort(({ dueDate: a }, { dueDate: b }) => {
     return sortDueDatesFn(a, b);
   });
-};
-
-const useGetChores = () => {
-  return {
-    data: {},
-    error: null,
-    loading: false,
-    refetch: async () => {
-      console.log('refetch invoked!');
-      return;
-    },
-  };
 };
 
 const Home: NextPage = () => {
@@ -155,32 +143,35 @@ const Home: NextPage = () => {
   const [selectedChore, setSelectedChore] = useState<ChoreInterface | null>(
     null
   );
-  const [hasSession, setHasSession] = useState(false);
 
   const router = useRouter();
 
   const {
-    data: sessionQueryResponse,
-    error: sessionQueryError,
-    loading: isLoadingSession,
-  } = useGetAccountFromSessionQuery();
+    data: choresFetchResponse,
+    loading: isLoadingGetChores,
+    error: choresFetchError,
+  } = useGetChoresQuery();
 
-  // Rehydrate / Initialize Chores
+  // hydrate chores
   useEffect(() => {
-    if (!isLoadingSession) {
-      const hasSessionFromResponse = Boolean(
-        sessionQueryResponse?.getAccountFromSession.email
-      );
-      if (hasSessionFromResponse !== hasSession) {
-        setHasSession(hasSessionFromResponse);
-      }
-    }
-    const hydratedChores = getChoresFromClientCache();
-    const sortedChores = sortChores(hydratedChores);
-    setChores(sortedChores);
-  }, [hasSession, isLoadingSession, sessionQueryResponse]);
+    if (!isLoadingGetChores) {
+      let chores = [] as ChoreInterface[];
 
-  const { data, error, loading, refetch } = useGetChores();
+      // From DB
+      if (
+        choresFetchResponse?.getChores.hasAccountSession &&
+        choresFetchResponse?.getChores.chores
+      ) {
+        chores = choresFetchResponse?.getChores.chores as ChoreInterface[];
+      } else {
+        // From localstorage
+        chores = getChoresFromClientCache();
+      }
+
+      const sortedChores = sortChores(chores);
+      setChores(sortedChores);
+    }
+  }, [choresFetchResponse, isLoadingGetChores]);
 
   const markTaskCompleted = (id: string): void => {
     const newChoresPayload = [...(chores as ChoreInterface[])];
@@ -203,12 +194,13 @@ const Home: NextPage = () => {
     setSelectedChore(selectedChore);
   };
 
+  // @TODO move the localstorage logic to CreateChoreModal
   const handleSubmit = (values: ChoreFormValuesInterface) => {
     const newChore: ChoreInterface = {
       id: shortid.generate(),
-      name: values.summary,
+      summary: values.summary,
       description: values.description,
-      due: transformDateToDueDate(values.dueDate),
+      dueDate: transformDateToDueDate(values.dueDate),
       version: choreVersion,
     };
 
@@ -241,8 +233,8 @@ const Home: NextPage = () => {
             <Chore
               key={chore.id}
               clickHandler={() => toggleChoreDetailModal(chore)}
-              dueDate={chore.due}
-              name={chore.name}
+              dueDate={chore.dueDate}
+              name={chore.summary}
             />
           ))
         ) : (
@@ -276,9 +268,8 @@ const Home: NextPage = () => {
       {showCreateChoreModal && (
         <CreateChoreModal
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
-          hasSession={hasSession}
           onAfterSubmit={async () => {
-            refetch();
+            // refetch();
             toggleChoreModal(false);
           }}
         />

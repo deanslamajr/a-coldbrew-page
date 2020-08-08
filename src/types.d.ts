@@ -6,9 +6,9 @@ export interface DueDateInterface {
 
 export interface ChoreInterface {
   id: string;
-  name: string;
+  summary: string;
   description: string;
-  due: DueDateInterface;
+  dueDate: DueDateInterface;
   version: number;
 }
 

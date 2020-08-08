@@ -1,0 +1,12 @@
+query GetChores {
+  getChores {
+    chores {
+      id
+      summary
+      description
+      dueDate
+      version
+    }
+    hasAccountSession
+  }
+}

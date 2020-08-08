@@ -1,0 +1,12 @@
+type Chore {
+  id: String!
+  summary: String!
+  description: String!
+  dueDate: Date!
+  version: Int!
+}
+
+type GetChoresResponse {
+  chores: [Chore]!
+  hasAccountSession: Boolean!
+}

@@ -47,7 +47,7 @@ export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
   return (
     <Modal>
       <div>
-        <ChoreSummaryContainer>{chore.name}</ChoreSummaryContainer>
+        <ChoreSummaryContainer>{chore.summary}</ChoreSummaryContainer>
         <ChoreDescriptionContainer>
           {nl2br(chore.description)}
         </ChoreDescriptionContainer>

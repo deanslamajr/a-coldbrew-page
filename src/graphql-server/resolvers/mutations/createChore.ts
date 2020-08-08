@@ -11,7 +11,7 @@ export const resolver: NonNullable<MutationResolvers<
   ContextInterface
 >['createChore']> = async (_parent, args, context, _info) => {
   let wasCreateSuccess = false;
-  let isSessionValid = false;
+  let hasAccountSession = false;
   let transaction: Transaction | null = null;
   try {
     const accountId = context.session.getAccountId();
@@ -21,7 +21,7 @@ export const resolver: NonNullable<MutationResolvers<
         where: { id: accountId },
       });
       if (accountThatInvokedMutations) {
-        isSessionValid = true;
+        hasAccountSession = true;
         // const accountThatInvokedMutationsValues = getValuesFromInstance(
         //   accountThatInvokedMutations
         // );
@@ -70,7 +70,7 @@ export const resolver: NonNullable<MutationResolvers<
   }
 
   return {
-    isSessionValid,
+    hasAccountSession,
     wasCreateSuccess,
   };
 };

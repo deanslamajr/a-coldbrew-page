@@ -1,6 +1,6 @@
 mutation CreateChore($input: CreateChoreInput!) {
   createChore(input: $input) {
-    isSessionValid
+    hasAccountSession
     wasCreateSuccess
   }
 }

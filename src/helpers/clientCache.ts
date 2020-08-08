@@ -10,7 +10,7 @@ const transformChores = (chores: any[]): ChoreInterface[] => {
       const dueDate = new Date(chore.due);
       return {
         ...chore,
-        due: transformDateToDueDate(dueDate),
+        dueDate: transformDateToDueDate(dueDate),
         version: choreVersion,
       };
     });
