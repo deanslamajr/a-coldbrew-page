@@ -149,8 +149,8 @@ const Home: NextPage = () => {
   const {
     data: choresFetchResponse,
     loading: isLoadingGetChores,
-    error: choresFetchError,
-  } = useGetChoresQuery();
+    refetch: refetchChores,
+  } = useGetChoresQuery({ fetchPolicy: 'network-only' });
 
   // hydrate chores
   useEffect(() => {
@@ -269,7 +269,7 @@ const Home: NextPage = () => {
         <CreateChoreModal
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
           onAfterSubmit={async () => {
-            // refetch();
+            refetchChores();
             toggleChoreModal(false);
           }}
         />
