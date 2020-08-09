@@ -168,6 +168,7 @@ function createApolloClient({
     ssrMode,
     link: createIsomorphLink(resolvedContext),
     cache,
+    ssrForceFetchDelay: 100,
   });
 }
 
