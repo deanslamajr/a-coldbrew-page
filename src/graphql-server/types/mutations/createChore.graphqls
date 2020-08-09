@@ -11,4 +11,5 @@ input CreateChoreInput {
 type CreateChoreResponse {
   hasAccountSession: Boolean!
   wasCreateSuccess: Boolean!
+  newChore: Chore
 }

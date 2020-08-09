@@ -1,0 +1,7 @@
+type Chore {
+  id: String!
+  summary: String!
+  description: String!
+  dueDate: Date!
+  version: Int!
+}

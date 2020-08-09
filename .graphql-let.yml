@@ -7,3 +7,5 @@ plugins:
   - typescript-react-apollo
 respectGitIgnore: true
 config:
+  scalars:
+    Date: Date

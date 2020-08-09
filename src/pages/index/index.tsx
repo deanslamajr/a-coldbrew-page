@@ -3,7 +3,6 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
-import shortid from 'shortid';
 import { RiAddLine } from 'react-icons/ri';
 import { FaUser } from 'react-icons/fa';
 
@@ -13,30 +12,18 @@ import {
   FlexContainer,
 } from '../../components/styles/index.styles';
 import { NavButton, NavButtonPositions } from '../../components/NavButton';
-import {
-  CreateChoreModal,
-  ChoreFormValuesInterface,
-} from '../../components/CreateChoreModal';
+import { CreateChoreModal } from '../../components/CreateChoreModal';
 import { ChoreDetailsModal } from '../../components/ChoreDetailsModal';
 import { Spinner } from '../../components/Spinner';
 
-import {
-  getChores as getChoresFromClientCache,
-  setChores as updateChoresOnClientCache,
-} from '../../helpers/clientCache';
-import {
-  DurationTypes,
-  getDiffFromNow,
-  sortDueDatesFn,
-  isDue,
-  transformDateToDueDate,
-} from '../../helpers/dueDates';
-import { choreVersion, cssTheme } from '../../helpers/constants';
+import { useChores } from '../../hooks/useChores';
+
+import { DurationTypes, getDiffFromNow, isDue } from '../../helpers/dueDates';
+import { cssTheme } from '../../helpers/constants';
 
 import { ChoreInterface, DueDateInterface } from '../../types';
 
 import { withApollo } from '../../graphql-client/with-apollo';
-import { useGetChoresQuery } from '../../graphql-client/queries/getChores.graphql';
 
 interface ChoreProps {
   dueDate: DueDateInterface;
@@ -131,58 +118,14 @@ export const Chore: React.FC<ChoreProps> = ({
   );
 };
 
-const sortChores = (chores: ChoreInterface[]): ChoreInterface[] => {
-  return chores.slice().sort(({ dueDate: a }, { dueDate: b }) => {
-    return sortDueDatesFn(a, b);
-  });
-};
-
 const Home: NextPage = () => {
-  const [chores, setChores] = useState<ChoreInterface[] | null>(null);
+  const { chores, addChore, completeChore } = useChores();
   const [showCreateChoreModal, setShowCreateChoreModal] = useState(false);
   const [selectedChore, setSelectedChore] = useState<ChoreInterface | null>(
     null
   );
 
   const router = useRouter();
-
-  const {
-    data: choresFetchResponse,
-    loading: isLoadingGetChores,
-    refetch: refetchChores,
-  } = useGetChoresQuery({ fetchPolicy: 'network-only' });
-
-  // hydrate chores
-  useEffect(() => {
-    if (!isLoadingGetChores) {
-      let chores = [] as ChoreInterface[];
-
-      // From DB
-      if (
-        choresFetchResponse?.getChores.hasAccountSession &&
-        choresFetchResponse?.getChores.chores
-      ) {
-        chores = choresFetchResponse?.getChores.chores as ChoreInterface[];
-      } else {
-        // From localstorage
-        chores = getChoresFromClientCache();
-      }
-
-      const sortedChores = sortChores(chores);
-      setChores(sortedChores);
-    }
-  }, [choresFetchResponse, isLoadingGetChores]);
-
-  const markTaskCompleted = (id: string): void => {
-    const newChoresPayload = [...(chores as ChoreInterface[])];
-    const index = newChoresPayload.findIndex(chore => chore.id === id);
-    if (index > -1) {
-      newChoresPayload.splice(index, 1);
-    }
-    const sortedChores = sortChores(newChoresPayload);
-    setChores(sortedChores);
-    updateChoresOnClientCache(sortedChores);
-  };
 
   const toggleChoreModal = (show = !showCreateChoreModal): void => {
     setShowCreateChoreModal(show);
@@ -194,27 +137,9 @@ const Home: NextPage = () => {
     setSelectedChore(selectedChore);
   };
 
-  // @TODO move the localstorage logic to CreateChoreModal
-  const handleSubmit = (values: ChoreFormValuesInterface) => {
-    const newChore: ChoreInterface = {
-      id: shortid.generate(),
-      summary: values.summary,
-      description: values.description,
-      dueDate: transformDateToDueDate(values.dueDate),
-      version: choreVersion,
-    };
-
-    const newChoresPayload = [...(chores as ChoreInterface[]), newChore];
-
-    const sortedChores = sortChores(newChoresPayload);
-    setChores(sortedChores);
-    updateChoresOnClientCache(sortedChores);
-    setShowCreateChoreModal(false);
-  };
-
   const handleCompleteChore = (): void => {
     if (selectedChore) {
-      markTaskCompleted(selectedChore.id);
+      completeChore(selectedChore.id);
       toggleChoreDetailModal(null);
     }
   };
@@ -269,7 +194,6 @@ const Home: NextPage = () => {
         <CreateChoreModal
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
           onAfterSubmit={async () => {
-            refetchChores();
             toggleChoreModal(false);
           }}
         />

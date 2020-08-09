@@ -2,5 +2,12 @@ mutation CreateChore($input: CreateChoreInput!) {
   createChore(input: $input) {
     hasAccountSession
     wasCreateSuccess
+    newChore {
+      id
+      summary
+      description
+      dueDate
+      version
+    }
   }
 }

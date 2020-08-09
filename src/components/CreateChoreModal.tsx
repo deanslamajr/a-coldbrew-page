@@ -8,9 +8,11 @@ import { BackButton, NavButton, NavButtonPositions } from './NavButton';
 import { Modal } from './Modal';
 import { FormFieldContainer } from './Forms';
 
-import { useCreateChoreMutation } from '../graphql-client/mutations/createChore.graphql';
+import { useChores } from '../hooks/useChores';
 
 import { cssTheme } from '../helpers/constants';
+
+import { ChoreInput } from '../graphql-client/mutations/createChore.graphql';
 
 export interface ChoreFormValuesInterface {
   summary: string;
@@ -83,25 +85,18 @@ export const ChoreForm: React.FC<ChoreFormPropsInterface> = ({
   handleHideCreateChoreModal,
   onAfterSubmit,
 }) => {
-  const [createChore] = useCreateChoreMutation();
-
   const [showDueDatePicker, toggleShowDueDatePicker] = useState(false);
+  const { addChore } = useChores({ fetchPolicy: 'cache-only' });
 
   const handleSubmit = async (values: ChoreFormValuesInterface) => {
-    const createChoreResponse = await createChore({
-      variables: {
-        input: {
-          chore: {
-            summary: values.summary,
-            description: values.description,
-            dueDate: values.dueDate,
-          },
-        },
-      },
-    });
-    if (!createChoreResponse?.data?.createChore.hasAccountSession) {
-      // @TODO use localstorage when user doesn't have session
-    }
+    const chore: ChoreInput = {
+      summary: values.summary,
+      description: values.description,
+      dueDate: values.dueDate,
+    };
+
+    await addChore(chore);
+
     onAfterSubmit();
   };
 

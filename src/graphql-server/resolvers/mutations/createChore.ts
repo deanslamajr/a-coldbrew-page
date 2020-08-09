@@ -1,10 +1,11 @@
 import { Transaction } from 'sequelize';
 
-import { MutationResolvers } from '../types/createChore.graphqls';
+import { MutationResolvers } from '../types/mutations/createChore.graphqls';
+import { Chore as ChoreFromDb } from '../types/shared.graphqls';
 
 import { ContextInterface } from '../../context';
 
-import { Accounts, sequelize } from '../services/db';
+import { Accounts, Chores, sequelize } from '../services/db';
 import { getValuesFromInstance } from '../services/db/utils';
 
 export const resolver: NonNullable<MutationResolvers<
@@ -13,6 +14,7 @@ export const resolver: NonNullable<MutationResolvers<
   let wasCreateSuccess = false;
   let hasAccountSession = false;
   let transaction: Transaction | null = null;
+  let newChore: ChoreFromDb;
   try {
     const accountId = context.session.getAccountId();
 
@@ -22,9 +24,6 @@ export const resolver: NonNullable<MutationResolvers<
       });
       if (accountThatInvokedMutations) {
         hasAccountSession = true;
-        // const accountThatInvokedMutationsValues = getValuesFromInstance(
-        //   accountThatInvokedMutations
-        // );
 
         transaction = await sequelize.transaction();
 
@@ -45,6 +44,15 @@ export const resolver: NonNullable<MutationResolvers<
         transaction.commit();
 
         wasCreateSuccess = true;
+        const choreInstance = getValuesFromInstance<Chores>(chore as Chores);
+        newChore = {
+          id: choreInstance.id,
+          summary: choreInstance.summary,
+          description: choreInstance.description,
+          dueDate: choreInstance.dueDate,
+          version: choreInstance.version,
+        };
+
         // if we reach the catch after the last action of the commit right above here
         // we probably don't want to rollback bc the db part of this resolver finished correctly
         transaction = null;
@@ -72,5 +80,6 @@ export const resolver: NonNullable<MutationResolvers<
   return {
     hasAccountSession,
     wasCreateSuccess,
+    newChore,
   };
 };
