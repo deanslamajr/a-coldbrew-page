@@ -1,6 +1,8 @@
 type Mutation {
   createChore(input: CreateChoreInput!): CreateChoreResponse!
 
+  completeChore(input: CompleteChoreInput!): CompleteChoreResponse!
+
   finishAccountCreate(
     input: FinishAccountCreateInput!
   ): FinishAccountCreateResponse!

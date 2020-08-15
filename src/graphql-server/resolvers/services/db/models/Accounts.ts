@@ -35,11 +35,9 @@ export class Accounts extends Model<typeof Accounts> {
 
   @BelongsToMany(
     () => Chores,
-    () => ChoreAccounts,
-    'chore_id',
-    'account_id'
+    () => ChoreAccounts
   )
-  chores!: Array<Chores & { ChoreAccounts: ChoreAccounts }>;
+  chores!: Chores[];
 
   @Default(true)
   @Column({

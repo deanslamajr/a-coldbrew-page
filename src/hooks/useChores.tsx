@@ -6,21 +6,14 @@ import {
   useChores as useChoresContext,
 } from '../contexts/ChoresContext';
 
-import {
-  addChore as addChoreToClientCache,
-  getChores as getChoresFromClientCache,
-  setChores as updateChoresOnClientCache,
-} from '../helpers/clientCache';
-import { sortDueDatesFn, transformDateToDueDate } from '../helpers/dueDates';
+import { getChores as getChoresFromClientCache } from '../helpers/clientCache';
+import { transformDateToDueDate } from '../helpers/dueDates';
+import { sortChores } from '../helpers/chores';
 
 import {
   Chore as ChoreFromDb,
   useGetChoresQuery,
 } from '../graphql-client/queries/getChores.graphql';
-import {
-  ChoreInput,
-  useCreateChoreMutation,
-} from '../graphql-client/mutations/createChore.graphql';
 
 import { ChoreInterface } from '../types';
 
@@ -31,8 +24,6 @@ type UseChores = (
   options?: UseChoresParams
 ) => {
   chores: Chores;
-  addChore: (chore: ChoreInput) => Promise<void>;
-  completeChore: (choreId: string) => Promise<void>;
   refetchChores: ReturnType<typeof useGetChoresQuery>['refetch'];
 };
 
@@ -45,14 +36,8 @@ const transformDbChoreToUIChore = (
   }));
 };
 
-const sortChores = (chores: ChoreInterface[]): ChoreInterface[] => {
-  return chores.slice().sort(({ dueDate: a }, { dueDate: b }) => {
-    return sortDueDatesFn(a, b);
-  });
-};
-
 export const useChores: UseChores = (
-  options = { fetchPolicy: 'network-only' }
+  options = { fetchPolicy: 'cache-first' }
 ) => {
   const [chores, setChores] = useChoresContext();
 
@@ -63,8 +48,6 @@ export const useChores: UseChores = (
     loading: isLoadingGetChores,
     refetch: refetchChores,
   } = useGetChoresQuery({ fetchPolicy });
-
-  const [createChore] = useCreateChoreMutation();
 
   // get chores
   useEffect(() => {
@@ -84,55 +67,15 @@ export const useChores: UseChores = (
         chores = getChoresFromClientCache();
       }
 
+      console.log('chores in useEffect', chores);
+
       const sortedChores = sortChores(chores);
       setChores(sortedChores);
     }
   }, [choresFetchResponse, isLoadingGetChores, setChores]);
 
-  const completeChore = async (id: string): Promise<void> => {
-    const newChoresList = chores ? [...chores] : ([] as ChoreInterface[]);
-
-    const index = newChoresList.findIndex(chore => chore.id === id);
-    if (index > -1) {
-      newChoresList.splice(index, 1);
-    }
-    const sortedChores = sortChores(newChoresList);
-    setChores(sortedChores);
-    updateChoresOnClientCache(sortedChores);
-  };
-
-  const addChore = async (chore: ChoreInput) => {
-    const createChoreResponse = await createChore({
-      variables: {
-        input: {
-          chore,
-        },
-      },
-    });
-    let newChore: ChoreInterface;
-    if (createChoreResponse?.data?.createChore.newChore) {
-      const newChoreFromDb = createChoreResponse.data.createChore.newChore;
-      newChore = {
-        id: newChoreFromDb.id,
-        summary: newChoreFromDb.summary,
-        description: newChoreFromDb.description,
-        dueDate: transformDateToDueDate(new Date(newChoreFromDb.dueDate)),
-        version: newChoreFromDb.version,
-      };
-    } else {
-      // @TODO use localstorage when user doesn't have session
-      newChore = addChoreToClientCache(chore);
-    }
-
-    const newChoresList = chores ? [...chores, newChore] : [newChore];
-    const sortedChores = sortChores(newChoresList);
-    setChores(sortedChores);
-  };
-
   return {
     chores,
-    addChore,
-    completeChore,
     refetchChores,
   };
 };

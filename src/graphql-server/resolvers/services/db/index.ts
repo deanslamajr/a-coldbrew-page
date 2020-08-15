@@ -7,6 +7,13 @@ import { ChoreAccounts } from './models/ChoreAccounts';
 
 import { serverSecrets } from '../../../../../env-config';
 
+const logging =
+  serverSecrets.NODE_ENV === 'production'
+    ? false
+    : (sql: string, timing?) => {
+        console.log({ sql });
+      };
+
 export const sequelize = new Sequelize(
   serverSecrets.DB_DBNAME,
   serverSecrets.DB_USERNAME,
@@ -19,10 +26,7 @@ export const sequelize = new Sequelize(
       min: 0,
       idle: 10000,
     },
-    logging: false,
-    // logging: (query) => {
-    //   console.log(query);
-    // }
+    logging,
   }
 );
 

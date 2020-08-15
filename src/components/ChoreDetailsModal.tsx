@@ -6,6 +6,8 @@ import { Modal } from './Modal';
 import { BackButton, NavButton, NavButtonPositions } from './NavButton';
 import { breakpoints } from './layouts';
 
+import { useCompleteChore } from '../hooks/useCompleteChore';
+
 import { cssTheme } from '../helpers/constants';
 
 import { ChoreInterface } from '../types';
@@ -13,7 +15,6 @@ import { ChoreInterface } from '../types';
 interface ChoreDetailsModalPropsInterface {
   chore: ChoreInterface;
   handleHide: () => void;
-  handleCompleteChore: () => void;
 }
 
 const ChoreSummaryContainer = styled.div`
@@ -42,8 +43,14 @@ const ChoreDescriptionContainer = styled.div`
 export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
   chore,
   handleHide,
-  handleCompleteChore,
 }) => {
+  const completeChore = useCompleteChore();
+
+  const handleCompleteChore = async (): Promise<void> => {
+    await completeChore(chore.id);
+    handleHide();
+  };
+
   return (
     <Modal>
       <div>

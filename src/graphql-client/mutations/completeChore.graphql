@@ -1,0 +1,6 @@
+mutation CompleteChore($input: CompleteChoreInput!) {
+  completeChore(input: $input) {
+    hasAccountSession
+    wasSuccess
+  }
+}

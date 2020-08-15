@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 import { Chore, QueryResolvers } from '../../types/queries/getChores.graphqls';
 
 import { ContextInterface } from '../../context';
@@ -30,6 +32,11 @@ export const resolver: NonNullable<QueryResolvers<
   if (accountId) {
     hasAccountSession = true;
     const choresResponse = await Chores.findAll({
+      where: {
+        completedAt: {
+          [Op.is]: null,
+        },
+      },
       include: [
         {
           model: Accounts,

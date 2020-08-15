@@ -119,7 +119,9 @@ export const Chore: React.FC<ChoreProps> = ({
 };
 
 const Home: NextPage = () => {
-  const { chores, addChore, completeChore } = useChores();
+  const { chores } = useChores({
+    fetchPolicy: 'network-only',
+  });
   const [showCreateChoreModal, setShowCreateChoreModal] = useState(false);
   const [selectedChore, setSelectedChore] = useState<ChoreInterface | null>(
     null
@@ -135,13 +137,6 @@ const Home: NextPage = () => {
     selectedChore: ChoreInterface | null
   ): void => {
     setSelectedChore(selectedChore);
-  };
-
-  const handleCompleteChore = (): void => {
-    if (selectedChore) {
-      completeChore(selectedChore.id);
-      toggleChoreDetailModal(null);
-    }
   };
 
   const showMainNavButtons = (): boolean =>
@@ -193,16 +188,12 @@ const Home: NextPage = () => {
       {showCreateChoreModal && (
         <CreateChoreModal
           handleHideCreateChoreModal={() => toggleChoreModal(false)}
-          onAfterSubmit={async () => {
-            toggleChoreModal(false);
-          }}
         />
       )}
       {selectedChore && (
         <ChoreDetailsModal
           chore={selectedChore}
           handleHide={() => toggleChoreDetailModal(null)}
-          handleCompleteChore={handleCompleteChore}
         />
       )}
     </>

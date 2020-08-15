@@ -1,0 +1,8 @@
+input CompleteChoreInput {
+  choreId: String!
+}
+
+type CompleteChoreResponse {
+  hasAccountSession: Boolean!
+  wasSuccess: Boolean!
+}
