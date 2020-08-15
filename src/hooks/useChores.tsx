@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { WatchQueryFetchPolicy } from 'apollo-client';
 
-import { ChoreInterface } from '../types';
+import {
+  Chores,
+  useChores as useChoresContext,
+} from '../contexts/ChoresContext';
 
 import {
   addChore as addChoreToClientCache,
@@ -19,7 +22,8 @@ import {
   useCreateChoreMutation,
 } from '../graphql-client/mutations/createChore.graphql';
 
-type Chores = ChoreInterface[] | null;
+import { ChoreInterface } from '../types';
+
 interface UseChoresParams {
   fetchPolicy?: WatchQueryFetchPolicy;
 }
@@ -50,7 +54,7 @@ const sortChores = (chores: ChoreInterface[]): ChoreInterface[] => {
 export const useChores: UseChores = (
   options = { fetchPolicy: 'network-only' }
 ) => {
-  const [chores, setChores] = useState<Chores>(null);
+  const [chores, setChores] = useChoresContext();
 
   const fetchPolicy = options?.fetchPolicy || 'network-only';
 
@@ -83,7 +87,7 @@ export const useChores: UseChores = (
       const sortedChores = sortChores(chores);
       setChores(sortedChores);
     }
-  }, [choresFetchResponse, isLoadingGetChores]);
+  }, [choresFetchResponse, isLoadingGetChores, setChores]);
 
   const completeChore = async (id: string): Promise<void> => {
     const newChoresList = chores ? [...chores] : ([] as ChoreInterface[]);

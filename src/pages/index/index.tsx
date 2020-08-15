@@ -126,7 +126,7 @@ const Home: NextPage = () => {
   );
 
   const router = useRouter();
-
+  // setChoressetChores
   const toggleChoreModal = (show = !showCreateChoreModal): void => {
     setShowCreateChoreModal(show);
   };

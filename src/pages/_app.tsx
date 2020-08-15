@@ -11,6 +11,7 @@ import {
   RecaptchaV3Context,
   RecaptchaV3Instance,
 } from '../contexts/RecaptchaV3Context';
+import { ChoresProvider } from '../contexts/ChoresContext';
 
 import { cssTheme } from '../helpers/constants';
 
@@ -49,7 +50,9 @@ export default class MyApp extends App<{}, {}, AppStateInterface> {
         <ThemeProvider theme={cssTheme}>
           <GlobalStyles />
           <RecaptchaV3Context.Provider value={this.state.recaptchaV3Instance}>
-            <Component {...pageProps} />
+            <ChoresProvider>
+              <Component {...pageProps} />
+            </ChoresProvider>
           </RecaptchaV3Context.Provider>
         </ThemeProvider>
       </>
