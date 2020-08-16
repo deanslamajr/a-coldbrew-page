@@ -14,7 +14,7 @@ export const resolver: NonNullable<MutationResolvers<
   let wasLoginSuccess = false;
 
   const account = await Accounts.findOne({
-    where: { email: input.email },
+    where: { email: input.email.toLowerCase() },
   });
 
   if (account) {

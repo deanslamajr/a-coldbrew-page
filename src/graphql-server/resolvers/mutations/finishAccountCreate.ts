@@ -44,7 +44,7 @@ export const resolver: NonNullable<MutationResolvers<
       const hashedPassword = await hashPassword(input.password);
 
       const newAccount = await Accounts.create({
-        email: tokenValues.email,
+        email: tokenValues.email.toLowerCase(),
         password: hashedPassword,
         lastLoginAt: new Date(),
       });
