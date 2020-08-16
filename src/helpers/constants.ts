@@ -27,7 +27,7 @@ export const cssTheme: DefaultTheme = {
   font: `'Roboto', sans-serif`,
 };
 
-export const choreVersion = 1;
+export const choreVersion = 2;
 
 export const RECAPTCHA_ACTION_CREATE_ACCOUNT =
   'RECAPTCHA_ACTION_CREATE_ACCOUNT';

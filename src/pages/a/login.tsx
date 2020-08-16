@@ -39,7 +39,9 @@ const initialValues: LoginFormFields = {
 
 const Login: NextPage = () => {
   const router = useRouter();
-  const { data, error, loading, refetch } = useGetAccountFromSessionQuery();
+  const { data, error, loading, refetch } = useGetAccountFromSessionQuery({
+    fetchPolicy: 'network-only',
+  });
   const [
     loginAccount,
     { called, data: loginData, error: loginError, loading: isLoginLoading },

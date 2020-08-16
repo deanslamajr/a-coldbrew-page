@@ -13,6 +13,15 @@ interface DateDiffInterface {
   type: DurationTypes;
 }
 
+export const isDueDateFormat = (date: any): boolean => {
+  return (
+    date &&
+    typeof date.year === 'number' &&
+    typeof date.month === 'number' &&
+    typeof date.day === 'number'
+  );
+};
+
 export const transformDateToDueDate = (date: Date): DueDateInterface => {
   return {
     year: date.getFullYear(),
