@@ -24,33 +24,45 @@ const transformResponse = (choresResponse: Chores[]): Chore[] => {
 export const resolver: NonNullable<QueryResolvers<
   ContextInterface
 >['getChores']> = async (_parent, _args, context, _info) => {
-  let chores = [] as Chore[];
+  let chores: Chore[] | null = null;
   let hasAccountSession = false;
 
   const accountId = context.session.getAccountId();
 
   if (accountId) {
-    hasAccountSession = true;
-    const choresResponse = await Chores.findAll({
+    const activeAccountAndIncompleteChores = await Accounts.findOne({
       where: {
-        completedAt: {
-          [Op.is]: null,
-        },
+        id: accountId,
+        isActive: true,
       },
       include: [
         {
-          model: Accounts,
-          as: 'ownedByAccounts',
-          through: {
-            where: {
-              accountId,
+          model: Chores,
+          as: 'chores',
+          required: false,
+          where: {
+            completedAt: {
+              [Op.is]: null,
             },
+            isActive: true,
           },
         },
       ],
     });
 
-    chores = transformResponse(choresResponse);
+    if (activeAccountAndIncompleteChores) {
+      hasAccountSession = true;
+
+      const activeAccountAndIncompleteChoresInstance = getValuesFromInstance(
+        activeAccountAndIncompleteChores
+      );
+
+      if (Array.isArray(activeAccountAndIncompleteChoresInstance.chores)) {
+        chores = transformResponse(
+          activeAccountAndIncompleteChoresInstance.chores
+        );
+      }
+    }
   }
 
   return {

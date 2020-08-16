@@ -1,4 +1,4 @@
 type GetChoresResponse {
-  chores: [Chore]!
+  chores: [Chore]
   hasAccountSession: Boolean!
 }

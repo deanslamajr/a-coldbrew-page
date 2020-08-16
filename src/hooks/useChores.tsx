@@ -57,7 +57,7 @@ export const useChores: UseChores = (
       // From DB
       if (
         choresFetchResponse?.getChores.hasAccountSession &&
-        choresFetchResponse?.getChores.chores
+        Array.isArray(choresFetchResponse?.getChores.chores)
       ) {
         chores = transformDbChoreToUIChore(
           choresFetchResponse?.getChores.chores as ChoreFromDb[]
@@ -66,8 +66,6 @@ export const useChores: UseChores = (
         // From localstorage
         chores = getChoresFromClientCache();
       }
-
-      console.log('chores in useEffect', chores);
 
       const sortedChores = sortChores(chores);
       setChores(sortedChores);
