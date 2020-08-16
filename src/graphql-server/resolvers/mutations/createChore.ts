@@ -14,7 +14,7 @@ export const resolver: NonNullable<MutationResolvers<
   let wasCreateSuccess = false;
   let hasAccountSession = false;
   let transaction: Transaction | null = null;
-  let newChore: ChoreFromDb;
+  let newChore: ChoreFromDb | null = null;
   try {
     const accountId = context.session.getAccountId();
 

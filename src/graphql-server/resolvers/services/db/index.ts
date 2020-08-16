@@ -10,7 +10,7 @@ import { serverSecrets } from '../../../../../env-config';
 const logging =
   serverSecrets.NODE_ENV === 'production'
     ? false
-    : (sql: string, timing?) => {
+    : (sql: string, timing: any) => {
         console.log({ sql });
       };
 
