@@ -18,7 +18,7 @@ import { Spinner } from '../../components/Spinner';
 
 import { useChores } from '../../hooks/useChores';
 
-import { DurationTypes, getDiffFromNow, isDue } from '../../helpers/dueDates';
+import { computeStatus } from '../../helpers/dueDates';
 import { cssTheme } from '../../helpers/constants';
 
 import { ChoreInterface, DueDateInterface } from '../../types';
@@ -31,17 +31,6 @@ interface ChoreProps {
   clickHandler: () => void;
 }
 
-interface StatusInterface {
-  dueDifferenceCopy: string;
-  status: DueStatusEnum;
-}
-
-export enum DueStatusEnum {
-  OverDue = 'OVER_DUE',
-  DueToday = 'DUE_TODAY',
-  NotYetDue = 'NOT_YET_DUE',
-}
-
 const { publicRuntimeConfig } = getConfig();
 
 export const Chore: React.FC<ChoreProps> = ({
@@ -49,65 +38,7 @@ export const Chore: React.FC<ChoreProps> = ({
   dueDate,
   name,
 }) => {
-  const computeStatus = (): StatusInterface => {
-    const overdueData = getDiffFromNow(dueDate);
-
-    let typeCopy: string;
-
-    switch (overdueData.type) {
-      case DurationTypes.Year:
-        typeCopy = Math.abs(overdueData.amount) > 1 ? 'years' : 'year';
-        break;
-      case DurationTypes.Month:
-        typeCopy = Math.abs(overdueData.amount) > 1 ? 'months' : 'month';
-        break;
-      case DurationTypes.Day:
-        typeCopy = 'days';
-        break;
-    }
-
-    if (isDue(dueDate)) {
-      if (overdueData.amount) {
-        if (
-          overdueData.amount === -1 &&
-          overdueData.type === DurationTypes.Day
-        ) {
-          return {
-            status: DueStatusEnum.OverDue,
-            dueDifferenceCopy: '(due yesterday)',
-          };
-        }
-
-        return {
-          status: DueStatusEnum.OverDue,
-          dueDifferenceCopy: `(due ${Math.abs(
-            overdueData.amount
-          )} ${typeCopy} ago)`,
-        };
-      } else {
-        return {
-          status: DueStatusEnum.DueToday,
-          dueDifferenceCopy: '(due today)',
-        };
-      }
-    } else {
-      if (overdueData.amount === 1 && overdueData.type === DurationTypes.Day) {
-        return {
-          status: DueStatusEnum.NotYetDue,
-          dueDifferenceCopy: '(due tomorrow)',
-        };
-      }
-
-      return {
-        status: DueStatusEnum.NotYetDue,
-        dueDifferenceCopy: `(due in ${Math.abs(
-          overdueData.amount
-        )} ${typeCopy})`,
-      };
-    }
-  };
-
-  const { status, dueDifferenceCopy } = computeStatus();
+  const { status, dueDifferenceCopy } = computeStatus(dueDate);
 
   return (
     <ChoreButton dueStatus={status} onClick={clickHandler}>

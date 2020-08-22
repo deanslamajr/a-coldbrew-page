@@ -9,6 +9,11 @@ import { breakpoints } from './layouts';
 import { useCompleteChore } from '../hooks/useCompleteChore';
 
 import { cssTheme } from '../helpers/constants';
+import {
+  computeStatus,
+  DueStatusEnum,
+  getChoreButtonBackgroundColor,
+} from '../helpers/dueDates';
 
 import { ChoreInterface } from '../types';
 
@@ -19,6 +24,7 @@ interface ChoreDetailsModalPropsInterface {
 
 const ChoreSummaryContainer = styled.div`
   margin: 1rem;
+  margin-bottom: 0.25rem;
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
@@ -40,6 +46,19 @@ const ChoreDescriptionContainer = styled.div`
   `}
 `;
 
+interface DueDateContainerProps {
+  status: DueStatusEnum;
+}
+
+const DueDateContainer = styled.div<DueDateContainerProps>`
+  text-align: center;
+  color: ${props =>
+    getChoreButtonBackgroundColor({
+      dueDateStatus: props.status,
+      colors: props.theme.colors,
+    })};
+`;
+
 export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
   chore,
   handleHide,
@@ -51,10 +70,13 @@ export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
     handleHide();
   };
 
+  const { status, dueDifferenceCopy } = computeStatus(chore.dueDate);
+
   return (
     <Modal>
       <div>
         <ChoreSummaryContainer>{chore.summary}</ChoreSummaryContainer>
+        <DueDateContainer status={status}>{dueDifferenceCopy}</DueDateContainer>
         <ChoreDescriptionContainer>
           {nl2br(chore.description)}
         </ChoreDescriptionContainer>

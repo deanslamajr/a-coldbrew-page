@@ -1,33 +1,15 @@
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 
-import { DueStatusEnum } from '../../pages/index';
+import {
+  DueStatusEnum,
+  getChoreButtonBackgroundColor,
+} from '../../helpers/dueDates';
 
 import { breakpoints, shadowEnlargenOnHover } from '../layouts';
 
 interface ChoreButtonProps {
   dueStatus: DueStatusEnum | null;
 }
-
-interface GetChoreButtonBackgroundColorInterface {
-  dueDateStatus: DueStatusEnum | null;
-  colors: DefaultTheme['colors'];
-}
-
-const getChoreButtonBackgroundColor = ({
-  dueDateStatus,
-  colors,
-}: GetChoreButtonBackgroundColorInterface): string => {
-  switch (dueDateStatus) {
-    case DueStatusEnum.NotYetDue:
-      return colors.green;
-    case DueStatusEnum.DueToday:
-      return colors.yellow;
-    case DueStatusEnum.OverDue:
-      return colors.red;
-    default:
-      return colors.white;
-  }
-};
 
 export const ChoreButton = styled.button<ChoreButtonProps>`
   display: inline-block;
