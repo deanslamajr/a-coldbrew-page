@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { breakpoints } from './layouts';
+import { breakpoints, formFieldStyles } from './layouts';
 
 export const FormFieldContainer = styled.div`
   display: flex;
@@ -15,19 +15,7 @@ export const FormFieldContainer = styled.div`
 
   & input,
   & textarea {
-    border: 1px solid ${({ theme }) => theme.colors.black};
-    background-color: ${({ theme }) => theme.colors.white};
-    color: ${({ theme }) => theme.colors.black};
-    width: ${({ theme }) => theme.sizes.formFieldWidth};
-    outline: none;
-    min-height: unset;
-    font-family: ${({ theme }) => theme.font};
-    font-size: 16px;
-    padding: 0.5rem !important;
-
-    ${breakpoints.phoneMax`
-      width: 100%;
-    `}
+    ${formFieldStyles()}
   }
 
   & input {

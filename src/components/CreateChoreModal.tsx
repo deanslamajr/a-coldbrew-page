@@ -3,10 +3,12 @@ import { Form, Field } from 'react-final-form';
 import { DateSingleInput } from '@datepicker-react/styled';
 import { RiCheckLine } from 'react-icons/ri';
 import styled from 'styled-components';
+import { Node } from 'slate';
 
 import { BackButton, NavButton, NavButtonPositions } from './NavButton';
 import { Modal } from './Modal';
 import { FormFieldContainer } from './Forms';
+import { Editor } from './RichText';
 
 import { useAddChore } from '../hooks/useAddChore';
 
@@ -17,7 +19,7 @@ import { ChoreInput } from '../graphql-client/mutations/createChore.graphql';
 export interface ChoreFormValuesInterface {
   summary: string;
   dueDate: Date;
-  description: string;
+  description: Node[];
 }
 
 interface CreateChoreModalProps {
@@ -27,7 +29,12 @@ interface CreateChoreModalProps {
 const initialValues: ChoreFormValuesInterface = {
   summary: 'some new chore',
   dueDate: new Date(Date.now()),
-  description: '',
+  description: [
+    {
+      type: 'paragraph',
+      children: [{ text: 'A line of text in a paragraph.' }],
+    },
+  ],
 };
 
 const getBoxShadow = (color: string): string =>
@@ -84,7 +91,7 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
   const handleSubmit = async (values: ChoreFormValuesInterface) => {
     const chore: ChoreInput = {
       summary: values.summary,
-      description: values.description,
+      description: JSON.stringify(values.description),
       dueDate: values.dueDate,
     };
 
@@ -139,12 +146,17 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
               </FormFieldContainer>
               <FormFieldContainer>
                 <label>Description</label>
-                <Field name="description" component="textarea" type="text" />
+                <Field<Node[]> name="description">
+                  {props => {
+                    return (
+                      <Editor
+                        editorState={props.input.value}
+                        handleStateChange={props.input.onChange}
+                      />
+                    );
+                  }}
+                </Field>
               </FormFieldContainer>
-              {/* Also need a dropdown input that can select a recurring  */}
-              {/* None, daily, weekly, monthly, yearly */}
-              {/* every setting but 'None' should create an additional input defaulted to 1 */}
-              {/* but can set higher numbers e.g. every 1 day OR 2 days OR 3 days etc.*/}
 
               {!showDueDatePicker && (
                 <BackButton

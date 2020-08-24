@@ -39,6 +39,37 @@ export const shadowEnlargenOnHover = () => {
   `;
 };
 
+export const viewerStyles = () => {
+  return css`
+    background-color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.black};
+    outline: none;
+    min-height: unset;
+    font-family: ${({ theme }) => theme.font};
+    font-size: 16px;
+    padding: 0.5rem !important;
+    word-break: break-word;
+  `;
+};
+
+export const formFieldStyles = () => {
+  return css`
+    border: 1px solid ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.black};
+    width: ${({ theme }) => theme.sizes.formFieldWidth};
+    outline: none;
+    min-height: unset;
+    font-family: ${({ theme }) => theme.font};
+    font-size: 16px;
+    padding: 0.5rem !important;
+
+    ${breakpoints.phoneMax`
+      width: 100%;
+    `}
+  `;
+};
+
 const tabletMax = <T extends {}>(
   cssRules:
     | CSSObject

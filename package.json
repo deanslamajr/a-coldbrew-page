@@ -67,6 +67,9 @@
     "sequelize": "^5.21.13",
     "sequelize-typescript": "^1.1.0",
     "shortid": "^2.2.15",
+    "slate": "^0.58.4",
+    "slate-history": "^0.58.4",
+    "slate-react": "^0.58.4",
     "store2": "^2.11.2",
     "styled-components": "^5.0.1",
     "uuid": "^8.1.0"

@@ -2,6 +2,7 @@ import { GiCheckeredFlag } from 'react-icons/gi';
 import styled from 'styled-components';
 import nl2br from 'react-nl2br';
 
+import { Viewer } from './RichText';
 import { Modal } from './Modal';
 import { BackButton, NavButton, NavButtonPositions } from './NavButton';
 import { breakpoints } from './layouts';
@@ -59,6 +60,16 @@ const DueDateContainer = styled.div<DueDateContainerProps>`
     })};
 `;
 
+const ChoreDescription: React.FC<{ chore: ChoreInterface }> = ({ chore }) => {
+  return chore.version >= 3 ? (
+    <Viewer serializedEditorState={chore.description} />
+  ) : (
+    <ChoreDescriptionContainer>
+      {nl2br(chore.description)}
+    </ChoreDescriptionContainer>
+  );
+};
+
 export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
   chore,
   handleHide,
@@ -77,9 +88,7 @@ export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
       <div>
         <ChoreSummaryContainer>{chore.summary}</ChoreSummaryContainer>
         <DueDateContainer status={status}>{dueDifferenceCopy}</DueDateContainer>
-        <ChoreDescriptionContainer>
-          {nl2br(chore.description)}
-        </ChoreDescriptionContainer>
+        <ChoreDescription chore={chore} />
       </div>
       <BackButton
         position={NavButtonPositions.BottomLeft}
