@@ -1,18 +1,27 @@
+// @refresh reset
+// prevents state related errors on fast refresh
+// @see https://reactnative.dev/docs/fast-refresh#tips
 import { FC, useMemo } from 'react';
 import { Editable, withReact, Slate } from 'slate-react';
 import { createEditor, Node } from 'slate';
 import styled from 'styled-components';
-// import { withHistory } from 'slate-history';
+import { withHistory } from 'slate-history';
 
-import { formFieldStyles, viewerStyles } from './layouts';
+import { formFieldStyles, formFieldBorder, viewerStyles } from './layouts';
 
 interface EditorProps {
   editorState: Node[];
   handleStateChange: (event: any) => void;
 }
 
+interface ViewerProps {
+  serializedEditorState: string;
+}
+
 const StyledContainer = styled.div`
+  ${formFieldBorder()}
   ${formFieldStyles()}
+  padding: 0.5rem !important;
 `;
 
 export const Editor: FC<EditorProps> = ({ editorState, handleStateChange }) => {
@@ -24,7 +33,6 @@ export const Editor: FC<EditorProps> = ({ editorState, handleStateChange }) => {
         editor={editor}
         value={editorState || []}
         onChange={newEditorState => {
-          console.log('newEditorState', newEditorState);
           handleStateChange(newEditorState);
         }}>
         <Editable />
@@ -33,16 +41,12 @@ export const Editor: FC<EditorProps> = ({ editorState, handleStateChange }) => {
   );
 };
 
-interface ViewerProps {
-  serializedEditorState: string;
-}
-
 const StyledViewerContainer = styled.div`
   ${viewerStyles()}
 `;
 
 export const Viewer: FC<ViewerProps> = ({ serializedEditorState }) => {
-  const editor = useMemo(() => withReact(createEditor()), []);
+  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   const value = useMemo(() => {
     return JSON.parse(serializedEditorState);

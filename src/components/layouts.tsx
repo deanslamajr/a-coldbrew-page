@@ -52,17 +52,22 @@ export const viewerStyles = () => {
   `;
 };
 
-export const formFieldStyles = () => {
+export const formFieldBorder = () => {
   return css`
     border: 1px solid ${({ theme }) => theme.colors.black};
+    outline: none;
+  `;
+};
+
+export const formFieldStyles = () => {
+  return css`
     background-color: ${({ theme }) => theme.colors.white};
     color: ${({ theme }) => theme.colors.black};
     width: ${({ theme }) => theme.sizes.formFieldWidth};
-    outline: none;
     min-height: unset;
     font-family: ${({ theme }) => theme.font};
     font-size: 16px;
-    padding: 0.5rem !important;
+    padding: 0.5rem 0 !important;
 
     ${breakpoints.phoneMax`
       width: 100%;

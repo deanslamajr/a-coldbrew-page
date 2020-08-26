@@ -4,11 +4,13 @@ import { DateSingleInput } from '@datepicker-react/styled';
 import { RiCheckLine } from 'react-icons/ri';
 import styled from 'styled-components';
 import { Node } from 'slate';
+import useKey from '@rooks/use-key';
 
 import { BackButton, NavButton, NavButtonPositions } from './NavButton';
 import { Modal } from './Modal';
 import { FormFieldContainer } from './Forms';
 import { Editor } from './RichText';
+import { formFieldStyles, formFieldBorder } from './layouts';
 
 import { useAddChore } from '../hooks/useAddChore';
 
@@ -26,15 +28,17 @@ interface CreateChoreModalProps {
   handleHideCreateChoreModal: () => void;
 }
 
+const initialDescription: Node[] = [
+  {
+    type: 'paragraph',
+    children: [{ text: '' }],
+  },
+];
+
 const initialValues: ChoreFormValuesInterface = {
   summary: 'some new chore',
   dueDate: new Date(Date.now()),
-  description: [
-    {
-      type: 'paragraph',
-      children: [{ text: 'A line of text in a paragraph.' }],
-    },
-  ],
+  description: initialDescription,
 };
 
 const getBoxShadow = (color: string): string =>
@@ -43,6 +47,26 @@ const getBoxShadow = (color: string): string =>
   1px 1px 0 0 ${color},
   1px 0 0 0 ${color} inset,
   0 1px 0 0 ${color} inset`;
+
+const DueDateContainer = styled.div`
+  ${formFieldStyles()}
+  ${formFieldBorder()}
+  padding: 0 0.5rem 0 !important;
+`;
+
+const SummaryContainer = styled.div`
+  ${formFieldStyles()}
+  ${formFieldBorder()}
+  padding: 0 0.5rem 0 !important;
+`;
+
+const BorderlessTextInput = styled.input`
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+`;
 
 const DatePickerStylesOverride = styled.div`
   width: 100%;
@@ -53,10 +77,12 @@ const DatePickerStylesOverride = styled.div`
   }
   /* override @datepicker-react/styled input styles */
   & input {
+    border: none;
     font-weight: inherit;
     width: 100%;
   }
 
+  /* Date Picker Modal */
   /* Center horizontally and vertically */
   /* @see https://stackoverflow.com/questions/3157372/css-horizontal-centering-of-a-fixed-div#answer-32694476 */
   & > div > div {
@@ -64,6 +90,7 @@ const DatePickerStylesOverride = styled.div`
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) scale(1.15);
+    z-index: ${({ theme }) => theme.zIndex.highest};
   }
 
   & > div > div > div {
@@ -86,6 +113,8 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
   handleHideCreateChoreModal,
 }) => {
   const [showDueDatePicker, toggleShowDueDatePicker] = useState(false);
+  useKey(['Escape'], () => toggleShowDueDatePicker(false));
+
   const addChore = useAddChore();
 
   const handleSubmit = async (values: ChoreFormValuesInterface) => {
@@ -109,40 +138,43 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
           <form>
             <div>
               <FormFieldContainer>
-                <label>Due Date</label>
-                <Field name="dueDate">
-                  {props => {
-                    return (
-                      <DatePickerStylesOverride>
-                        <DateSingleInput
-                          onDateChange={data => {
-                            if (data.date) {
-                              props.input.onChange(data.date);
-                            }
-                            toggleShowDueDatePicker(false);
-                          }}
-                          onFocusChange={focusedInput =>
-                            toggleShowDueDatePicker(focusedInput)
-                          }
-                          onClose={() => toggleShowDueDatePicker(false)}
-                          date={props.input.value}
-                          showDatepicker={showDueDatePicker}
-                          showCalendarIcon={false}
-                          showResetDate={false}
-                        />
-                      </DatePickerStylesOverride>
-                    );
-                  }}
-                </Field>
+                <label>Summary</label>
+                <SummaryContainer>
+                  <Field name="summary">
+                    {props => {
+                      return <BorderlessTextInput type="text" />;
+                    }}
+                  </Field>
+                </SummaryContainer>
               </FormFieldContainer>
               <FormFieldContainer>
-                <label>Summary</label>
-                <Field
-                  name="summary"
-                  component="input"
-                  type="text"
-                  placeholder="summary"
-                />
+                <label>Due Date</label>
+                <DueDateContainer>
+                  <Field name="dueDate">
+                    {props => {
+                      return (
+                        <DatePickerStylesOverride>
+                          <DateSingleInput
+                            onDateChange={data => {
+                              if (data.date) {
+                                props.input.onChange(data.date);
+                              }
+                              toggleShowDueDatePicker(false);
+                            }}
+                            onFocusChange={focusedInput =>
+                              toggleShowDueDatePicker(focusedInput)
+                            }
+                            onClose={() => toggleShowDueDatePicker(false)}
+                            date={props.input.value}
+                            showDatepicker={showDueDatePicker}
+                            showCalendarIcon={false}
+                            showResetDate={false}
+                          />
+                        </DatePickerStylesOverride>
+                      );
+                    }}
+                  </Field>
+                </DueDateContainer>
               </FormFieldContainer>
               <FormFieldContainer>
                 <label>Description</label>

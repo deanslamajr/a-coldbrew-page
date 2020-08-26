@@ -9,14 +9,8 @@ import { LoadingErrorOrRenderQuery } from '../../components/LoadingErrorOrRender
 import { LoadingErrorOrRender } from '../../components/LoadingErrorOrRender';
 import { AccountDetails } from '../../components/AccountDetails';
 import { Modal } from '../../components/Modal';
-import {
-  NavButton,
-  BackButton,
-  NavButtonPositions,
-} from '../../components/NavButton';
+import { BackButton, NavButtonPositions } from '../../components/NavButton';
 import { SuccessIconThenAction } from '../../components/SuccessIconThenAction';
-
-import { cssTheme } from '../../helpers/constants';
 
 import { withApollo } from '../../graphql-client/with-apollo';
 import {
