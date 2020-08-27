@@ -100,7 +100,7 @@ const DatePickerStylesOverride = styled.div`
   }
 `;
 
-const required = (value: string) => (value ? undefined : 'Required');
+const required = (value: string | Date) => (value ? undefined : 'Required');
 
 export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
   handleHideCreateChoreModal,
@@ -130,7 +130,7 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
         render={({ form, valid }) => (
           <form>
             <div>
-              <Field name="summary" validate={required}>
+              <Field<string> name="summary" validate={required}>
                 {({ input, meta }) => {
                   return (
                     <FormFieldContainer>
@@ -151,7 +151,7 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
                 }}
               </Field>
 
-              <Field name="dueDate" validate={required}>
+              <Field<Date> name="dueDate" validate={required}>
                 {({ input, meta }) => {
                   return (
                     <FormFieldContainer>
