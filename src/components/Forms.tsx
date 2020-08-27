@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-import { breakpoints, formFieldStyles } from './layouts';
+import { breakpoints, formFieldStyles, formFieldBorder } from './layouts';
 
 export const FormFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 2rem;
+  margin: 1rem 2rem;
   align-items: center;
 
   ${breakpoints.phoneMax`
@@ -32,4 +32,18 @@ export const InvalidFieldMessage = styled.div`
   color: ${({ theme }) => theme.colors.red};
   height: 1rem;
   padding: 0.15rem;
+`;
+
+export const BorderlessTextInput = styled.input`
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const SummaryContainer = styled.div`
+  ${formFieldStyles()}
+  ${formFieldBorder()}
+  padding: 0 0.5rem 0 !important;
 `;

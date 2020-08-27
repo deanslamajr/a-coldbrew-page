@@ -5,7 +5,12 @@ import { useRouter } from 'next/router';
 import { FaUserPlus } from 'react-icons/fa';
 
 import { ConfirmButton, NavButton, NavButtonPositions } from './NavButton';
-import { FormFieldContainer, InvalidFieldMessage } from './Forms';
+import {
+  BorderlessTextInput,
+  FormFieldContainer,
+  InvalidFieldMessage,
+  SummaryContainer,
+} from './Forms';
 
 import { LoginFormFields } from '../pages/a/login';
 
@@ -52,7 +57,13 @@ export const AccountLoginForm: React.FC<Props> = ({
                 {({ input, meta }) => (
                   <FormFieldContainer>
                     <label>Email</label>
-                    <input {...input} type="text" placeholder="email" />
+                    <SummaryContainer>
+                      <BorderlessTextInput
+                        {...input}
+                        type="text"
+                        placeholder="email"
+                      />
+                    </SummaryContainer>
                     <InvalidFieldMessage>
                       {meta.error && meta.touched ? meta.error : ''}
                     </InvalidFieldMessage>
@@ -63,7 +74,13 @@ export const AccountLoginForm: React.FC<Props> = ({
                 {({ input, meta }) => (
                   <FormFieldContainer>
                     <label>Password</label>
-                    <input {...input} type="password" placeholder="password" />
+                    <SummaryContainer>
+                      <BorderlessTextInput
+                        {...input}
+                        type="password"
+                        placeholder="password"
+                      />
+                    </SummaryContainer>
                     <InvalidFieldMessage>
                       {meta.error && meta.touched ? meta.error : ''}
                     </InvalidFieldMessage>

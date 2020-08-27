@@ -8,7 +8,12 @@ import useKey from '@rooks/use-key';
 
 import { BackButton, NavButton, NavButtonPositions } from './NavButton';
 import { Modal } from './Modal';
-import { FormFieldContainer } from './Forms';
+import {
+  BorderlessTextInput,
+  FormFieldContainer,
+  InvalidFieldMessage,
+  SummaryContainer,
+} from './Forms';
 import { Editor } from './RichText';
 import { formFieldStyles, formFieldBorder } from './layouts';
 
@@ -36,7 +41,7 @@ const initialDescription: Node[] = [
 ];
 
 const initialValues: ChoreFormValuesInterface = {
-  summary: 'some new chore',
+  summary: 'new chore',
   dueDate: new Date(Date.now()),
   description: initialDescription,
 };
@@ -52,20 +57,6 @@ const DueDateContainer = styled.div`
   ${formFieldStyles()}
   ${formFieldBorder()}
   padding: 0 0.5rem 0 !important;
-`;
-
-const SummaryContainer = styled.div`
-  ${formFieldStyles()}
-  ${formFieldBorder()}
-  padding: 0 0.5rem 0 !important;
-`;
-
-const BorderlessTextInput = styled.input`
-  border: none;
-
-  &:focus {
-    outline: none;
-  }
 `;
 
 const DatePickerStylesOverride = styled.div`
@@ -109,6 +100,8 @@ const DatePickerStylesOverride = styled.div`
   }
 `;
 
+const required = (value: string) => (value ? undefined : 'Required');
+
 export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
   handleHideCreateChoreModal,
 }) => {
@@ -134,30 +127,41 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
       <Form
         onSubmit={values => handleSubmit(values)}
         initialValues={initialValues}
-        render={({ form }) => (
+        render={({ form, valid }) => (
           <form>
             <div>
-              <FormFieldContainer>
-                <label>Summary</label>
-                <SummaryContainer>
-                  <Field name="summary">
-                    {props => {
-                      return <BorderlessTextInput type="text" />;
-                    }}
-                  </Field>
-                </SummaryContainer>
-              </FormFieldContainer>
-              <FormFieldContainer>
-                <label>Due Date</label>
-                <DueDateContainer>
-                  <Field name="dueDate">
-                    {props => {
-                      return (
+              <Field name="summary" validate={required}>
+                {({ input, meta }) => {
+                  return (
+                    <FormFieldContainer>
+                      <label>Summary</label>
+                      <SummaryContainer>
+                        <BorderlessTextInput
+                          {...input}
+                          type="text"
+                          onChange={input.onChange}
+                          value={input.value}
+                        />
+                      </SummaryContainer>
+                      <InvalidFieldMessage>
+                        {meta.error && meta.touched ? meta.error : ''}
+                      </InvalidFieldMessage>
+                    </FormFieldContainer>
+                  );
+                }}
+              </Field>
+
+              <Field name="dueDate" validate={required}>
+                {({ input, meta }) => {
+                  return (
+                    <FormFieldContainer>
+                      <label>Due Date</label>
+                      <DueDateContainer>
                         <DatePickerStylesOverride>
                           <DateSingleInput
                             onDateChange={data => {
                               if (data.date) {
-                                props.input.onChange(data.date);
+                                input.onChange(data.date);
                               }
                               toggleShowDueDatePicker(false);
                             }}
@@ -165,17 +169,21 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
                               toggleShowDueDatePicker(focusedInput)
                             }
                             onClose={() => toggleShowDueDatePicker(false)}
-                            date={props.input.value}
+                            date={input.value}
                             showDatepicker={showDueDatePicker}
                             showCalendarIcon={false}
                             showResetDate={false}
                           />
                         </DatePickerStylesOverride>
-                      );
-                    }}
-                  </Field>
-                </DueDateContainer>
-              </FormFieldContainer>
+                      </DueDateContainer>
+                      <InvalidFieldMessage>
+                        {meta.error && meta.touched ? meta.error : ''}
+                      </InvalidFieldMessage>
+                    </FormFieldContainer>
+                  );
+                }}
+              </Field>
+
               <FormFieldContainer>
                 <label>Description</label>
                 <Field<Node[]> name="description">
@@ -196,7 +204,7 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
                   onClick={() => handleHideCreateChoreModal()}
                 />
               )}
-              {!showDueDatePicker && (
+              {!showDueDatePicker && valid && (
                 <NavButton
                   position={NavButtonPositions.BottomRight}
                   clickHandler={() => form.submit()}

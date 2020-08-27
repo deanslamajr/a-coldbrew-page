@@ -1,13 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Form, Field } from 'react-final-form';
-import { MdDoneAll } from 'react-icons/md';
 import styled from 'styled-components';
 import * as EmailValidator from 'email-validator';
 
 import { ConfirmButton, NavButtonPositions } from './NavButton';
-import { FormFieldContainer, InvalidFieldMessage } from './Forms';
-
-import { cssTheme } from '../helpers/constants';
+import {
+  BorderlessTextInput,
+  FormFieldContainer,
+  InvalidFieldMessage,
+  SummaryContainer,
+} from './Forms';
 
 interface Props {
   captureRecaptchaAndSendEmail: (email: string) => void;
@@ -80,7 +82,13 @@ export const AccountCreateForm: React.FC<Props> = ({
                 {({ input, meta }) => (
                   <FormFieldContainer>
                     <label>Email</label>
-                    <input {...input} type="text" placeholder="email" />
+                    <SummaryContainer>
+                      <BorderlessTextInput
+                        {...input}
+                        type="text"
+                        placeholder="email"
+                      />
+                    </SummaryContainer>
                     <InvalidFieldMessage>
                       {meta.error && meta.touched ? meta.error : ''}
                     </InvalidFieldMessage>
@@ -91,7 +99,13 @@ export const AccountCreateForm: React.FC<Props> = ({
                 {({ input, meta }) => (
                   <FormFieldContainer>
                     <label>Verify Email</label>
-                    <input {...input} type="text" placeholder="email" />
+                    <SummaryContainer>
+                      <BorderlessTextInput
+                        {...input}
+                        type="text"
+                        placeholder="email"
+                      />
+                    </SummaryContainer>
                     <InvalidFieldMessage>
                       {meta.error && meta.touched ? meta.error : ''}
                     </InvalidFieldMessage>
