@@ -9,6 +9,7 @@
     "build": "npm run codegen && next build",
     "build:migrations": "tsc -p ./sequelize --outDir ./sequelize/build",
     "start": "next start -p 8080",
+    "typecheck": "tsc -p . --rootDir ./src --noEmit",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
     "test": "jest --watch",
     "image:build": "sudo docker build -t deanslamajr/snap-dragon:\"$(git describe)\" .",
@@ -23,9 +24,9 @@
     "seed:undo:all": "npm run build:migrations && sequelize db:seed:undo:all",
     "publish": "npm run image:build && npm run image:promote && npm run image:delete",
     "publish:test": "npm version prerelease --preid=g\"$(git rev-parse --short=5 HEAD)\" && npm run publish",
-    "publish:patch": "npm version patch && npm run publish",
-    "publish:minor": "npm version minor && npm run publish",
-    "publish:major": "npm version major && npm run publish"
+    "publish:patch": "npm run typecheck && npm version patch && npm run publish",
+    "publish:minor": "npm run typecheck && npm version minor && npm run publish",
+    "publish:major": "npm run typecheck && npm version major && npm run publish"
   },
   "dependencies": {
     "@apollo/react-common": "^3.1.3",

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Form, Field } from 'react-final-form';
 import { DateSingleInput } from '@datepicker-react/styled';
 import { RiCheckLine } from 'react-icons/ri';
@@ -18,10 +18,15 @@ import { Editor } from './RichText';
 import { formFieldStyles, formFieldBorder } from './layouts';
 
 import { useAddChore } from '../hooks/useAddChore';
+import { useUpdateChore } from '../hooks/useUpdateChore';
 
 import { cssTheme } from '../helpers/constants';
+import { transformDueDateToDate } from '../helpers/dueDates';
+
+import { ChoreInterface } from '../types';
 
 import { ChoreInput } from '../graphql-client/mutations/createChore.graphql';
+import { ChoreUpdate } from '../graphql-client/mutations/updateChore.graphql';
 
 export interface ChoreFormValuesInterface {
   summary: string;
@@ -30,6 +35,7 @@ export interface ChoreFormValuesInterface {
 }
 
 interface CreateChoreModalProps {
+  chore: ChoreInterface | null;
   handleHideCreateChoreModal: () => void;
 }
 
@@ -40,7 +46,7 @@ const initialDescription: Node[] = [
   },
 ];
 
-const initialValues: ChoreFormValuesInterface = {
+const initialValuesForNewChore: ChoreFormValuesInterface = {
   summary: 'new chore',
   dueDate: new Date(Date.now()),
   description: initialDescription,
@@ -100,27 +106,65 @@ const DatePickerStylesOverride = styled.div`
   }
 `;
 
+const deserializeDescription: (chore: ChoreInterface) => Node[] = chore => {
+  if (chore.version < 3) {
+    return [
+      {
+        type: 'paragraph',
+        children: [{ text: chore.description }],
+      },
+    ];
+  }
+
+  return JSON.parse(chore.description) as Node[];
+};
+
 const required = (value: string | Date) => (value ? undefined : 'Required');
 
 export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
+  chore,
   handleHideCreateChoreModal,
 }) => {
   const [showDueDatePicker, toggleShowDueDatePicker] = useState(false);
   useKey(['Escape'], () => toggleShowDueDatePicker(false));
 
   const addChore = useAddChore();
+  const updateChore = useUpdateChore();
 
   const handleSubmit = async (values: ChoreFormValuesInterface) => {
-    const chore: ChoreInput = {
-      summary: values.summary,
-      description: JSON.stringify(values.description),
-      dueDate: values.dueDate,
-    };
+    if (!chore) {
+      const createChoreInput: ChoreInput = {
+        summary: values.summary,
+        description: JSON.stringify(values.description),
+        dueDate: values.dueDate,
+      };
 
-    await addChore(chore);
+      await addChore(createChoreInput);
+    } else {
+      const updateChoreInput: ChoreUpdate = {
+        id: chore.id,
+        summary: values.summary,
+        description: JSON.stringify(values.description),
+        dueDate: values.dueDate,
+      };
+
+      await updateChore(updateChoreInput);
+    }
 
     handleHideCreateChoreModal();
   };
+
+  const initialValues = useMemo(() => {
+    if (!chore) {
+      return initialValuesForNewChore;
+    }
+
+    return {
+      summary: chore.summary,
+      description: deserializeDescription(chore),
+      dueDate: transformDueDateToDate(chore.dueDate),
+    };
+  }, [chore]);
 
   return (
     <Modal>

@@ -1,4 +1,5 @@
 import { GiCheckeredFlag } from 'react-icons/gi';
+import { AiFillEdit } from 'react-icons/ai';
 import styled from 'styled-components';
 import nl2br from 'react-nl2br';
 
@@ -20,6 +21,7 @@ import { ChoreInterface } from '../types';
 
 interface ChoreDetailsModalPropsInterface {
   chore: ChoreInterface;
+  handleEdit: () => void;
   handleHide: () => void;
 }
 
@@ -72,6 +74,7 @@ const ChoreDescription: React.FC<{ chore: ChoreInterface }> = ({ chore }) => {
 
 export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
   chore,
+  handleEdit,
   handleHide,
 }) => {
   const completeChore = useCompleteChore();
@@ -96,6 +99,16 @@ export const ChoreDetailsModal: React.FC<ChoreDetailsModalPropsInterface> = ({
       />
       <NavButton
         position={NavButtonPositions.BottomRight}
+        clickHandler={handleEdit}
+        icon={
+          <AiFillEdit
+            color={cssTheme.colors.blue}
+            size={cssTheme.sizes.navbarButtonIconSize}
+          />
+        }
+      />
+      <NavButton
+        position={NavButtonPositions.TopRight}
         clickHandler={handleCompleteChore}
         icon={
           <GiCheckeredFlag

@@ -54,24 +54,13 @@ const Home: NextPage = () => {
     fetchPolicy: 'network-only',
   });
   const [showCreateChoreModal, setShowCreateChoreModal] = useState(false);
+  const [showChoreDetailModal, setShowChoreDetailModal] = useState(false);
   const [selectedChore, setSelectedChore] = useState<ChoreInterface | null>(
     null
   );
-
   const router = useRouter();
-  // setChoressetChores
-  const toggleChoreModal = (show = !showCreateChoreModal): void => {
-    setShowCreateChoreModal(show);
-  };
 
-  const toggleChoreDetailModal = (
-    selectedChore: ChoreInterface | null
-  ): void => {
-    setSelectedChore(selectedChore);
-  };
-
-  const showMainNavButtons = (): boolean =>
-    !showCreateChoreModal && !selectedChore;
+  const showMainNavButtons = !showCreateChoreModal && !showChoreDetailModal;
 
   return (
     <>
@@ -83,7 +72,10 @@ const Home: NextPage = () => {
           chores.map((chore: ChoreInterface) => (
             <Chore
               key={chore.id}
-              clickHandler={() => toggleChoreDetailModal(chore)}
+              clickHandler={() => {
+                setSelectedChore(chore);
+                setShowChoreDetailModal(true);
+              }}
               dueDate={chore.dueDate}
               name={chore.summary}
             />
@@ -92,10 +84,10 @@ const Home: NextPage = () => {
           <Spinner />
         )}
       </FlexContainer>
-      {showMainNavButtons() && (
+      {showMainNavButtons && (
         <NavButton
           position={NavButtonPositions.BottomRight}
-          clickHandler={() => toggleChoreModal(true)}
+          clickHandler={() => setShowCreateChoreModal(true)}
           icon={
             <RiAddLine
               color={cssTheme.colors.green}
@@ -104,7 +96,7 @@ const Home: NextPage = () => {
           }
         />
       )}
-      {showMainNavButtons() && (
+      {showMainNavButtons && (
         <NavButton
           position={NavButtonPositions.BottomLeft}
           clickHandler={() => router.push('/a/login')}
@@ -116,15 +108,29 @@ const Home: NextPage = () => {
           }
         />
       )}
-      {showCreateChoreModal && (
-        <CreateChoreModal
-          handleHideCreateChoreModal={() => toggleChoreModal(false)}
+      {showChoreDetailModal && (
+        <ChoreDetailsModal
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          chore={selectedChore!}
+          handleHide={() => {
+            setShowChoreDetailModal(false);
+            setSelectedChore(null);
+          }}
+          handleEdit={() => {
+            setShowCreateChoreModal(true);
+            setShowChoreDetailModal(false);
+          }}
         />
       )}
-      {selectedChore && (
-        <ChoreDetailsModal
+      {showCreateChoreModal && (
+        <CreateChoreModal
           chore={selectedChore}
-          handleHide={() => toggleChoreDetailModal(null)}
+          handleHideCreateChoreModal={() => {
+            if (selectedChore) {
+              setSelectedChore(null);
+            }
+            setShowCreateChoreModal(false);
+          }}
         />
       )}
     </>

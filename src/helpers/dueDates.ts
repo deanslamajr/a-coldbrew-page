@@ -47,6 +47,10 @@ export const transformDateToDueDate = (date: Date): DueDateInterface => {
   };
 };
 
+export const transformDueDateToDate = (dueDate: DueDateInterface): Date => {
+  return new Date(dueDate.year, dueDate.month, dueDate.day);
+};
+
 export const sortDueDatesFn = (
   dueDateA: DueDateInterface,
   dueDateB: DueDateInterface

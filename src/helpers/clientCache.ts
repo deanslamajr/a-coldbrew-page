@@ -6,6 +6,7 @@ import { isDueDateFormat, transformDateToDueDate } from './dueDates';
 import { choreVersion } from './constants';
 
 import { ChoreInput } from '../graphql-client/mutations/createChore.graphql';
+import { ChoreUpdate } from '../graphql-client/mutations/updateChore.graphql';
 
 const isVersion1OrEarlier = (version: number | undefined): boolean => {
   return !version || version <= 1;
@@ -50,6 +51,25 @@ export const setChores = (chores: ChoreInterface[]): void => {
   const cache = getCache();
   cache.chores = chores;
   setCache(cache);
+};
+
+export const updateChore = (updatedChore: ChoreUpdate): ChoreInterface => {
+  const chores = getChores();
+  const choreToUpdate = chores.find(chore => chore.id === updatedChore.id);
+  if (!choreToUpdate) {
+    throw new Error(
+      `Updated chore with id:${updatedChore.id} was not found in localstorage!`
+    );
+  }
+
+  choreToUpdate.summary = updatedChore.summary;
+  choreToUpdate.description = updatedChore.description;
+  choreToUpdate.dueDate = transformDateToDueDate(updatedChore.dueDate);
+  choreToUpdate.version = choreVersion;
+
+  setChores(chores);
+
+  return choreToUpdate;
 };
 
 export const addChore = (chore: ChoreInput): ChoreInterface => {

@@ -1,0 +1,17 @@
+input ChoreUpdate {
+  id: String!
+  summary: String!
+  description: String!
+  dueDate: Date!
+}
+
+input UpdateChoreInput {
+  chore: ChoreUpdate!
+}
+
+type UpdateChoreResponse {
+  doesChoreExist: Boolean!
+  hasAccountSession: Boolean!
+  wasUpdateSuccess: Boolean!
+  updatedChore: Chore
+}

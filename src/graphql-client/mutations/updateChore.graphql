@@ -1,0 +1,14 @@
+mutation UpdateChore($input: UpdateChoreInput!) {
+  updateChore(input: $input) {
+    doesChoreExist
+    hasAccountSession
+    wasUpdateSuccess
+    updatedChore {
+      id
+      summary
+      description
+      dueDate
+      version
+    }
+  }
+}

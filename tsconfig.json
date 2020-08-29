@@ -16,6 +16,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "exclude": ["node_modules", "sequelize"],
+  "exclude": ["node_modules", "sequelize", "**/__tests__/**"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
