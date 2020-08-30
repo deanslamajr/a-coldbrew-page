@@ -3,6 +3,8 @@ import { Chore as ChoreFromDb } from '../types/shared.graphqls';
 
 import { ContextInterface } from '../../context';
 
+import { choreVersion } from '../../../helpers/constants';
+
 import { Accounts, Chores } from '../services/db';
 import { getValuesFromInstance } from '../services/db/utils';
 
@@ -38,6 +40,7 @@ export const resolver: NonNullable<MutationResolvers<
             summary: choreFromArgs.summary,
             description: choreFromArgs.description,
             dueDate: choreFromArgs.dueDate,
+            version: choreVersion,
           });
 
           wasUpdateSuccess = true;

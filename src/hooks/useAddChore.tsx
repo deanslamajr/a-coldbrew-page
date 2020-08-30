@@ -13,9 +13,11 @@ import { sortChores } from '../helpers/chores';
 
 import { ChoreInterface } from '../types';
 
-export const useAddChore = () => {
+type UseAddChore = () => [(chore: ChoreInput) => Promise<void>, boolean];
+
+export const useAddChore: UseAddChore = () => {
   const [chores, setChores] = useChoresContext();
-  const [createChore] = useCreateChoreMutation();
+  const [createChore, { loading: isLoading }] = useCreateChoreMutation();
 
   const addChore = useCallback(
     async (chore: ChoreInput) => {
@@ -48,5 +50,5 @@ export const useAddChore = () => {
     [chores, createChore, setChores]
   );
 
-  return addChore;
+  return [addChore, isLoading];
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 // @refresh reset
 // prevents state related errors on fast refresh
 // @see https://reactnative.dev/docs/fast-refresh#tips

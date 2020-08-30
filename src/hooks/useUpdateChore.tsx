@@ -12,8 +12,13 @@ import {
   useUpdateChoreMutation,
 } from '../graphql-client/mutations/updateChore.graphql';
 
-export const useUpdateChore = () => {
-  const [updateChoreGql] = useUpdateChoreMutation();
+type UseUpdateChore = () => [
+  (updateChoreInput: ChoreUpdate) => Promise<void>,
+  boolean
+];
+
+export const useUpdateChore: UseUpdateChore = () => {
+  const [updateChoreGql, { loading: isLoading }] = useUpdateChoreMutation();
   const [chores, setChores] = useChoresContext();
 
   const updateChore = useCallback(
@@ -61,5 +66,5 @@ export const useUpdateChore = () => {
     [updateChoreGql, chores, setChores]
   );
 
-  return updateChore;
+  return [updateChore, isLoading];
 };

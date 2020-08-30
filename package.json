@@ -11,6 +11,7 @@
     "start": "next start -p 8080",
     "typecheck": "tsc -p . --rootDir ./src --noEmit",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
+    "check": "npm run typecheck && npm run lint",
     "test": "jest --watch",
     "image:build": "sudo docker build -t deanslamajr/snap-dragon:\"$(git describe)\" .",
     "image:promote": "sudo docker push deanslamajr/snap-dragon:\"$(git describe)\"",

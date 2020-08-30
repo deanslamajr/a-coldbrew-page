@@ -9,9 +9,14 @@ import { ChoreInterface } from '../types';
 
 import { useCompleteChoreMutation } from '../graphql-client/mutations/completeChore.graphql';
 
-export const useCompleteChore = () => {
+type UseCompleteChore = () => [(id: string) => Promise<void>, boolean];
+
+export const useCompleteChore: UseCompleteChore = () => {
   const [chores, setChores] = useChoresContext();
-  const [markChoreComplete] = useCompleteChoreMutation();
+  const [
+    markChoreComplete,
+    { loading: isLoading },
+  ] = useCompleteChoreMutation();
 
   const completeChore = useCallback(
     async (id: string): Promise<void> => {
@@ -42,5 +47,5 @@ export const useCompleteChore = () => {
     [chores, markChoreComplete, setChores]
   );
 
-  return completeChore;
+  return [completeChore, isLoading];
 };

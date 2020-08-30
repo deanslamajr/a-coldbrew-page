@@ -16,6 +16,7 @@ import {
 } from './Forms';
 import { Editor } from './RichText';
 import { formFieldStyles, formFieldBorder } from './layouts';
+import { Spinner } from './Spinner';
 
 import { useAddChore } from '../hooks/useAddChore';
 import { useUpdateChore } from '../hooks/useUpdateChore';
@@ -128,8 +129,8 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
   const [showDueDatePicker, toggleShowDueDatePicker] = useState(false);
   useKey(['Escape'], () => toggleShowDueDatePicker(false));
 
-  const addChore = useAddChore();
-  const updateChore = useUpdateChore();
+  const [addChore, isAddChoreLoading] = useAddChore();
+  const [updateChore, isUpdateChoreLoading] = useUpdateChore();
 
   const handleSubmit = async (values: ChoreFormValuesInterface) => {
     if (!chore) {
@@ -168,102 +169,106 @@ export const CreateChoreModal: React.FC<CreateChoreModalProps> = ({
 
   return (
     <Modal>
-      <Form
-        onSubmit={values => handleSubmit(values)}
-        initialValues={initialValues}
-        render={({ form, valid }) => (
-          <form>
-            <div>
-              <Field<string> name="summary" validate={required}>
-                {({ input, meta }) => {
-                  return (
-                    <FormFieldContainer>
-                      <label>Summary</label>
-                      <SummaryContainer>
-                        <BorderlessTextInput
-                          {...input}
-                          type="text"
-                          onChange={input.onChange}
-                          value={input.value}
-                        />
-                      </SummaryContainer>
-                      <InvalidFieldMessage>
-                        {meta.error && meta.touched ? meta.error : ''}
-                      </InvalidFieldMessage>
-                    </FormFieldContainer>
-                  );
-                }}
-              </Field>
-
-              <Field<Date> name="dueDate" validate={required}>
-                {({ input, meta }) => {
-                  return (
-                    <FormFieldContainer>
-                      <label>Due Date</label>
-                      <DueDateContainer>
-                        <DatePickerStylesOverride>
-                          <DateSingleInput
-                            onDateChange={data => {
-                              if (data.date) {
-                                input.onChange(data.date);
-                              }
-                              toggleShowDueDatePicker(false);
-                            }}
-                            onFocusChange={focusedInput =>
-                              toggleShowDueDatePicker(focusedInput)
-                            }
-                            onClose={() => toggleShowDueDatePicker(false)}
-                            date={input.value}
-                            showDatepicker={showDueDatePicker}
-                            showCalendarIcon={false}
-                            showResetDate={false}
-                          />
-                        </DatePickerStylesOverride>
-                      </DueDateContainer>
-                      <InvalidFieldMessage>
-                        {meta.error && meta.touched ? meta.error : ''}
-                      </InvalidFieldMessage>
-                    </FormFieldContainer>
-                  );
-                }}
-              </Field>
-
-              <FormFieldContainer>
-                <label>Description</label>
-                <Field<Node[]> name="description">
-                  {props => {
+      {isAddChoreLoading || isUpdateChoreLoading ? (
+        <Spinner />
+      ) : (
+        <Form
+          onSubmit={values => handleSubmit(values)}
+          initialValues={initialValues}
+          render={({ form, valid }) => (
+            <form>
+              <div>
+                <Field<string> name="summary" validate={required}>
+                  {({ input, meta }) => {
                     return (
-                      <Editor
-                        editorState={props.input.value}
-                        handleStateChange={props.input.onChange}
-                      />
+                      <FormFieldContainer>
+                        <label>Summary</label>
+                        <SummaryContainer>
+                          <BorderlessTextInput
+                            {...input}
+                            type="text"
+                            onChange={input.onChange}
+                            value={input.value}
+                          />
+                        </SummaryContainer>
+                        <InvalidFieldMessage>
+                          {meta.error && meta.touched ? meta.error : ''}
+                        </InvalidFieldMessage>
+                      </FormFieldContainer>
                     );
                   }}
                 </Field>
-              </FormFieldContainer>
 
-              {!showDueDatePicker && (
-                <BackButton
-                  position={NavButtonPositions.BottomLeft}
-                  onClick={() => handleHideCreateChoreModal()}
-                />
-              )}
-              {!showDueDatePicker && valid && (
-                <NavButton
-                  position={NavButtonPositions.BottomRight}
-                  clickHandler={() => form.submit()}
-                  icon={
-                    <RiCheckLine
-                      color={cssTheme.colors.green}
-                      size={cssTheme.sizes.navbarButtonIconSize}
-                    />
-                  }
-                />
-              )}
-            </div>
-          </form>
-        )}
-      />
+                <Field<Date> name="dueDate" validate={required}>
+                  {({ input, meta }) => {
+                    return (
+                      <FormFieldContainer>
+                        <label>Due Date</label>
+                        <DueDateContainer>
+                          <DatePickerStylesOverride>
+                            <DateSingleInput
+                              onDateChange={data => {
+                                if (data.date) {
+                                  input.onChange(data.date);
+                                }
+                                toggleShowDueDatePicker(false);
+                              }}
+                              onFocusChange={focusedInput =>
+                                toggleShowDueDatePicker(focusedInput)
+                              }
+                              onClose={() => toggleShowDueDatePicker(false)}
+                              date={input.value}
+                              showDatepicker={showDueDatePicker}
+                              showCalendarIcon={false}
+                              showResetDate={false}
+                            />
+                          </DatePickerStylesOverride>
+                        </DueDateContainer>
+                        <InvalidFieldMessage>
+                          {meta.error && meta.touched ? meta.error : ''}
+                        </InvalidFieldMessage>
+                      </FormFieldContainer>
+                    );
+                  }}
+                </Field>
+
+                <FormFieldContainer>
+                  <label>Description</label>
+                  <Field<Node[]> name="description">
+                    {props => {
+                      return (
+                        <Editor
+                          editorState={props.input.value}
+                          handleStateChange={props.input.onChange}
+                        />
+                      );
+                    }}
+                  </Field>
+                </FormFieldContainer>
+
+                {!showDueDatePicker && (
+                  <BackButton
+                    position={NavButtonPositions.BottomLeft}
+                    onClick={() => handleHideCreateChoreModal()}
+                  />
+                )}
+                {!showDueDatePicker && valid && (
+                  <NavButton
+                    position={NavButtonPositions.BottomRight}
+                    clickHandler={() => form.submit()}
+                    icon={
+                      <RiCheckLine
+                        color={cssTheme.colors.green}
+                        size={cssTheme.sizes.navbarButtonIconSize}
+                      />
+                    }
+                  />
+                )}
+              </div>
+            </form>
+          )}
+        />
+      )}
     </Modal>
   );
 };
