@@ -3,8 +3,8 @@ import React from 'react';
 import Head from 'next/head';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { ApolloClient } from 'apollo-client';
-import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
-
+import { NormalizedCacheObject } from 'apollo-cache-inmemory';
+import { createApolloClient as createApolloClientForBrowser } from './createApolloClient/browser';
 import { ContextInterface } from '../graphql-server/context';
 
 type TApolloClient = ApolloClient<NormalizedCacheObject>;
@@ -125,11 +125,6 @@ export function withApollo<T>(PageComponent: NextPage<T>, { ssr = true } = {}) {
   return WithApollo;
 }
 
-interface InitApolloClientParams {
-  initialState?: any;
-  resolvedContext?: ContextInterface;
-}
-
 /**
  * Always creates a new apollo client on the server
  * Creates or reuses apollo client in the browser.
@@ -137,53 +132,22 @@ interface InitApolloClientParams {
 function initApolloClient({
   resolvedContext,
   initialState,
-}: InitApolloClientParams) {
+}: {
+  initialState?: any;
+  resolvedContext?: ContextInterface;
+}) {
   // Make sure to create a new client for every server-side request so that data
   // isn't shared between connections (which would be bad)
   if (typeof window === 'undefined') {
-    return createApolloClient({ resolvedContext, initialState });
+    const createApolloClientForSSR = require('./createApolloClient/ssr')
+      .createApolloClient;
+    return createApolloClientForSSR({ resolvedContext, initialState });
   }
 
   // Reuse client on the client-side
   if (!globalApolloClient) {
-    globalApolloClient = createApolloClient({ initialState });
+    globalApolloClient = createApolloClientForBrowser(initialState);
   }
 
   return globalApolloClient;
-}
-
-/**
- * Creates and configures the ApolloClient
- * @param  {Object} [initialState={}]
- */
-function createApolloClient({
-  resolvedContext,
-  initialState = {},
-}: InitApolloClientParams) {
-  const ssrMode = typeof window === 'undefined';
-  const cache = new InMemoryCache().restore(initialState);
-
-  // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
-  return new ApolloClient({
-    ssrMode,
-    link: createIsomorphLink(resolvedContext),
-    cache,
-    ssrForceFetchDelay: 100,
-  });
-}
-
-function createIsomorphLink(resolvedContext?: ContextInterface) {
-  if (typeof window === 'undefined') {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { SchemaLink } = require('apollo-link-schema');
-    const schema = require('../graphql-server/schema').default;
-    return new SchemaLink({ context: resolvedContext, schema });
-  } else {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { HttpLink } = require('apollo-link-http');
-    return new HttpLink({
-      uri: '/api/graphql',
-      credentials: 'same-origin',
-    });
-  }
 }
