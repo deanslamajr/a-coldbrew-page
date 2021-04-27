@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "id": "X6744Xk9C",
+  "operationName": "LoginAccount",
+  "query": "mutation LoginAccount($input: LoginAccountInput!) {\n  loginAccount(input: $input) {\n    wasLoginSuccess\n    __typename\n  }\n}\n",
+  "variables": {
+    "input": {
+      "email": "taco@taco.com",
+      "password": "lkjsdf"
+    }
+  },
+  "response": {
+    "errors": [
+      {
+        "message": "connect ECONNREFUSED 127.0.0.1:5432",
+        "locations": [
+          {
+            "line": 2,
+            "column": 3
+          }
+        ],
+        "path": [
+          "loginAccount"
+        ],
+        "extensions": {
+          "code": "INTERNAL_SERVER_ERROR",
+          "exception": {
+            "name": "SequelizeConnectionRefusedError",
+            "parent": {
+              "errno": "ECONNREFUSED",
+              "code": "ECONNREFUSED",
+              "syscall": "connect",
+              "address": "127.0.0.1",
+              "port": 5432
+            },
+            "original": {
+              "errno": "ECONNREFUSED",
+              "code": "ECONNREFUSED",
+              "syscall": "connect",
+              "address": "127.0.0.1",
+              "port": 5432
+            },
+            "stacktrace": [
+              "SequelizeConnectionRefusedError: connect ECONNREFUSED 127.0.0.1:5432",
+              "    at /home/dhan/codes/snap-dragon/node_modules/sequelize/lib/dialects/postgres/connection-manager.js:170:24",
+              "    at Connection.connectingErrorHandler (/home/dhan/codes/snap-dragon/node_modules/pg/lib/client.js:213:14)",
+              "    at Connection.emit (events.js:321:20)",
+              "    at Socket.reportStreamError (/home/dhan/codes/snap-dragon/node_modules/pg/lib/connection.js:57:10)",
+              "    at Socket.emit (events.js:321:20)",
+              "    at emitErrorNT (internal/streams/destroy.js:92:8)",
+              "    at emitErrorAndCloseNT (internal/streams/destroy.js:60:3)",
+              "    at processTicksAndRejections (internal/process/task_queues.js:84:21)",
+              "From previous event:",
+              "    at ConnectionManager.connect (/home/dhan/codes/snap-dragon/node_modules/sequelize/lib/dialects/postgres/connection-manager.js:121:12)",
+              "    at /home/dhan/codes/snap-dragon/node_modules/sequelize/lib/dialects/abstract/connection-manager.js:318:50",
+              "From previous event:",
+              "    at ConnectionManager._connect (/home/dhan/codes/snap-dragon/node_modules/sequelize/lib/dialects/abstract/connection-manager.js:318:8)",
+              "    at ConnectionManager.getConnection (/home/dhan/codes/snap-dragon/node_modules/sequelize/lib/dialects/abstract/connection-manager.js:254:46)",
+              "    at /home/dhan/codes/snap-dragon/node_modules/sequelize/lib/sequelize.js:640:36",
+              "From previous event:",
+              "    at /home/dhan/codes/snap-dragon/node_modules/sequelize/lib/sequelize.js:631:53",
+              "    at /home/dhan/codes/snap-dragon/node_modules/retry-as-promised/index.js:70:21",
+              "    at new Promise (<anonymous>)",
+              "    at retryAsPromised (/home/dhan/codes/snap-dragon/node_modules/retry-as-promised/index.js:60:10)",
+              "    at /home/dhan/codes/snap-dragon/node_modules/sequelize/lib/sequelize.js:631:30",
+              "From previous event:",
+              "    at Sequelize.query (/home/dhan/codes/snap-dragon/node_modules/sequelize/lib/sequelize.js:580:23)",
+              "    at QueryInterface.select (/home/dhan/codes/snap-dragon/node_modules/sequelize/lib/query-interface.js:1121:27)",
+              "    at /home/dhan/codes/snap-dragon/node_modules/sequelize/lib/model.js:1759:34",
+              "    at processImmediate (internal/timers.js:456:21)",
+              "From previous event:",
+              "    at Function.findAll (/home/dhan/codes/snap-dragon/node_modules/sequelize/lib/model.js:1757:8)",
+              "    at Function.Model.<computed> (/home/dhan/codes/snap-dragon/node_modules/sequelize-typescript/dist/model/model/model.js:117:28)",
+              "    at Function.Model.<computed> [as findAll] (/home/dhan/codes/snap-dragon/node_modules/sequelize-typescript/dist/model/model/model.js:129:28)",
+              "    at Function.findOne (/home/dhan/codes/snap-dragon/node_modules/sequelize/lib/model.js:1926:17)",
+              "    at Function.Model.<computed> (/home/dhan/codes/snap-dragon/node_modules/sequelize-typescript/dist/model/model/model.js:117:28)",
+              "    at Function.Model.<computed> [as findOne] (/home/dhan/codes/snap-dragon/node_modules/sequelize-typescript/dist/model/model/model.js:129:28)",
+              "    at resolver (webpack-internal:///./src/graphql-server/resolvers/mutations/loginAccount.ts:15:79)",
+              "    at field.resolve (/home/dhan/codes/snap-dragon/node_modules/graphql-extensions/dist/index.js:133:26)",
+              "    at resolveFieldValueOrError (/home/dhan/codes/snap-dragon/node_modules/graphql/execution/execute.js:467:18)",
+              "    at resolveField (/home/dhan/codes/snap-dragon/node_modules/graphql/execution/execute.js:434:16)",
+              "    at /home/dhan/codes/snap-dragon/node_modules/graphql/execution/execute.js:244:18",
+              "    at /home/dhan/codes/snap-dragon/node_modules/graphql/jsutils/promiseReduce.js:23:10",
+              "    at Array.reduce (<anonymous>)",
+              "    at promiseReduce (/home/dhan/codes/snap-dragon/node_modules/graphql/jsutils/promiseReduce.js:20:17)",
+              "    at executeFieldsSerially (/home/dhan/codes/snap-dragon/node_modules/graphql/execution/execute.js:241:37)",
+              "    at executeOperation (/home/dhan/codes/snap-dragon/node_modules/graphql/execution/execute.js:219:55)",
+              "    at executeImpl (/home/dhan/codes/snap-dragon/node_modules/graphql/execution/execute.js:104:14)",
+              "    at Object.execute (/home/dhan/codes/snap-dragon/node_modules/graphql/execution/execute.js:64:35)",
+              "    at /home/dhan/codes/snap-dragon/node_modules/apollo-server-core/dist/requestPipeline.js:241:48",
+              "    at Generator.next (<anonymous>)",
+              "    at /home/dhan/codes/snap-dragon/node_modules/apollo-server-core/dist/requestPipeline.js:8:71",
+              "    at new Promise (<anonymous>)",
+              "    at __awaiter (/home/dhan/codes/snap-dragon/node_modules/apollo-server-core/dist/requestPipeline.js:4:12)",
+              "    at execute (/home/dhan/codes/snap-dragon/node_modules/apollo-server-core/dist/requestPipeline.js:220:20)",
+              "    at Object.<anonymous> (/home/dhan/codes/snap-dragon/node_modules/apollo-server-core/dist/requestPipeline.js:160:42)",
+              "    at Generator.next (<anonymous>)",
+              "    at fulfilled (/home/dhan/codes/snap-dragon/node_modules/apollo-server-core/dist/requestPipeline.js:5:58)",
+              "    at runMicrotasks (<anonymous>)",
+              "    at processTicksAndRejections (internal/process/task_queues.js:97:5)"
+            ]
+          }
+        }
+      }
+    ],
+    "data": null
+  },
+  "referrer": "http://localhost:3000/a/login",
+  "sessionId": "fSfblzp2n",
+  "schemaUrl": "localhost:3000/api/graphql",
+  "schemaHash": "6PXqLI5mS"
+}

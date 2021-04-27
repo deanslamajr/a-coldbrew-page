@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "id": "Rr2OgsO9kM",
+  "operationName": "GetAccountFromSession",
+  "query": "query GetAccountFromSession {\n  getAccountFromSession {\n    email\n    __typename\n  }\n}\n",
+  "variables": {},
+  "response": {
+    "data": {
+      "getAccountFromSession": {
+        "email": null,
+        "__typename": "Account"
+      }
+    }
+  },
+  "referrer": "http://localhost:3000/a/login",
+  "sessionId": "fSfblzp2n",
+  "schemaUrl": "localhost:3000/api/graphql",
+  "schemaHash": "6PXqLI5mS"
+}

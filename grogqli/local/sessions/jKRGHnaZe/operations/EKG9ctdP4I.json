@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "id": "EKG9ctdP4I",
+  "operationName": "GetChores",
+  "query": "query GetChores {\n  getChores {\n    chores {\n      id\n      summary\n      description\n      dueDate\n      version\n      __typename\n    }\n    hasAccountSession\n    __typename\n  }\n}\n",
+  "variables": {},
+  "response": {
+    "data": {
+      "getChores": {
+        "chores": null,
+        "hasAccountSession": false,
+        "__typename": "GetChoresResponse"
+      }
+    }
+  },
+  "referrer": "http://localhost:3000/",
+  "sessionId": "jKRGHnaZe",
+  "schemaUrl": "localhost:3000/api/graphql",
+  "schemaHash": "RuY4hkh3j"
+}

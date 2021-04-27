@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "types": {
+    "Query": {
+      "name": "Query",
+      "id": "COXoywmh1x"
+    },
+    "Account": {
+      "name": "Account",
+      "id": "jByPo1WGG2"
+    }
+  }
+}
