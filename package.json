@@ -85,6 +85,7 @@
     "@graphql-codegen/typescript-operations": "^1.12.2",
     "@graphql-codegen/typescript-react-apollo": "^1.12.2",
     "@graphql-codegen/typescript-resolvers": "^1.12.2",
+    "@grogqli/storybook": "^0.11.0",
     "@storybook/addon-essentials": "^6.2.9",
     "@storybook/addon-links": "^6.2.9",
     "@storybook/react": "^6.2.9",
@@ -124,5 +125,8 @@
     "react-test-renderer": "^16.13.1",
     "sequelize-cli": "^5.5.1",
     "typescript": "^3.8.3"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

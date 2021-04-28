@@ -14,7 +14,11 @@ function regexEqual(x, y) {
 
 module.exports = {
   stories: ['../stories/**/*.stories.@(ts|tsx|js|jsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
+  addons: [
+    '@grogqli/storybook',
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+  ],
   webpackFinal: async config => {
     // this allows absolute paths in imports!
     config.resolve.modules = [
