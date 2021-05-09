@@ -6,7 +6,7 @@
     "codegen": "graphql-let",
     "dev": "npm run codegen && next dev",
     "dev:debug": "npm run codegen && NODE_OPTIONS='--inspect' next dev",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 9001 -s ./public --no-manager-cache",
     "build": "npm run codegen && next build",
     "build:migrations": "tsc -p ./sequelize --outDir ./sequelize/build",
     "start": "next start -p 8080",

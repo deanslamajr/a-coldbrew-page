@@ -4,7 +4,6 @@ const schemaMappings = {
 
 export const parameters = {
   grogqli: {
-    publicPath: '.',
     schemaMappings: {
       ...schemaMappings,
     },

@@ -30,7 +30,11 @@ export default meta;
 const Template: Story<HomeProps> = args => <Home {...args} />;
 
 export const Default: Story<HomeProps> = Template.bind({});
-Default.storyName = 'Default';
 Default.args = {
+  onNavigateToAccountPage: action('onNavigateToAccountPage invoked!'),
+};
+
+export const AnotherOne: Story<HomeProps> = Template.bind({});
+AnotherOne.args = {
   onNavigateToAccountPage: action('onNavigateToAccountPage invoked!'),
 };
